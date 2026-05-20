@@ -10,7 +10,7 @@
 | 🇬🇧 English | [`en/claude-code-handbook-v1.pdf`](en/claude-code-handbook-v1.pdf) | [`en/source.html`](en/source.html) |
 | 🇫🇷 Français | [`fr/le-code-du-claudeur-v1.pdf`](fr/le-code-du-claudeur-v1.pdf) | [`fr/source.html`](fr/source.html) |
 
-Both PDFs are 37 pages. Same content, two languages.
+Both PDFs are 33 pages. Same content, two languages.
 
 ---
 
