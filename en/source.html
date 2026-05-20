@@ -1,0 +1,1433 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The Claude Code Handbook — V1</title>
+<style>
+  @page {
+    size: A4;
+    margin: 22mm 18mm 22mm 18mm;
+    @bottom-center {
+      content: counter(page) " / " counter(pages);
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 9pt;
+      color: #94A3B8;
+    }
+    @bottom-left {
+      content: "The Claude Code Handbook · V1";
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 9pt;
+      color: #94A3B8;
+    }
+  }
+  @page :first { margin: 0; @bottom-center { content: none; } @bottom-left { content: none; } }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    font-size: 10.5pt;
+    line-height: 1.6;
+    color: #0F172A;
+    background: #FFFFFF;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── COVER ────────────────────────────────────────────────── */
+  .cover {
+    page-break-after: always;
+    height: 297mm;
+    width: 210mm;
+    background: #0A1411;
+    color: #F5F0E8;
+    padding: 36mm 26mm;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+  }
+  .cover::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 6mm;
+    background: linear-gradient(90deg, #1F6F50 0%, #D4A574 60%, #1F6F50 100%);
+  }
+  .cover-eyebrow { font-size: 9.5pt; letter-spacing: 0.32em; text-transform: uppercase; color: #7BA694; margin: 0; }
+  .cover-title { font-size: 52pt; line-height: 1.0; font-weight: 700; letter-spacing: -0.025em; margin: 14mm 0 0 0; color: #FFFFFF; }
+  .cover-volume { display: inline-block; background: #D4A574; color: #0A1411; font-weight: 700; font-size: 10pt; letter-spacing: 0.12em; padding: 2mm 4mm; margin: 10mm 0 0 0; border-radius: 2px; }
+  .cover-sub { font-size: 14pt; line-height: 1.45; font-weight: 300; color: #C9D4CC; max-width: 140mm; margin-top: 12mm; }
+  .cover-rule { width: 34mm; height: 2px; background: #D4A574; margin: 12mm 0 6mm 0; }
+  .cover-meta { font-size: 9.5pt; color: #7BA694; line-height: 1.9; }
+  .cover-meta .lbl { text-transform: uppercase; letter-spacing: 0.18em; font-size: 8.5pt; color: #5C8270; display: inline-block; width: 26mm; }
+
+  h1, h2, h3, h4 { font-family: 'Inter', system-ui, sans-serif; color: #0F172A; letter-spacing: -0.01em; }
+  h1 { font-size: 24pt; font-weight: 700; margin: 6mm 0 5mm 0; padding-bottom: 3mm; border-bottom: 2px solid #0F172A; page-break-after: avoid; }
+  h1 .num { color: #1F6F50; font-weight: 700; margin-right: 6mm; font-variant-numeric: tabular-nums; }
+  h2 { font-size: 14pt; font-weight: 600; margin: 9mm 0 3mm 0; color: #134E37; page-break-after: avoid; }
+  h3 { font-size: 11.5pt; font-weight: 600; margin: 6mm 0 2mm 0; color: #1F6F50; page-break-after: avoid; }
+  h4 { font-size: 10.5pt; font-weight: 600; margin: 4mm 0 1mm 0; color: #0F172A; page-break-after: avoid; }
+
+  p { margin: 0 0 3mm 0; }
+  ul, ol { margin: 0 0 4mm 5mm; padding: 0; }
+  li { margin: 0 0 1.5mm 0; }
+  li::marker { color: #1F6F50; }
+  strong { font-weight: 600; color: #0F172A; }
+  em { font-style: italic; color: #134E37; }
+  code { font-family: 'JetBrains Mono', 'SF Mono', 'Menlo', 'Consolas', monospace; font-size: 9pt; background: #F1F5F2; padding: 1px 4px; border-radius: 3px; color: #0F172A; }
+  pre { font-family: 'JetBrains Mono', 'SF Mono', 'Menlo', 'Consolas', monospace; font-size: 8pt; line-height: 1.45; background: #F8FAF8; border: 1px solid #E0E8E2; border-left: 3px solid #1F6F50; padding: 3mm 4mm; margin: 2.5mm 0 3.5mm 0; border-radius: 2px; white-space: pre-wrap; word-break: break-word; color: #0F172A; position: relative; }
+  pre.lang::before { content: attr(data-lang); position: absolute; top: 1.5mm; right: 3mm; font-family: 'Inter', system-ui, sans-serif; font-size: 7.5pt; letter-spacing: 0.1em; text-transform: uppercase; color: #94A3B8; font-weight: 500; }
+  pre code { background: none; padding: 0; font-size: inherit; color: inherit; }
+  blockquote { margin: 4mm 0 5mm 0; padding: 3mm 5mm; border-left: 3px solid #1F6F50; background: #F8FAF8; color: #134E37; font-style: italic; font-size: 10pt; }
+
+  table { width: 100%; border-collapse: collapse; margin: 3mm 0 5mm 0; font-size: 9.5pt; page-break-inside: avoid; }
+  th, td { text-align: left; padding: 2.2mm 3mm; border-bottom: 1px solid #E5E7EB; vertical-align: top; }
+  th { background: #F8FAF8; font-weight: 600; color: #0F172A; border-bottom: 2px solid #0F172A; text-transform: uppercase; font-size: 8.5pt; letter-spacing: 0.05em; }
+  tr:last-child td { border-bottom: none; }
+
+  .callout { padding: 3.5mm 5mm; margin: 4mm 0 5mm 0; border-radius: 2px; page-break-inside: avoid; border: 1px solid #E0E8E2; }
+  .callout .label { font-size: 8.5pt; text-transform: uppercase; letter-spacing: 0.16em; font-weight: 700; margin-bottom: 2mm; }
+  .callout p:last-child { margin-bottom: 0; }
+  .callout-tip { background: #F1F8F3; border-left: 4px solid #1F6F50; }
+  .callout-tip .label { color: #134E37; }
+  .callout-warning { background: #FFF8EC; border-left: 4px solid #D4A574; }
+  .callout-warning .label { color: #8B6A33; }
+  .callout-antipattern { background: #FDF2F2; border-left: 4px solid #B85C5C; }
+  .callout-antipattern .label { color: #8B3333; }
+
+  .toc { margin: 4mm 0 8mm 0; }
+  .toc ol { list-style: none; margin: 0; padding: 0; }
+  .toc li { display: flex; justify-content: space-between; padding: 2.2mm 0; border-bottom: 1px dotted #E5E7EB; font-size: 10.5pt; }
+  .toc li .t { color: #0F172A; font-weight: 500; }
+  .toc li .n { color: #1F6F50; font-weight: 700; margin-right: 4mm; font-variant-numeric: tabular-nums; display: inline-block; width: 8mm; }
+  .toc li .pg { color: #94A3B8; font-variant-numeric: tabular-nums; font-size: 9.5pt; }
+
+  .lede { font-size: 12pt; line-height: 1.6; color: #134E37; margin: 1mm 0 6mm 0; font-weight: 300; }
+
+  .step { margin: 4mm 0; padding-left: 14mm; position: relative; page-break-inside: avoid; }
+  .step::before { content: counter(step); counter-increment: step; position: absolute; left: 0; top: -1mm; width: 10mm; height: 10mm; background: #0F172A; color: #FFF; border-radius: 50%; font-weight: 700; font-size: 10pt; display: flex; align-items: center; justify-content: center; font-variant-numeric: tabular-nums; }
+  .steps { counter-reset: step; }
+
+  section { page-break-before: always; break-before: page; }
+  section:first-of-type { page-break-before: avoid; break-before: avoid; }
+  .no-break { page-break-inside: avoid; break-inside: avoid; }
+  .callout, table, .card { break-inside: avoid; }
+  pre { break-inside: auto; break-before: avoid; }
+  h2, h3, h4 { break-after: avoid; }
+  h2 + p, h3 + p, h4 + p { break-after: avoid; }
+  p { orphans: 3; widows: 3; }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 4mm; margin: 3mm 0 5mm 0; }
+  .card { background: #FFFFFF; border: 1px solid #E0E8E2; border-radius: 3px; padding: 4mm 5mm; page-break-inside: avoid; }
+  .card .h { font-weight: 600; color: #0F172A; margin-bottom: 1.5mm; font-size: 10.5pt; }
+  .card .s { font-size: 9.5pt; color: #475569; }
+
+  .footnote { border-top: 1px solid #E5E7EB; margin-top: 10mm; padding-top: 3mm; font-size: 8.5pt; color: #94A3B8; font-style: italic; }
+</style>
+</head>
+<body>
+
+<!-- ════════════════════ COVER ════════════════════ -->
+<div class="cover">
+  <div>
+    <p class="cover-eyebrow">Tutorial · Setup &amp; best practices</p>
+    <h1 class="cover-title">The Claude<br>Code Handbook</h1>
+    <span class="cover-volume">VOLUME 1</span>
+    <div class="cover-rule"></div>
+    <p class="cover-sub">Step-by-step guide to configuring Claude and working with it like a pro. Copy-paste ready, interface-agnostic.</p>
+  </div>
+  <div class="cover-meta">
+    <p><span class="lbl">Audience</span> Solo devs, teams, beginner to intermediate</p>
+    <p><span class="lbl">Format</span> 8 chapters · 30 min to start · copy-paste appendix</p>
+    <p><span class="lbl">Covers</span> Terminal CLI · VS Code · Cursor · JetBrains · Desktop · Web</p>
+    <p><span class="lbl">Version</span> V1 · May 20, 2026</p>
+  </div>
+</div>
+
+<!-- ════════════════════ FOREWORD ════════════════════ -->
+<section style="page-break-before: avoid;">
+  <h1>Foreword</h1>
+
+  <p class="lede">This guide exists because a well-configured Claude has nothing to do with a default Claude. Three hours of setup saves you six months of frustration.</p>
+
+  <h2>Who this is for</h2>
+  <ul>
+    <li><strong>The solo dev</strong> coding with Claude every day, tired of re-explaining the same things.</li>
+    <li><strong>The team</strong> that wants Claude to behave consistently across everyone's machine.</li>
+    <li><strong>The beginner moving past "vibe coding"</strong> toward a reproducible workflow.</li>
+  </ul>
+
+  <h2>What this is NOT</h2>
+  <ul>
+    <li>A <em>prompt engineering</em> course (writing prompts well).</li>
+    <li>Claude API documentation (no Python with <code>anthropic.messages.create()</code>).</li>
+    <li>A programming tutorial. You're expected to know how to run <code>git commit</code> and edit a file.</li>
+  </ul>
+
+  <h2>What you'll learn</h2>
+  <ul>
+    <li>How to configure the <strong>permanent context</strong> Claude reads every session (<code>CLAUDE.md</code>).</li>
+    <li>How to automate <strong>repetitive actions</strong> via hooks (zero tokens, deterministic).</li>
+    <li>How to create <strong>specialized roles</strong> (sub-agents) that do one thing well.</li>
+    <li>How to write custom <strong>skills &amp; slash commands</strong> that wrap your workflows into one line.</li>
+    <li>How to set up a <strong>Coach mode</strong> that reminds you of best practices at the right moment.</li>
+    <li>How to maintain all this over time, without config debt.</li>
+  </ul>
+
+  <h2>Reading conventions</h2>
+  <ul>
+    <li>📋 <strong>Copy-paste block</strong> : everything in a box with a green left border is ready to paste as-is (adapting paths/names to your project).</li>
+    <li>💡 <strong>Tip</strong> : a shortcut or trick learned by practicing.</li>
+    <li>⚠️ <strong>Warning</strong> : a pitfall that costs time.</li>
+    <li>🚫 <strong>Anti-pattern</strong> : something people do that always ends badly.</li>
+  </ul>
+
+  <div class="callout callout-tip">
+    <div class="label">💡 How to read this guide</div>
+    <p>Read chapters 0–2 in one go (≈ 20 min) and you'll already have a transformed Claude. Chapters 3–7 can be spread over 4 weeks at one per week, as the original cadence suggests. Keep the appendix open during setup for copy-paste.</p>
+  </div>
+</section>
+
+<!-- ════════════════════ TOC ════════════════════ -->
+<section>
+  <h1>Contents</h1>
+  <div class="toc">
+    <ol>
+      <li><span><span class="n">00</span><span class="t">Choose your interface (CLI, Web, IDE, mobile)</span></span><span class="pg">4</span></li>
+      <li><span><span class="n">01</span><span class="t">Philosophy — configure rather than vibe-code</span></span><span class="pg">5</span></li>
+      <li><span><span class="n">02</span><span class="t">The minimum viable setup — day 1, 30 minutes</span></span><span class="pg">6</span></li>
+      <li><span><span class="n">03</span><span class="t">Hooks — week 1</span></span><span class="pg">9</span></li>
+      <li><span><span class="n">04</span><span class="t">Sub-agents — week 2</span></span><span class="pg">12</span></li>
+      <li><span><span class="n">05</span><span class="t">Skills &amp; slash commands — week 3</span></span><span class="pg">15</span></li>
+      <li><span><span class="n">06</span><span class="t">Coach mode — week 4</span></span><span class="pg">17</span></li>
+      <li><span><span class="n">07</span><span class="t">Maintenance, memory, MCP — beyond</span></span><span class="pg">20</span></li>
+      <li><span><span class="n">08</span><span class="t">Appendix — copy-paste templates</span></span><span class="pg">22</span></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ════════════════════ 00. INTERFACES ════════════════════ -->
+<section>
+  <h1><span class="num">00</span>Choose your interface</h1>
+
+  <p class="lede">Before configuring anything, know where you're installing it. All Claude Code surfaces support the same mechanisms — but Claude Code is distinct from the Claude.ai chat product.</p>
+
+  <h2>The 6 official Claude Code surfaces</h2>
+
+  <p>All read the same <code>.claude/</code> config in your repo. You can switch between them without re-configuring anything.</p>
+
+  <table>
+    <thead><tr><th>Surface</th><th>What's special</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Terminal CLI</strong></td><td>The most complete. Run <code>claude</code> in any project folder. Ideal for scripting, pipes, CI.</td></tr>
+      <tr><td><strong>VS Code extension</strong></td><td>Inline diffs, @-mentions, plan review. <strong>Also works in Cursor</strong> (official Anthropic extension, not <code>.cursorrules</code>).</td></tr>
+      <tr><td><strong>JetBrains plugin</strong></td><td>IntelliJ, PyCharm, WebStorm, etc. Available on the official JetBrains Marketplace.</td></tr>
+      <tr><td><strong>Desktop app</strong></td><td>Standalone macOS/Windows app. Visual diff, parallel sessions, scheduled tasks, cloud sessions.</td></tr>
+      <tr><td><strong>Web</strong></td><td><code>claude.ai/code</code> in your browser. Ideal for long-running tasks, repos you don't have locally, mobile.</td></tr>
+      <tr><td><strong>iOS app</strong></td><td>Claude app for iPhone. Continue a session from your phone.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout callout-tip">
+    <div class="label">💡 Shared engine</div>
+    <p>Every surface connects to the same Claude Code engine. Your <code>CLAUDE.md</code>, hooks, sub-agents, and <code>.mcp.json</code> work everywhere. Start a task in the terminal and resume it on your phone via the session.</p>
+  </div>
+
+  <h2>Recommendations by profile</h2>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="h">Solo dev working in an IDE</div>
+      <div class="s">→ <strong>VS Code or JetBrains extension</strong> for everyday work, <strong>CLI</strong> in the terminal for scripted workflows. Full setup possible.</div>
+    </div>
+    <div class="card">
+      <div class="h">Team</div>
+      <div class="s">→ Any surface, with a <code>.claude/</code> setup versioned in git. Everyone inherits the config.</div>
+    </div>
+    <div class="card">
+      <div class="h">Mobile / away from desk</div>
+      <div class="s">→ <strong>Web</strong> on phone or <strong>iOS app</strong>. Kick off a long task, resume it on your machine with <code>claude --teleport</code>.</div>
+    </div>
+    <div class="card">
+      <div class="h">Cursor user</div>
+      <div class="s">→ Install the official Claude Code extension in Cursor (<code>cursor:extension/anthropic.claude-code</code>). All <code>.claude/</code> config works.</div>
+    </div>
+  </div>
+
+  <div class="callout callout-warning">
+    <div class="label">⚠️ Claude.ai (chat) ≠ Claude Code</div>
+    <p>Claude.ai (the chat product) supports "Projects" with custom instructions (a lightweight CLAUDE.md equivalent), but <strong>not</strong> hooks, sub-agents, or MCP servers. This guide covers Claude Code (the 6 surfaces above). For chat alone, only chapters 1–2 (principles + CLAUDE.md) apply.</p>
+  </div>
+</section>
+
+<!-- ════════════════════ 01. PHILOSOPHY ════════════════════ -->
+<section>
+  <h1><span class="num">01</span>Philosophy — configure rather than vibe-code</h1>
+
+  <p class="lede">The difference between a dev who uses Claude and a dev who gets 10× more out of it isn't the prompt. It's what happens <em>around</em> the prompt.</p>
+
+  <h2>The vibe-coding problem</h2>
+
+  <p>When you use Claude without configuration, here's what happens every session:</p>
+
+  <ol>
+    <li>You re-explain your stack ("we're on Next.js 16, beware the revalidate breaking change…").</li>
+    <li>You re-explain your conventions ("camelCase for functions, kebab-case for files…").</li>
+    <li>Claude heads in a direction, you correct it ("no, we don't use alert(), it's a Sonner toast").</li>
+    <li>Claude runs a dangerous command, you approve 4 popups for trivial things.</li>
+    <li>You forget to run <code>pnpm verify</code> before a push, Vercel crashes.</li>
+    <li>You do the same sequence tomorrow.</li>
+  </ol>
+
+  <p>Multiply by 250 sessions/year. You realize you've spent weeks doing <strong>disposable context</strong>.</p>
+
+  <h2>The core idea</h2>
+
+  <blockquote>Anything you tell Claude more than 3 times should live in a file. Anything Claude does more than 3 times without human intervention should be a hook.</blockquote>
+
+  <h2>The 3 principles of the Claudeur</h2>
+
+  <div class="callout callout-tip">
+    <div class="label">Principle 1 — Capture context</div>
+    <p>Stack, conventions, gotchas, project structure → <code>CLAUDE.md</code>. Claude reads it every session, automatically. You no longer have to explain "we're on Next.js 16".</p>
+  </div>
+
+  <div class="callout callout-tip">
+    <div class="label">Principle 2 — Determinize the automatable</div>
+    <p>Auto-format after each edit, log commands, session-start recaps → <strong>hooks</strong>. These are scripts (bash, python) that run on events. Zero tokens, zero friction.</p>
+  </div>
+
+  <div class="callout callout-tip">
+    <div class="label">Principle 3 — Specialize roles</div>
+    <p>Security audit, formula validation, component scaffolding → <strong>sub-agents</strong>. Each sub-agent has its own context, model, and tools. Run a security audit without polluting the main session.</p>
+  </div>
+
+  <h2>Time invested vs time saved</h2>
+
+  <table>
+    <thead><tr><th>Setup</th><th>Time to set up</th><th>Gain per session</th><th>Break-even</th></tr></thead>
+    <tbody>
+      <tr><td>Basic CLAUDE.md</td><td>15 min</td><td>2–5 min</td><td>3 sessions</td></tr>
+      <tr><td>Permissions allowlist</td><td>10 min</td><td>1–3 popups avoided</td><td>1 session</td></tr>
+      <tr><td>Defensive PreToolUse hook</td><td>20 min</td><td>0 (but saves 1 catastrophe/year)</td><td>1st catastrophe avoided</td></tr>
+      <tr><td>PostToolUse format hook</td><td>15 min</td><td>30 seconds / Write</td><td>3 sessions</td></tr>
+      <tr><td>5 focused sub-agents</td><td>2 h</td><td>10–30 min / audit</td><td>~10 audits</td></tr>
+      <tr><td>3 slash commands</td><td>45 min</td><td>2 min / invocation</td><td>~20 calls</td></tr>
+    </tbody>
+  </table>
+
+  <p>Total setup: <strong>half a day</strong>. Estimated gain: <strong>15–30 min per active dev day</strong>. Over 200 days/year, that's 50–100 hours saved.</p>
+</section>
+
+<!-- ════════════════════ 02. MINIMUM VIABLE ════════════════════ -->
+<section>
+  <h1><span class="num">02</span>The minimum viable setup — day 1</h1>
+
+  <p class="lede">Goal: transform your Claude in 30 minutes. No prerequisites. Just 3 files to create.</p>
+
+  <h2>Step by step</h2>
+
+  <div class="steps">
+
+    <div class="step">
+      <h3>Install Claude Code</h3>
+      <p>Pick your OS and surface:</p>
+      <pre class="lang" data-lang="bash"><code># macOS, Linux, WSL — native install (recommended, auto-updates)
+curl -fsSL https://claude.ai/install.sh | bash
+
+# Windows PowerShell
+irm https://claude.ai/install.ps1 | iex
+
+# macOS via Homebrew
+brew install --cask claude-code
+
+# Windows via WinGet
+winget install Anthropic.ClaudeCode
+</code></pre>
+      <p>Then, in any project folder:</p>
+      <pre class="lang" data-lang="bash"><code>cd your-project
+claude
+</code></pre>
+      <p>For IDEs: Extensions → search "Claude Code" (VS Code, Cursor, JetBrains). For the browser: <code>claude.ai/code</code>. For the app: download from claude.ai. All these surfaces read the same <code>.claude/</code> files.</p>
+    </div>
+
+    <div class="step">
+      <h3>Create <code>CLAUDE.md</code> in your project root</h3>
+      <p>It's the brain of your project. Claude loads it automatically every session. Minimal template:</p>
+      <pre class="lang" data-lang="claude.md"><code># &lt;Project name&gt;
+
+One-sentence description of what the app does.
+
+## Tech stack
+- Language: &lt;Python 3.12 | TypeScript 5 | Go 1.22 | ...&gt;
+- Framework: &lt;Next.js 16 | FastAPI | Rails | ...&gt;
+- DB: &lt;Postgres via Supabase | SQLite | MongoDB | ...&gt;
+- Tests: &lt;pytest | vitest | jest&gt;
+- Deployment: &lt;Vercel | Fly.io | Railway | ...&gt;
+
+## Useful commands
+- `<dev command>` — start the local server
+- `<verify command>` — type-check before push (what blocks deploy)
+- `<test command>` — run the test suite
+
+## Conventions
+- &lt;Naming rule&gt; (e.g., camelCase JS, kebab-case files)
+- &lt;Structure rule&gt; (e.g., every page has its own `actions.ts`)
+- &lt;Behavior rule&gt; (e.g., never `alert()`, always Sonner toast)
+
+## Gotchas
+- &lt;Known stack pitfall&gt; (e.g., Next.js 16 changed `revalidate`)
+- &lt;Internal project pitfall&gt;
+
+## Git workflow
+- Target branch: `&lt;master | main&gt;`
+- Commit format: `type(scope): description`
+- &lt;PR or direct push&gt;
+
+## Hard rules
+- **Never** &lt;X&gt; without confirmation
+- **Always** &lt;Y&gt; before &lt;Z&gt;
+</code></pre>
+    </div>
+
+    <div class="step">
+      <h3>Create <code>.claude/settings.json</code></h3>
+      <p>The file that controls permissions and hooks. Minimal template that eliminates 80 % of popups:</p>
+      <pre class="lang" data-lang=".claude/settings.json"><code>{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "allow": [
+      "Read",
+      "Grep",
+      "Glob",
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(git show:*)",
+      "Bash(git branch:*)",
+      "Bash(ls:*)",
+      "Bash(cat:*)",
+      "Bash(find:*)",
+      "Bash(head:*)",
+      "Bash(tail:*)",
+      "Bash(wc:*)"
+    ],
+    "deny": [
+      "Bash(rm -rf*)",
+      "Bash(sudo*)",
+      "Bash(curl* | bash*)"
+    ]
+  }
+}
+</code></pre>
+      <p>Adapt the <code>allow</code> list to your stack (add <code>"Bash(pnpm verify)"</code>, <code>"Bash(npm test:*)"</code>, etc.).</p>
+    </div>
+
+    <div class="step">
+      <h3>Add <code>.claude/</code> to <code>.gitignore</code> (selectively)</h3>
+      <p>You want to version team config but not local logs. Add to your <code>.gitignore</code>:</p>
+      <pre class="lang" data-lang=".gitignore"><code># Claude Code — version agents/commands/hooks/settings.json
+# but not logs or personal overrides
+.claude/*
+!.claude/agents/
+!.claude/commands/
+!.claude/hooks/
+!.claude/settings.json
+.claude/logs/
+.claude/settings.local.json
+</code></pre>
+    </div>
+
+    <div class="step">
+      <h3>Test</h3>
+      <p>Launch Claude Code. Ask a question: <em>"Read CLAUDE.md and summarize the stack in 3 lines."</em> If it answers correctly with what you put in the file → ✅ it works. Otherwise: verify the file is in the project root, not in <code>src/</code> or elsewhere.</p>
+    </div>
+  </div>
+
+  <div class="callout callout-tip">
+    <div class="label">💡 Auto-init</div>
+    <p>Claude Code includes an <code>/init</code> command that scans your repo and proposes a first version of CLAUDE.md. Run it, then adjust: remove what's wrong, add your specific rules.</p>
+  </div>
+
+  <div class="callout callout-antipattern">
+    <div class="label">🚫 Anti-pattern</div>
+    <p>Putting 800 lines in CLAUDE.md on day 1. The file must stay <strong>stable and readable</strong>. If you find yourself scrolling for info, it's time to split (cf. chapter 7).</p>
+  </div>
+
+  <h2>What you gained in 30 minutes</h2>
+  <ul>
+    <li>No more re-explaining the stack or conventions.</li>
+    <li>No more popups for standard git/ls/cat commands.</li>
+    <li>Dangerous commands (<code>rm -rf</code>, <code>sudo</code>) are blocked.</li>
+    <li>The repo is ready for the next levels.</li>
+  </ul>
+</section>
+
+<!-- ════════════════════ 03. HOOKS ════════════════════ -->
+<section>
+  <h1><span class="num">03</span>Hooks — week 1</h1>
+
+  <p class="lede">A hook is a script triggered by an event. Zero tokens, zero Claude intervention, zero friction. It's the "deterministic automation" layer Claude doesn't even see.</p>
+
+  <h2>The 4 key events (out of ~25)</h2>
+
+  <p>Claude Code exposes about 25 events (UserPromptSubmit, SessionEnd, SubagentStart/Stop, FileChanged, PreCompact, Notification, etc.). This guide covers the <strong>4 that handle 80 % of needs</strong>. The full list is in the official docs at <code>code.claude.com/docs/en/hooks</code>.</p>
+
+  <table>
+    <thead><tr><th>Event</th><th>When</th><th>Typical use cases</th></tr></thead>
+    <tbody>
+      <tr><td><code>SessionStart</code></td><td>When Claude starts</td><td>Git recap, silent fetch, project state</td></tr>
+      <tr><td><code>PreToolUse</code></td><td>Before each tool call</td><td>Block <code>rm -rf</code>, writes to <code>.env</code>, <code>--force</code> pushes</td></tr>
+      <tr><td><code>PostToolUse</code></td><td>After each tool call</td><td>Auto-format, activity log</td></tr>
+      <tr><td><code>Stop</code></td><td>When Claude finishes its turn</td><td>System notif, Coach mode, Slack/Discord ping</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Hook #1 — PostToolUse: auto-format after each write</h2>
+
+  <p>Create <code>.claude/hooks/post-edit-format.sh</code>:</p>
+
+  <pre class="lang" data-lang="bash"><code>#!/usr/bin/env bash
+# Auto-format TS/JS files after Write/Edit via ESLint --fix.
+# Adapt the formatter to your stack: prettier, black, gofmt, rustfmt...
+set -e
+
+INPUT="$(cat 2>/dev/null || echo '{}')"
+FILE=$(echo "$INPUT" | jq -r '.tool_input.file_path // empty' 2>/dev/null)
+[ -z "$FILE" ] || [ ! -f "$FILE" ] && exit 0
+
+case "$FILE" in
+  *.ts|*.tsx|*.js|*.jsx|*.mjs) ;;
+  *) exit 0 ;;
+esac
+
+# Ignore node_modules, build, migrations
+case "$FILE" in
+  *node_modules*|*.next/*|*build/*|*dist/*) exit 0 ;;
+esac
+
+cd "$(dirname "$0")/../.."
+pnpm exec eslint --fix "$FILE" &gt;/dev/null 2&gt;&amp;1 || true
+exit 0
+</code></pre>
+
+  <p>Don't forget <code>chmod +x .claude/hooks/post-edit-format.sh</code>.</p>
+
+  <h2>Hook #2 — PreToolUse: defensive guard</h2>
+
+  <p>This hook is <strong>the most important</strong>. It blocks destructive commands before they run. Create <code>.claude/hooks/pre-tool-guard.sh</code>:</p>
+
+  <pre class="lang" data-lang="bash"><code>#!/usr/bin/env bash
+# Guards: block destructive actions before execution.
+
+INPUT="$(cat 2>/dev/null || echo '{}')"
+TOOL=$(echo "$INPUT" | jq -r '.tool_name // empty' 2>/dev/null)
+
+# 1. Block any write to a .env*
+if [ "$TOOL" = "Edit" ] || [ "$TOOL" = "Write" ]; then
+  FILE=$(echo "$INPUT" | jq -r '.tool_input.file_path // empty' 2>/dev/null)
+  case "$FILE" in
+    *.env|*.env.*|.env)
+      echo "BLOCKED: .env file protected. Use provider env vars." &gt;&amp;2
+      exit 2
+      ;;
+  esac
+fi
+
+# 2. Block dangerous Bash
+if [ "$TOOL" = "Bash" ]; then
+  CMD=$(echo "$INPUT" | jq -r '.tool_input.command // empty' 2>/dev/null)
+
+  # rm -rf on dangerous paths
+  if echo "$CMD" | grep -qE 'rm[[:space:]]+-[a-zA-Z]*[rf][a-zA-Z]*[[:space:]]+(/|~|\.\./|\$HOME)'; then
+    echo "BLOCKED: rm -rf on dangerous path." &gt;&amp;2
+    exit 2
+  fi
+
+  # git push --force
+  if echo "$CMD" | grep -qE 'git[[:space:]]+push.*(--force|--force-with-lease|[[:space:]]-f([[:space:]]|$))'; then
+    echo "BLOCKED: git push --force. Ask user for explicit confirmation." &gt;&amp;2
+    exit 2
+  fi
+
+  # git commit --no-verify (skip pre-commit hooks)
+  if echo "$CMD" | grep -qE 'git[[:space:]]+commit.*--no-verify'; then
+    echo "BLOCKED: --no-verify skips checks. Fix errors first." &gt;&amp;2
+    exit 2
+  fi
+fi
+
+exit 0
+</code></pre>
+
+  <h2>Hook #3 — SessionStart: project recap</h2>
+
+  <p>When a session opens, show the project state in 5 lines. Create <code>.claude/hooks/session-start.sh</code>:</p>
+
+  <pre class="lang" data-lang="bash"><code>#!/usr/bin/env bash
+# Session recap: branch, dirty files, ahead/behind commits, last 3 commits.
+set -e
+cd "$(dirname "$0")/../.."
+
+git fetch origin --quiet 2&gt;/dev/null || true
+
+BRANCH=$(git rev-parse --abbrev-ref HEAD 2&gt;/dev/null || echo "?")
+DIRTY=$(git status --porcelain 2&gt;/dev/null | wc -l | xargs)
+AHEAD=$(git rev-list --count @{u}..HEAD 2&gt;/dev/null || echo "?")
+BEHIND=$(git rev-list --count HEAD..@{u} 2&gt;/dev/null || echo "?")
+
+echo ""
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "  &lt;Project&gt; · session started · $(date '+%a %d %b %Hh%M')"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "  Branch       : $BRANCH"
+[ "$DIRTY" = "0" ] &amp;&amp; echo "  Working tree : clean" || echo "  Working tree : $DIRTY file(s) modified"
+[ "$AHEAD" != "0" ] &amp;&amp; [ "$AHEAD" != "?" ] &amp;&amp; echo "  ⚠  $AHEAD unpushed commit(s)"
+[ "$BEHIND" != "0" ] &amp;&amp; [ "$BEHIND" != "?" ] &amp;&amp; echo "  ⚠  $BEHIND commit(s) behind origin"
+echo ""
+echo "  Last commits:"
+git log --oneline -3 2&gt;/dev/null | sed 's/^/    /'
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo ""
+</code></pre>
+
+  <h2>Activate hooks in <code>settings.json</code></h2>
+
+  <pre class="lang" data-lang=".claude/settings.json"><code>{
+  "permissions": { /* ... see chapter 2 ... */ },
+  "hooks": {
+    "SessionStart": [
+      { "matcher": "*", "hooks": [
+        { "type": "command", "command": ".claude/hooks/session-start.sh" }
+      ]}
+    ],
+    "PreToolUse": [
+      { "matcher": "Edit|Write|Bash", "hooks": [
+        { "type": "command", "command": ".claude/hooks/pre-tool-guard.sh" }
+      ]}
+    ],
+    "PostToolUse": [
+      { "matcher": "Edit|Write", "hooks": [
+        { "type": "command", "command": ".claude/hooks/post-edit-format.sh" }
+      ]}
+    ]
+  }
+}
+</code></pre>
+
+  <div class="callout callout-warning">
+    <div class="label">⚠️ Prerequisite</div>
+    <p>The bash hooks above use <code>jq</code> to parse the JSON payload. Install it if you don't have it: <code>brew install jq</code> (macOS) or <code>apt install jq</code> (Linux). Otherwise, write hooks in Python — equivalent in 5 lines with <code>json.load(sys.stdin)</code>.</p>
+  </div>
+
+  <h2>Test a hook without restarting the session</h2>
+
+  <pre class="lang" data-lang="bash"><code># Simulate a PreToolUse event
+echo '{"tool_name":"Bash","tool_input":{"command":"rm -rf /"}}' \
+  | .claude/hooks/pre-tool-guard.sh
+echo "Exit code: $?"
+# Should print "BLOCKED: rm -rf..." and exit 2
+</code></pre>
+
+  <div class="callout callout-tip">
+    <div class="label">💡 Performance</div>
+    <p>A hook should run in <strong>under 200 ms</strong>. Beyond that you'll feel friction. If your hook makes network calls or runs a heavy linter, mark it <code>"async": true</code> in the config — it runs in the background without blocking.</p>
+  </div>
+</section>
+
+<!-- ════════════════════ 04. SUB-AGENTS ════════════════════ -->
+<section>
+  <h1><span class="num">04</span>Sub-agents — week 2</h1>
+
+  <p class="lede">A sub-agent is a specialized role with its own context, model, tools, and system prompt. You trigger it for a precise task and it returns a structured result.</p>
+
+  <h2>Why split rather than do everything in one</h2>
+
+  <ol>
+    <li><strong>Context preserved</strong> — each agent starts with a clean context, doesn't pollute the main session.</li>
+    <li><strong>Narrow scope</strong> — an audit agent has no Write/Edit tools. It <em>cannot</em> break code.</li>
+    <li><strong>Right-sized model</strong> — a complex audit uses <code>opus</code>, a quick classification uses <code>haiku</code>. You optimize cost.</li>
+    <li><strong>Specialization</strong> — the security agent knows OWASP; the domain agent knows your conventions. Not mixed.</li>
+  </ol>
+
+  <h2>Anatomy of an agent</h2>
+
+  <p>An agent is a markdown file at <code>.claude/agents/&lt;name&gt;.md</code> with a YAML frontmatter and a system prompt in markdown.</p>
+
+  <pre class="lang" data-lang=".claude/agents/code-auditor.md"><code>---
+name: code-auditor
+description: &gt;
+  READ-ONLY code quality audit. Use proactively when the user says
+  "audit the code", "review", or before a large refactor.
+  Detects: dead code, duplication, complexity, anti-patterns, unjustified
+  `any` types. Modifies NO files — produces a structured report.
+model: opus
+tools: Read, Grep, Glob, Bash, WebFetch
+---
+
+You are a senior code auditor for project &lt;name&gt;. You work read-only.
+
+## Project context
+- Stack: &lt;quick summary&gt;
+- Conventions to respect (cf. CLAUDE.md): &lt;quick summary&gt;
+
+## Your mission
+For each audited file, identify:
+1. **Dead code**: unused functions, variables, imports
+2. **Duplication**: repeated patterns that should be factored
+3. **Complexity**: functions &gt; 30 lines, conditionals nested &gt; 3 deep
+4. **Anti-patterns**: misused useEffects, non-parallel queries, `any` types
+
+## Output format
+For EACH finding:
+- **Severity**: 🔴 / 🟠 / 🟡 / 🟢
+- **File:line**
+- **Observation** + **Impact** + **Recommended fix**
+
+End with: Overall score /10 + Top 3 priority actions.
+
+## Rules
+- Read-only: no Edit, no Write.
+- Don't nitpick style if already covered by the linter.
+- Prioritize what has real impact on maintainability.
+</code></pre>
+
+  <h2>Pick a model</h2>
+
+  <p>The <code>model</code> field accepts an alias (<code>sonnet</code>, <code>opus</code>, <code>haiku</code>), a full ID (e.g., <code>claude-opus-4-7</code>), or <code>inherit</code> (default). Exact pricing varies; in practice sonnet and opus cost several times more than haiku.</p>
+
+  <table>
+    <thead><tr><th>Model</th><th>When</th></tr></thead>
+    <tbody>
+      <tr><td><code>haiku</code></td><td>Classification, quick triage, codebase exploration, repetitive tasks</td></tr>
+      <tr><td><code>sonnet</code></td><td>Code generation, standard audits, structured content — the sane default</td></tr>
+      <tr><td><code>opus</code></td><td>Complex audits (security, DB, architecture), long reasoning, strategic decisions</td></tr>
+    </tbody>
+  </table>
+
+  <p><strong>Rule of thumb</strong>: any audit that could lose data or compromise production → opus. Everything else → sonnet by default. Haiku when speed beats depth.</p>
+
+  <p>The <code>effort</code> field controls reasoning effort (separate from model). Values: <code>low</code>, <code>medium</code>, <code>high</code>, <code>xhigh</code>, <code>max</code> — available levels depend on the model.</p>
+
+  <h2>Restrict tools (least privilege)</h2>
+
+  <p>Give only the tools the agent needs. A read-only auditor never gets Write/Edit/dangerous Bash.</p>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="h">Audit agent (read-only)</div>
+      <div class="s"><code>tools: Read, Grep, Glob, Bash, WebFetch, WebSearch</code><br>No Write/Edit.</div>
+    </div>
+    <div class="card">
+      <div class="h">Agent that creates code</div>
+      <div class="s"><code>tools: Read, Write, Edit, Bash, Glob</code><br>Bash only if needed (tests).</div>
+    </div>
+    <div class="card">
+      <div class="h">Agent that writes content</div>
+      <div class="s"><code>tools: Read, Write, Edit, Grep, WebFetch, WebSearch</code><br>No Bash.</div>
+    </div>
+    <div class="card">
+      <div class="h">Classification agent</div>
+      <div class="s"><code>tools: Read, Grep, Glob</code><br>Minimalist, haiku model.</div>
+    </div>
+  </div>
+
+  <h2>The "Use proactively when..." description</h2>
+
+  <p>Claude reads each agent's <code>description</code> and decides automatically when to invoke. The more precise the description, the more accurate the invocation.</p>
+
+  <pre class="lang" data-lang="frontmatter"><code>description: &gt;
+  &lt;What the agent does in one sentence&gt;.
+  Use proactively when user says "&lt;keyword 1&gt;", "&lt;keyword 2&gt;", "&lt;keyword 3&gt;",
+  or before &lt;trigger event&gt;.
+  Covers: &lt;list of what's covered&gt;.
+  &lt;"Read-only" or "Modifies files in X"&gt;.
+</code></pre>
+
+  <h2>How many agents max</h2>
+
+  <div class="callout callout-warning">
+    <div class="label">⚠️ The agent factory</div>
+    <p>Past <strong>10–12 agents</strong>, you don't remember what each one does. You end up using the same 3. Keep the folder lean: 5–8 sharp agents &gt; 20 forgotten ones.</p>
+  </div>
+
+  <p>You can start with these 3 agents that cover 80 % of cases:</p>
+  <ol>
+    <li><code>code-auditor</code> — quality audit (template above)</li>
+    <li><code>security-auditor</code> — RLS, secrets, OWASP, GDPR (cf. appendix F)</li>
+    <li><code>qa-tester</code> — end-to-end user flows after a large change</li>
+  </ol>
+
+  <p>Add more as you identify a <em>recurring</em> need.</p>
+
+  <h2>Invoking a sub-agent</h2>
+
+  <ul>
+    <li><strong>Automatic</strong> — Claude reads the <code>description</code> and triggers the agent when the pattern matches.</li>
+    <li><strong>Explicit</strong> — the user says <em>"Launch security-auditor on this week's server actions"</em>.</li>
+    <li><strong>Via a slash command</strong> — which wraps the invocation with pre-formatted context (cf. chapter 5).</li>
+  </ul>
+
+  <div class="callout callout-tip">
+    <div class="label">💡 Test an agent</div>
+    <p>After creation, invoke it once on a real case. Read the report. If it misses obvious things or its tone isn't right: tune the system prompt. Iterate 2–3 times before considering the agent stable.</p>
+  </div>
+</section>
+
+<!-- ════════════════════ 05. SKILLS & SLASH COMMANDS ════════════════════ -->
+<section>
+  <h1><span class="num">05</span>Skills &amp; slash commands — week 3</h1>
+
+  <p class="lede">A skill (or slash command) is a shortcut that gives you a workflow by typing <code>/&lt;name&gt;</code>. It's your "reusable playbooks" layer.</p>
+
+  <div class="callout callout-warning">
+    <div class="label">⚠️ Skills + commands merger</div>
+    <p>As of late 2025, "custom commands" and "skills" are <strong>merged</strong> in Claude Code. A <code>.claude/commands/deploy.md</code> file and a <code>.claude/skills/deploy/SKILL.md</code> skill both create <code>/deploy</code> and behave the same. Your existing <code>.claude/commands/</code> files still work (backwards compatible). The recommended modern path is <code>.claude/skills/</code> — it unlocks: supporting files alongside, invocation control, and Claude loading the skill automatically when relevant.</p>
+  </div>
+
+  <h2>Skill vs sub-agent vs hook</h2>
+
+  <table>
+    <thead><tr><th></th><th>Skill / slash command</th><th>Sub-agent</th><th>Hook</th></tr></thead>
+    <tbody>
+      <tr><td>Trigger</td><td>You type <code>/name</code> or Claude auto-loads</td><td>Auto or explicit</td><td>Event (auto)</td></tr>
+      <tr><td>Context</td><td>Current session</td><td>New isolated context</td><td>N/A (script)</td></tr>
+      <tr><td>Tokens</td><td>Yes</td><td>Yes (new context overhead)</td><td><strong>Zero</strong></td></tr>
+      <tr><td>Best for</td><td>Recurring workflow, doc/checklist</td><td>Isolated expertise, heavy task</td><td>Deterministic automation</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Two ways to create one</h2>
+
+  <h3>Path A — Simple: <code>.claude/commands/&lt;name&gt;.md</code></h3>
+
+  <p>A single markdown file with frontmatter + instructions. Covers 90 % of cases.</p>
+
+  <pre class="lang" data-lang=".claude/commands/ship.md"><code>---
+description: "Verify + commit + push in one command"
+argument-hint: "&lt;commit message&gt;"
+---
+
+# /ship — Verify, commit &amp; push
+
+## Procedure
+
+### 1. Pre-check
+Run the typecheck command (e.g. `pnpm verify`). If red → STOP, show errors,
+ask the user whether to fix or abandon. Never commit with red typecheck.
+
+### 2. Git state
+Run `git status --short` and `git diff --stat`. Show modified files and diff
+summary. If zero files modified → "Nothing to commit" and stop.
+
+### 3. Build the commit
+Message = `$ARGUMENTS`. If empty or &lt; 10 chars, ask for a clearer message.
+Format to project style: `type(scope): summary` (cf. CLAUDE.md).
+
+### 4. Stage + commit + push
+In this order:
+1. `git add` specific files (not blind `git add .`)
+2. `git commit -m "..."` with the built message
+3. `git push origin &lt;target branch&gt;`
+
+### 5. Confirmation
+Display SHA, message, insertions/deletions summary.
+
+## Safeguards
+- **Never** use `--no-verify` unless explicitly requested.
+- **Never** force-push without explicit confirmation.
+- If push fails (rejected): pull `--no-rebase`, resolve conflicts, re-push.
+</code></pre>
+
+  <h3>Path B — Powerful: <code>.claude/skills/&lt;name&gt;/SKILL.md</code></h3>
+
+  <p>A dedicated folder with a <code>SKILL.md</code> + supporting files (scripts, references, examples). Best when the workflow uses bundled scripts or detailed docs.</p>
+
+  <pre class="lang" data-lang="structure"><code>.claude/skills/deploy/
+├── SKILL.md          ← Main instructions (required)
+├── reference.md      ← Detailed doc (loaded on demand)
+└── scripts/
+    └── verify.sh     ← Executable script
+</code></pre>
+
+  <pre class="lang" data-lang=".claude/skills/deploy/SKILL.md"><code>---
+name: deploy
+description: Deploy to production with verify + commit + push
+disable-model-invocation: true
+allowed-tools: Bash(pnpm verify) Bash(git *)
+---
+
+# /deploy — Production deploy
+
+Use the script bundled with this skill:
+
+```bash
+bash ${CLAUDE_SKILL_DIR}/scripts/verify.sh
+```
+
+Then commit and push following the standard workflow...
+</code></pre>
+
+  <p>Key skill frontmatter fields (all optional except <code>description</code>):</p>
+  <ul>
+    <li><code>description</code> — when Claude should use the skill (recommended)</li>
+    <li><code>disable-model-invocation: true</code> — only the user can invoke (recommended for <code>/deploy</code>, <code>/ship</code>, anything with side effects)</li>
+    <li><code>allowed-tools</code> — pre-authorized tools while the skill runs</li>
+    <li><code>argument-hint</code> — autocomplete hint (e.g. <code>&lt;commit message&gt;</code>)</li>
+    <li><code>context: fork</code> — run in an isolated sub-agent</li>
+    <li><code>paths</code> — glob patterns that limit when the skill auto-activates</li>
+  </ul>
+
+  <h2>3 commands to code in week 3</h2>
+
+  <h3><code>/ship "&lt;message&gt;"</code> — deploy in one line</h3>
+  <p>Template above. It's <strong>the most useful command</strong>. Replaces your manual commit/push routine and guarantees the typecheck passes.</p>
+
+  <h3><code>/audit-quick</code> — code + security audit in parallel</h3>
+
+  <pre class="lang" data-lang=".claude/commands/audit-quick.md"><code>---
+description: "Quick audit: code + security in parallel, synthesized report"
+---
+
+# /audit-quick — Pre-release audit
+
+Launch these 2 agents IN PARALLEL (same message, multiple tool calls):
+
+**Agent code-auditor**:
+&gt; Audit code, focus: dead code, duplication, anti-patterns,
+&gt; unjustified `any`. Report ≤ 500 words ranked 🔴/🟠/🟡.
+
+**Agent security-auditor**:
+&gt; Audit security, focus: RLS, secrets, XSS, PII exposure, OWASP.
+&gt; Report ≤ 500 words ranked 🔴/🟠/🟡.
+
+When both finish, present a unified report:
+- 🔴 Blockers
+- 🟠 Important
+- 🟢 OK
+
+End with a single priority recommendation.
+</code></pre>
+
+  <h3><code>/standup</code> — daily recap</h3>
+
+  <pre class="lang" data-lang=".claude/commands/standup.md"><code>---
+description: "Morning recap: 24h commits, WIP, suggested focus"
+---
+
+# /standup
+
+Launch in parallel:
+- `git log --since='24 hours ago' --oneline`
+- `git status --short` + `git diff --stat`
+
+Report in 3 sections, ≤ 200 words:
+- 🟢 Done yesterday
+- 🟡 In progress (WIP)
+- 🎯 Today's focus (suggestion)
+
+End with a question: "Tackling focus #1 or something else?"
+</code></pre>
+
+  <h2>The <code>$ARGUMENTS</code> pattern</h2>
+
+  <p>When the user types <code>/ship "fix: header typo"</code>, the string in quotes is available in the skill via <code>$ARGUMENTS</code>. Use it to customize behavior. Indexed forms (<code>$0</code>, <code>$1</code>, <code>$ARGUMENTS[N]</code>) access individual arguments.</p>
+
+  <div class="callout callout-tip">
+    <div class="label">💡 Disambiguation</div>
+    <p>Create a <code>.claude/COMMANDS.md</code> file (outside the <code>commands/</code> folder — putting it inside would create a <code>/COMMANDS</code> slash command) listing all your commands with a "I want X → command Y" table. Saves time when you have 10+ commands.</p>
+  </div>
+
+  <div class="callout callout-antipattern">
+    <div class="label">🚫 Anti-pattern</div>
+    <p>Putting a <code>README.md</code> inside <code>.claude/commands/</code>. Claude Code loads <strong>every</strong> <code>.md</code> in this folder as a slash command. You'd end up with a <code>/README</code> command. Put docs outside the folder.</p>
+  </div>
+</section>
+
+<!-- ════════════════════ 06. COACH MODE ════════════════════ -->
+<section>
+  <h1><span class="num">06</span>Coach mode — week 4</h1>
+
+  <p class="lede">Coach mode = a system that reminds you of best practices at the right moment, without you having to think about it. Three complementary layers: CLAUDE.md rules, observing Stop hook, manual <code>/coach</code> slash command.</p>
+
+  <h2>Why a Coach</h2>
+
+  <p>Once your setup is in place, you accumulate useful slash commands (<code>/ship</code>, <code>/audit-quick</code>, <code>/loro</code>, etc.). But in the heat of the moment, you forget to use them. You end up running <code>git commit + git push</code> manually, no verify, and Vercel crashes.</p>
+
+  <p>The Coach fixes this in 3 layers.</p>
+
+  <h2>Layer 1 — Rules in CLAUDE.md</h2>
+
+  <p>Add a <em>"Coach mode"</em> section in <code>CLAUDE.md</code> with a trigger table. I re-read it every session.</p>
+
+  <pre class="lang" data-lang="claude.md"><code>## Coach mode — when to propose what
+
+Triggers to honor before acting. If a condition is true,
+propose the command/agent rather than just running.
+
+| Observed trigger | Action to propose |
+|---|---|
+| Task touches ≥ 5 files or new transversal feature | `/new-feature &lt;slug&gt;` |
+| UI widget modification | `/loro &lt;file&gt;` before ship |
+| Critical calculation modification | `/trading-check &lt;fn&gt;` after change |
+| SQL migration | `db-schema-reviewer` agent before push |
+| Server action / auth route modified | `security-auditor` agent before push |
+| ≥ 10 files modified since last commit | `/audit-quick` before ship |
+| Before any `git push` | `/ship "&lt;message&gt;"` |
+
+**General rule**: if a command covers ~80 % of what was about to be
+done manually, propose first. The user can always reply "no, do it
+manually" — that's fine.
+</code></pre>
+
+  <h2>Layer 2 — Stop hook that observes</h2>
+
+  <p>The <code>Stop</code> hook fires when Claude finishes its turn. It reads the current session's activity log, detects what was touched, and prints targeted suggestions <strong>in your terminal</strong>, consuming zero tokens.</p>
+
+  <p>Prerequisite: have a PostToolUse hook that logs Write/Edit/Bash to <code>.claude/logs/activity.log</code> (cf. appendix D). Then create <code>.claude/hooks/coach-suggest.sh</code>:</p>
+
+  <pre class="lang" data-lang="bash"><code>#!/usr/bin/env bash
+# Stop hook — Coach. Analyzes the current session's activity-log
+# and prints suggestions based on what was touched.
+set -e
+cd "$(dirname "$0")/../.."
+
+# Coach mute: if flag exists, exit silently
+[ -f ".claude/coach-mute" ] &amp;&amp; exit 0
+
+LOG=".claude/logs/activity.log"
+[ ! -f "$LOG" ] &amp;&amp; exit 0
+
+INPUT="$(cat 2&gt;/dev/null || echo '{}')"
+SID=$(echo "$INPUT" | jq -r '.session_id // empty' | cut -c1-8)
+[ -z "$SID" ] &amp;&amp; exit 0
+
+RECENT=$(grep "\[$SID\]" "$LOG" 2&gt;/dev/null | tail -200)
+[ -z "$RECENT" ] &amp;&amp; exit 0
+
+FILES=$(echo "$RECENT" | grep -E 'WRITE|EDIT' | sed 's/.*| //' | sort -u)
+WRITES=$(echo "$RECENT" | grep -cE 'WRITE|EDIT')
+[ "$WRITES" -eq 0 ] &amp;&amp; exit 0
+
+SUGGESTIONS=""
+
+# Trigger 1: widget touched → /loro
+if echo "$FILES" | grep -q "components/.*widget"; then
+  W=$(echo "$FILES" | grep "components/.*widget" | head -1)
+  SUGGESTIONS="${SUGGESTIONS}  • /loro $W\n      → polish the modified widget\n"
+fi
+
+# Trigger 2: auth / API touched → security-auditor
+if echo "$FILES" | grep -qE "actions\.ts|/auth/|/api/"; then
+  SUGGESTIONS="${SUGGESTIONS}  • Agent security-auditor\n      → check RLS / secrets on touched routes\n"
+fi
+
+# Trigger 3: ≥ 2 writes → /ship
+[ "$WRITES" -ge 2 ] &amp;&amp; SUGGESTIONS="${SUGGESTIONS}  • /ship \"&lt;message&gt;\"\n      → when ready to push\n"
+
+[ -z "$SUGGESTIONS" ] &amp;&amp; exit 0
+
+{
+  echo ""
+  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  echo "  Coach · suggestions"
+  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  printf "%b" "$SUGGESTIONS"
+  echo ""
+} &gt;&amp;2
+
+exit 0
+</code></pre>
+
+  <p>Activate in <code>settings.json</code>:</p>
+
+  <pre class="lang" data-lang=".claude/settings.json"><code>"Stop": [
+  { "matcher": "*", "hooks": [
+    { "type": "command", "command": ".claude/hooks/coach-suggest.sh" }
+  ]}
+]
+</code></pre>
+
+  <h2>Layer 3 — Manual <code>/coach</code> slash</h2>
+
+  <p>For moments when you hesitate yourself. Create <code>.claude/commands/coach.md</code>:</p>
+
+  <pre class="lang" data-lang=".claude/commands/coach.md"><code>---
+description: "Analyze repo state and recommend next action"
+---
+
+# /coach
+
+Run in parallel:
+- `git status --short`, `git diff --stat`, `git log --oneline -5`
+- Read `.claude/logs/activity.log | tail -50` if present
+
+Compare state to Coach triggers in CLAUDE.md. Recommend max 3
+prioritized actions:
+
+  1. &lt;command&gt; → &lt;reason in one sentence&gt;
+  2. &lt;command&gt; → &lt;reason&gt;
+  3. &lt;command&gt; → &lt;reason&gt;
+
+End with: "Run #1 or want to think first?"
+</code></pre>
+
+  <h2>The mute mechanism</h2>
+
+  <p>Sometimes you know what you're doing and suggestions become noise. The hook checks a <code>.claude/coach-mute</code> flag and exits silently if it exists. Two commands to toggle:</p>
+
+  <ul>
+    <li><code>/coach-mute</code> → <code>touch .claude/coach-mute</code> (Coach OFF)</li>
+    <li><code>/coach-on</code> → <code>rm -f .claude/coach-mute</code> (Coach ON)</li>
+  </ul>
+
+  <div class="callout callout-tip">
+    <div class="label">💡 Natural evolution</div>
+    <p>When you find yourself doing the same manual action 3 times, that's the signal to add a new Coach trigger. Open <code>CLAUDE.md</code> → Coach mode table → add a row. If you want the hook to detect it too, add the detection in <code>coach-suggest.sh</code>. That's how a conscious routine becomes an automatic reflex.</p>
+  </div>
+</section>
+
+<!-- ════════════════════ 07. MAINTENANCE ════════════════════ -->
+<section>
+  <h1><span class="num">07</span>Maintenance, memory, MCP — beyond</h1>
+
+  <p class="lede">Your setup is alive. CLAUDE.md goes stale, agents sleep, new MCPs appear. Here's the maintenance that keeps it healthy.</p>
+
+  <h2>Persistent agent memory</h2>
+
+  <p>By default, a sub-agent forgets everything between invocations. For critical agents (security audit, domain expert), you can enable cross-session memory versioned in git.</p>
+
+  <h3>Pattern</h3>
+  <ol>
+    <li>Create the memory folder according to the desired scope (see table below)</li>
+    <li>Add <code>memory: project</code> (or <code>user</code>, or <code>local</code>) to the agent's frontmatter</li>
+    <li>Claude Code automatically injects read/write instructions into the sub-agent's system prompt, and activates Read/Write/Edit tools so it can manage its memory files</li>
+  </ol>
+
+  <p>Three possible scopes:</p>
+  <table>
+    <thead><tr><th>Scope</th><th>Location</th><th>When</th></tr></thead>
+    <tbody>
+      <tr><td><code>user</code></td><td><code>~/.claude/agent-memory/&lt;name&gt;/</code></td><td>Cross-project knowledge (personal preferences, reusable patterns)</td></tr>
+      <tr><td><code>project</code></td><td><code>.claude/agent-memory/&lt;name&gt;/</code></td><td>Project knowledge, versioned in git, shareable across team (recommended default)</td></tr>
+      <tr><td><code>local</code></td><td><code>.claude/agent-memory-local/&lt;name&gt;/</code></td><td>Project knowledge but sensitive / personal, gitignored</td></tr>
+    </tbody>
+  </table>
+
+  <p>Typical memory folder structure:</p>
+  <pre class="lang" data-lang="structure"><code>.claude/agent-memory/security-auditor/
+├── MEMORY.md              ← INDEX (first 200 lines or 25KB auto-loaded)
+├── feedback_&lt;topic&gt;.md   ← User corrections / validations
+├── project_&lt;topic&gt;.md    ← Decisions, deadlines, motivations
+└── reference_&lt;topic&gt;.md  ← Pointers to external systems (Linear, Grafana…)
+</code></pre>
+
+  <p>Typical benefit: a domain expert builds up a base of "validated formulas" or "project conventions" that survives re-clones and machine changes. No more re-debating each session.</p>
+
+  <h2>MCP — connect Claude to the outside world</h2>
+
+  <p>The <strong>Model Context Protocol</strong> gives Claude access to external tools (DB, browser, filesystem, APIs). Configure in <code>.mcp.json</code> at the root:</p>
+
+  <pre class="lang" data-lang=".mcp.json"><code>{
+  "mcpServers": {
+    "playwright": {
+      "command": "npx",
+      "args": ["-y", "@playwright/mcp@latest", "--browser=chromium", "--isolated"]
+    },
+    "filesystem": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "./data"]
+    },
+    "tavily": {
+      "type": "http",
+      "url": "https://mcp.tavily.com/mcp/",
+      "headers": { "X-API-Key": "${TAVILY_API_KEY}" }
+    }
+  }
+}
+</code></pre>
+
+  <h3>Which MCPs to install first</h3>
+  <table>
+    <thead><tr><th>MCP</th><th>Why</th><th>Priority</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Playwright</strong></td><td>Test the UI in a browser. "Open the dashboard and check X."</td><td>essential for web apps</td></tr>
+      <tr><td><strong>filesystem</strong></td><td>Read access to a specific folder (CSV data, exports)</td><td>case-by-case</td></tr>
+      <tr><td><strong>Tavily</strong></td><td>Premium web search (better than default WebSearch)</td><td>if research is frequent</td></tr>
+      <tr><td>DB (Supabase, Postgres…)</td><td>Read DB schema without copy-paste — <strong>lock read-only</strong></td><td>if DB is central</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout callout-warning">
+    <div class="label">⚠️ MCP security</div>
+    <p>An MCP that can write to prod DB = potential catastrophe. Lock <strong>read-only</strong> wherever possible. Writes go through an explicit migration you review by hand.</p>
+  </div>
+
+  <h2>Monthly setup audit</h2>
+
+  <p>Every ~30 days, run a meta-audit to detect rot. Create <code>.claude/commands/audit-claude-setup.md</code> that checks:</p>
+
+  <ul>
+    <li><strong>Dormant agents</strong>: grep <code>activity.log</code> for agents never invoked since creation</li>
+    <li><strong>Stale references</strong> in CLAUDE.md: files mentioned that no longer exist</li>
+    <li><strong>Undocumented commands</strong> in COMMANDS.md</li>
+    <li><strong>Permission <code>allow</code></strong> entries never used (noise in settings.json)</li>
+    <li><strong>Empty memories</strong> for &gt; 30 days (agent doesn't capitalize anything)</li>
+    <li><strong>Slow hooks</strong> (&gt; 500 ms = friction)</li>
+  </ul>
+
+  <h2>Split CLAUDE.md when it grows</h2>
+
+  <p>When CLAUDE.md exceeds ~100 lines, split into thematic files imported via <code>@</code>:</p>
+
+  <pre class="lang" data-lang="claude.md"><code>@AGENTS.md
+@.claude/STACK.md
+@.claude/CONVENTIONS.md
+@.claude/WORKFLOW.md
+
+# &lt;Project&gt; — configuration hub
+
+| Looking for… | Go to |
+|---|---|
+| Commands + stack + gotchas | `@.claude/STACK.md` |
+| Code conventions, dev rules, Git workflow | `@.claude/CONVENTIONS.md` |
+| Agents, slash commands, Coach mode | `@.claude/WORKFLOW.md` |
+| Copy-paste recipes | `.claude/PATTERNS.md` |
+</code></pre>
+
+  <p>CLAUDE.md becomes a hub that points; thematic files stay &lt; 80 lines each, readable at a glance.</p>
+
+  <h2>Share the setup with a team</h2>
+
+  <p>All <code>.claude/</code> versioned in git = every team member inherits automatically. To go further, package as a plugin:</p>
+
+  <pre class="lang" data-lang="structure"><code>.claude-plugin/&lt;name&gt;/
+├── plugin.json            (metadata)
+├── CLAUDE.md              (project brain)
+├── settings.json.template (customizable template)
+├── hooks.json             (references the hooks/ scripts)
+├── agents/                (sub-agents)
+├── skills/                (skills)
+└── hooks/                 (scripts)
+</code></pre>
+
+  <p>A plugin shares like a dependency. Useful when several internal projects share the same base setup.</p>
+</section>
+
+<!-- ════════════════════ 08. APPENDIX ════════════════════ -->
+<section>
+  <h1><span class="num">08</span>Appendix — copy-paste templates</h1>
+
+  <p class="lede">All templates from this guide, gathered and ready to paste. Adapt paths, project names, and stack to your context.</p>
+
+  <h2>A. Universal <code>CLAUDE.md</code></h2>
+
+  <pre class="lang" data-lang="claude.md"><code># &lt;Project name&gt;
+
+One-sentence description.
+
+## Stack
+- Language / Framework / DB / Tests / Deployment
+
+## Useful commands
+- `&lt;dev&gt;`, `&lt;verify&gt;`, `&lt;test&gt;`, `&lt;build&gt;`
+
+## Conventions
+- Naming, structure, behavior
+
+## Gotchas
+- Known stack and project pitfalls
+
+## Git workflow
+- Branch, commit format, PR/push
+
+## Hard rules
+- Never X without confirmation
+- Always Y before Z
+
+## Coach mode (cf. chapter 6)
+| Trigger | Action |
+|---|---|
+| ... | ... |
+</code></pre>
+
+  <h2>B. Complete <code>.claude/settings.json</code></h2>
+
+  <pre class="lang" data-lang=".claude/settings.json"><code>{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "allow": [
+      "Read", "Grep", "Glob",
+      "Bash(git status:*)", "Bash(git diff:*)", "Bash(git log:*)",
+      "Bash(git show:*)", "Bash(git branch:*)", "Bash(git fetch:*)",
+      "Bash(ls:*)", "Bash(cat:*)", "Bash(find:*)",
+      "Bash(head:*)", "Bash(tail:*)", "Bash(wc:*)"
+    ],
+    "deny": [
+      "Bash(rm -rf*)", "Bash(rm)", "Bash(sudo*)",
+      "Bash(curl* | bash*)"
+    ]
+  },
+  "hooks": {
+    "SessionStart": [
+      { "matcher": "*", "hooks": [
+        { "type": "command", "command": ".claude/hooks/session-start.sh" }
+      ]}
+    ],
+    "PreToolUse": [
+      { "matcher": "Edit|Write|Bash", "hooks": [
+        { "type": "command", "command": ".claude/hooks/pre-tool-guard.sh" }
+      ]}
+    ],
+    "PostToolUse": [
+      { "matcher": "Edit|Write", "hooks": [
+        { "type": "command", "command": ".claude/hooks/post-edit-format.sh" },
+        { "type": "command", "command": ".claude/hooks/activity-log.sh", "async": true }
+      ]},
+      { "matcher": "Bash", "hooks": [
+        { "type": "command", "command": ".claude/hooks/activity-log.sh", "async": true }
+      ]}
+    ],
+    "Stop": [
+      { "matcher": "*", "hooks": [
+        { "type": "command", "command": ".claude/hooks/coach-suggest.sh" }
+      ]}
+    ]
+  }
+}
+</code></pre>
+
+  <h2>C. activity-log hook (PostToolUse async)</h2>
+
+  <pre class="lang" data-lang=".claude/hooks/activity-log.sh"><code>#!/usr/bin/env bash
+# Zero-token lightweight log of Write/Edit/Bash to .claude/logs/activity.log
+set -e
+cd "$(dirname "$0")/../.."
+
+INPUT="$(cat 2>/dev/null || echo '{}')"
+TOOL=$(echo "$INPUT" | jq -r '.tool_name // empty' 2>/dev/null)
+[ -z "$TOOL" ] &amp;&amp; exit 0
+
+LOG_DIR=".claude/logs"
+LOG_FILE="$LOG_DIR/activity.log"
+mkdir -p "$LOG_DIR"
+
+TS=$(date '+%Y-%m-%d %H:%M:%S')
+SID=$(echo "$INPUT" | jq -r '.session_id // empty' | cut -c1-8)
+[ -z "$SID" ] &amp;&amp; SID="--------"
+
+case "$TOOL" in
+  Bash)
+    CMD=$(echo "$INPUT" | jq -r '.tool_input.command // empty' | tr '\n' ' ' | cut -c1-200)
+    echo "[$TS] [$SID] BASH   | $CMD" &gt;&gt; "$LOG_FILE" ;;
+  Write)
+    FP=$(echo "$INPUT" | jq -r '.tool_input.file_path // empty')
+    echo "[$TS] [$SID] WRITE  | $FP" &gt;&gt; "$LOG_FILE" ;;
+  Edit)
+    FP=$(echo "$INPUT" | jq -r '.tool_input.file_path // empty')
+    echo "[$TS] [$SID] EDIT   | $FP" &gt;&gt; "$LOG_FILE" ;;
+esac
+
+# Rotation: if &gt; 5000 lines, keep last 3000
+LINES=$(wc -l &lt; "$LOG_FILE" 2&gt;/dev/null || echo 0)
+if [ "$LINES" -gt 5000 ]; then
+  tail -3000 "$LOG_FILE" &gt; "$LOG_FILE.tmp" &amp;&amp; mv "$LOG_FILE.tmp" "$LOG_FILE"
+fi
+
+exit 0
+</code></pre>
+
+  <h2>D. pre-tool-guard hook (defensive PreToolUse)</h2>
+
+  <p>See chapter 3 above. Don't forget <code>chmod +x</code> on all hooks.</p>
+
+  <h2>E. session-start hook (SessionStart recap)</h2>
+
+  <p>See chapter 3 above.</p>
+
+  <h2>F. <code>security-auditor</code> sub-agent</h2>
+
+  <pre class="lang" data-lang=".claude/agents/security-auditor.md"><code>---
+name: security-auditor
+description: &gt;
+  READ-ONLY security audit. Use proactively when user says
+  "audit security", "GDPR", "check leaks", or before a public deployment.
+  Covers: auth, secrets, injection, XSS, PII exposure, OWASP Top 10,
+  basic GDPR compliance. Modifies no files.
+model: opus
+tools: Read, Grep, Glob, Bash, WebFetch, WebSearch
+---
+
+You are a SaaS app security auditor.
+
+## Checklist (run systematically)
+
+### 1. Auth &amp; sessions
+- User verified server-side before resource access?
+- Server actions / API routes scope to user_id?
+- Tokens in HttpOnly+Secure cookies? Refresh?
+
+### 2. Row-Level Security (if Postgres/Supabase)
+- For each sensitive table: policy "user only accesses own X"?
+- INSERT/UPDATE/DELETE policies present (not just SELECT)?
+- RLS enabled on ALL sensitive tables (otherwise = critical flaw)?
+
+### 3. Injection / Validation
+- User input inserted as-is in DB?
+- Server-side validation (Zod / Pydantic)?
+- File upload: mime/size limit, antivirus?
+
+### 4. XSS / CSRF
+- `dangerouslySetInnerHTML` justified?
+- External links: `rel="noopener noreferrer"`?
+
+### 5. Secrets &amp; exposure
+- `.env*` in `.gitignore`?
+- Hardcoded API keys? (`grep -r "sk-"`, `grep -r "API_KEY"`)
+- `NEXT_PUBLIC_*` contains only public data?
+
+### 6. GDPR (if EU users)
+- Consent collected? ToS / Privacy policy?
+- Export rights? Right to erasure? Cascade delete?
+
+### 7. Headers &amp; infra
+- HSTS, CSP, X-Content-Type-Options?
+
+## Output format
+For EACH finding:
+- **Severity**: 🔴 / 🟠 / 🟡 / 🟢
+- **File:line** or location (e.g. "users table")
+- **Risk**: concrete consequence
+- **Recommended fix**: code/SQL (don't apply)
+
+End with: Score /10 + Top 3 urgent actions.
+
+## Rules
+- Distinguish "blocking for public" vs "before scale".
+- If critical exploitable flaw → mention first.
+- Read-only strict. No automatic fixes.
+</code></pre>
+
+  <h2>G. Complete <code>/ship</code> slash command</h2>
+
+  <p>See chapter 5 above.</p>
+
+  <h2>"30 minutes to start" checklist</h2>
+
+  <table>
+    <thead><tr><th>Step</th><th>Action</th><th>Time</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>Install Claude Code (<code>curl -fsSL https://claude.ai/install.sh | bash</code> or Homebrew, or IDE extension)</td><td>2 min</td></tr>
+      <tr><td>2</td><td>Create <code>CLAUDE.md</code> at the root (template A)</td><td>10 min</td></tr>
+      <tr><td>3</td><td>Create <code>.claude/settings.json</code> with permissions (template B partial)</td><td>5 min</td></tr>
+      <tr><td>4</td><td>Update <code>.gitignore</code> (whitelist .claude/)</td><td>2 min</td></tr>
+      <tr><td>5</td><td>Test: ask Claude a question about the project stack</td><td>3 min</td></tr>
+      <tr><td>6</td><td>Optional: create defensive PreToolUse hook (template D)</td><td>8 min</td></tr>
+      <tr><td><strong>Total</strong></td><td colspan="2"><strong>≈ 30 minutes for a transformed Claude</strong></td></tr>
+    </tbody>
+  </table>
+
+  <p class="footnote">The Claude Code Handbook — Volume 1. Living document: V2 will add "shareable team plugins" and "CI/CD integration". Feedback welcome. Written so we stop wasting time re-explaining to Claude what we already told it yesterday.</p>
+</section>
+
+</body>
+</html>
