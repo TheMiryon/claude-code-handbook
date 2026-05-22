@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Le code du claudeur V2 — Un setup pro, étape par étape</title>
+  <title>Le code du claudeur V2, Un setup pro, étape par étape</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/css/print.css">
   <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
@@ -41,7 +41,7 @@
 
   <p>Si tu utilises Claude Code depuis plus de deux semaines, tu as sans doute remarqué un motif : les 10 premières minutes de chaque session sont consacrées à ré-expliquer ta stack, tes conventions, ce que tu as corrigé hier. Tu corriges les mêmes dérives encore et encore. Tu découvres que Claude a écrit une commande destructrice dans ton <code>.env</code>. Tu cesses de lui faire confiance pour quoi que ce soit de sérieux.</p>
 
-  <p>Rien de tout cela n'est la faute de Claude. C'est un artefact d'un LLM lancé sans contexte projet, sans garde-fous, sans mémoire. Ce manuel corrige ça — pas avec un framework ni une abstraction lourde, mais avec un petit ensemble de fichiers qui vivent dans ton repo et transforment Claude Code en collaborateur reproductible et opinionné.</p>
+  <p>Rien de tout cela n'est la faute de Claude. C'est un artefact d'un LLM lancé sans contexte projet, sans garde-fous, sans mémoire. Ce manuel corrige ça, pas avec un framework ni une abstraction lourde, mais avec un petit ensemble de fichiers qui vivent dans ton repo et transforment Claude Code en collaborateur reproductible et opinionné.</p>
 
   <p>À la fin du livre, tu auras :</p>
 
@@ -66,17 +66,17 @@
   <h2>Oui, c'est pour toi</h2>
 
   <ul>
-    <li><strong>Tu es développeur</strong> (toute stack, tout niveau) et tu utilises Claude Code au quotidien — ou veux le faire.</li>
-    <li><strong>Tu es un knowledge worker</strong> — rédacteur, chercheur, analyste — qui utilise Claude Code pour écrire, faire de la recherche, générer du contenu, et tu veux un setup stable et reproductible plutôt que de recommencer à chaque session.</li>
+    <li><strong>Tu es développeur</strong> (toute stack, tout niveau) et tu utilises Claude Code au quotidien, ou veux le faire.</li>
+    <li><strong>Tu es un knowledge worker</strong>, rédacteur, chercheur, analyste, qui utilise Claude Code pour écrire, faire de la recherche, générer du contenu, et tu veux un setup stable et reproductible plutôt que de recommencer à chaque session.</li>
     <li><strong>Tu es solo founder ou lead d'une petite équipe</strong> et tu veux multiplier ton output sans embaucher.</li>
-    <li><strong>Tu fais partie d'une équipe qui veut une baseline partagée et opinionnée</strong> pour que tout le monde configure Claude pareil — et que le setup lui-même soit reviewable en PR.</li>
-    <li><strong>Tu n'es pas natif anglais</strong> — tout le livre est en français avec la même profondeur, aucun raccourci.</li>
+    <li><strong>Tu fais partie d'une équipe qui veut une baseline partagée et opinionnée</strong> pour que tout le monde configure Claude pareil, et que le setup lui-même soit reviewable en PR.</li>
+    <li><strong>Tu n'es pas natif anglais</strong>, tout le livre est en français avec la même profondeur, aucun raccourci.</li>
   </ul>
 
   <h2>Ce livre n'est PAS pour toi (encore) si…</h2>
 
   <ul>
-    <li><strong>Tu n'as jamais ouvert un terminal.</strong> Commence par la doc officielle Anthropic — <code>code.claude.com/docs</code>. Reviens quand tu as installé Claude Code et eu une 1ère session.</li>
+    <li><strong>Tu n'as jamais ouvert un terminal.</strong> Commence par la doc officielle Anthropic, <code>code.claude.com/docs</code>. Reviens quand tu as installé Claude Code et eu une 1ère session.</li>
     <li><strong>Tu veux 500 pages de référence encyclopédique.</strong> Ici c'est 52 pages, lisibles en 2 heures. Si tu veux le format encyclopédie avec 181 templates de skills et 271 questions de quiz, le Ultimate Guide de Florian Bruniaux est excellent.</li>
     <li><strong>Tu attends que ce livre écrive du code <em>à ta place</em>.</strong> Ce livre parle de <em>configurer Claude Code</em>, pas de te remplacer par lui. Tu écriras toujours le code, les plans, les décisions. Claude sera juste plus utile, plus rapide, plus fiable.</li>
   </ul>
@@ -86,7 +86,7 @@
   <ul>
     <li>Un repo où chaque nouvelle session Claude Code charge ton contexte automatiquement, refuse les opérations destructrices, et se souvient de ce que tu lui as appris la semaine dernière.</li>
     <li>Une petite boîte à outils d'assistants spécialisés (sub-agents) à qui tu fais assez confiance pour déléguer.</li>
-    <li>Une discipline — planifier avant de coder, capter les leçons après — qui se compose dans le temps.</li>
+    <li>Une discipline, planifier avant de coder, capter les leçons après, qui se compose dans le temps.</li>
   </ul>
 
   <p class="muted small">Note sur le vocabulaire : ce livre utilise quelques termes spécifiques (hook, sub-agent, frontmatter, skill, MCP). Chacun est défini à sa première apparition et à nouveau dans le glossaire (Annexe F). Pas besoin de les apprendre avant ; continue.</p>
@@ -104,17 +104,17 @@
     </thead>
     <tbody>
       <tr><td>Novice sur Claude Code</td><td>Avant-propos → Partie I → Partie II → Annexe G (checklist)</td><td>Parties III, IV, V pour l'instant</td></tr>
-      <tr><td>À l'aise mais ad-hoc</td><td>Partie I (survol) → Partie II → Partie III en entier</td><td>—</td></tr>
-      <tr><td>Power user qui migre de V1</td><td>What's new (avant-propos) → Chap. 06 → 07 → 08 → 10 → 11 → étude de cas</td><td>—</td></tr>
+      <tr><td>À l'aise mais ad-hoc</td><td>Partie I (survol) → Partie II → Partie III en entier</td><td>-</td></tr>
+      <tr><td>Power user qui migre de V1</td><td>What's new (avant-propos) → Chap. 06 → 07 → 08 → 10 → 11 → étude de cas</td><td>-</td></tr>
     </tbody>
   </table>
 
   <h2>Conventions typographiques</h2>
 
   <ul>
-    <li><code>code dans le texte</code> — chemins de fichiers, commandes, noms de variables</li>
-    <li><strong>Gras</strong> — concepts introduits pour la première fois</li>
-    <li><em>Italique</em> — citations de l'interface utilisateur ou premier usage d'un terme externe</li>
+    <li><code>code dans le texte</code>, chemins de fichiers, commandes, noms de variables</li>
+    <li><strong>Gras</strong>, concepts introduits pour la première fois</li>
+    <li><em>Italique</em>, citations de l'interface utilisateur ou premier usage d'un terme externe</li>
   </ul>
 
   <h2>Badges de difficulté</h2>
@@ -144,7 +144,7 @@
 
   <aside class="callout callout-info">
     <div class="callout-title">Contexte</div>
-    <p>« Pourquoi » — sautable si tu nous fais confiance.</p>
+    <p>« Pourquoi », sautable si tu nous fais confiance.</p>
   </aside>
 </article>
 
@@ -153,29 +153,29 @@
   <h1 class="chapter-title"><span class="chapter-number">Sommaire</span>Où trouver quoi</h1>
 
   <ul class="toc-list">
-    <li class="toc-part"><span>Partie I — Fondations</span><span class="toc-page">9</span></li>
-    <li><span>00 — Choisir son interface</span><span class="toc-page">10</span></li>
-    <li><span>01 — Philosophie &amp; ROI</span><span class="toc-page">12</span></li>
+    <li class="toc-part"><span>Partie I, Fondations</span><span class="toc-page">9</span></li>
+    <li><span>00, Choisir son interface</span><span class="toc-page">10</span></li>
+    <li><span>01, Philosophie &amp; ROI</span><span class="toc-page">12</span></li>
 
-    <li class="toc-part"><span>Partie II — Setup de base</span><span class="toc-page">17</span></li>
-    <li><span>02 — Le setup minimum viable (30 min)</span><span class="toc-page">18</span></li>
-    <li><span>03 — Hooks</span><span class="toc-page">23</span></li>
+    <li class="toc-part"><span>Partie II, Setup de base</span><span class="toc-page">17</span></li>
+    <li><span>02, Le setup minimum viable (30 min)</span><span class="toc-page">18</span></li>
+    <li><span>03, Hooks</span><span class="toc-page">23</span></li>
 
-    <li class="toc-part"><span>Partie III — Configuration spécialisée</span><span class="toc-page">30</span></li>
-    <li><span>04 — Slash commands</span><span class="toc-page">31</span></li>
-    <li><span>05 — Sub-agents</span><span class="toc-page">34</span></li>
-    <li><span>06 — Skills (la bonne méthode)</span><span class="toc-page">40</span></li>
+    <li class="toc-part"><span>Partie III, Configuration spécialisée</span><span class="toc-page">30</span></li>
+    <li><span>04, Slash commands</span><span class="toc-page">31</span></li>
+    <li><span>05, Sub-agents</span><span class="toc-page">34</span></li>
+    <li><span>06, Skills (la bonne méthode)</span><span class="toc-page">40</span></li>
 
-    <li class="toc-part"><span>Partie IV — Workflow avancé</span><span class="toc-page">46</span></li>
-    <li><span>07 — Développement plan-first</span><span class="toc-page">47</span></li>
-    <li><span>08 — La boucle d'audit</span><span class="toc-page">50</span></li>
-    <li><span>09 — Mode Coach</span><span class="toc-page">53</span></li>
+    <li class="toc-part"><span>Partie IV, Workflow avancé</span><span class="toc-page">46</span></li>
+    <li><span>07, Développement plan-first</span><span class="toc-page">47</span></li>
+    <li><span>08, La boucle d'audit</span><span class="toc-page">50</span></li>
+    <li><span>09, Mode Coach</span><span class="toc-page">53</span></li>
 
-    <li class="toc-part"><span>Partie V — Pour aller plus loin</span><span class="toc-page">56</span></li>
-    <li><span>10 — Worktrees parallèles</span><span class="toc-page">57</span></li>
-    <li><span>11 — La matrice mémoire</span><span class="toc-page">59</span></li>
-    <li><span>12 — MCP — connecter à l'extérieur</span><span class="toc-page">62</span></li>
-    <li><span>13 — Maintenance long-terme</span><span class="toc-page">65</span></li>
+    <li class="toc-part"><span>Partie V, Pour aller plus loin</span><span class="toc-page">56</span></li>
+    <li><span>10, Worktrees parallèles</span><span class="toc-page">57</span></li>
+    <li><span>11, La matrice mémoire</span><span class="toc-page">59</span></li>
+    <li><span>12, MCP, connecter à l'extérieur</span><span class="toc-page">62</span></li>
+    <li><span>13, Maintenance long-terme</span><span class="toc-page">65</span></li>
 
     <li class="toc-part"><span>Annexes</span><span class="toc-page">67</span></li>
     <li><span>A. CLAUDE.md universel</span><span class="toc-page">68</span></li>
@@ -206,18 +206,18 @@ INSTRUCTIONS POUR LA TRADUCTION FR :
    en entier depuis EN.
 -->
 
-<!-- ===== PARTIE I — couverture ===== -->
+<!-- ===== PARTIE I, couverture ===== -->
 <section class="part-cover">
   <div class="part-number">Partie I</div>
   <h1 class="part-title">Fondations.</h1>
   <p class="part-desc">Pourquoi un Claude Code configuré bat un improvisé. Les 3 principes. Ce que le setup t'apporte, et ce qu'il n'apporte pas.</p>
 </section>
 
-<!-- Chapitre 00 — à compléter -->
+<!-- Chapitre 00, à compléter -->
 <article class="chapter">
   <h1 class="chapter-title"><span class="chapter-number">Chapitre 00 <span class="badge badge-beginner">DÉBUTANT</span></span>Choisir son interface</h1>
 
-  <p>Avant de configurer quoi que ce soit, sache où tu vas l'installer. Toutes les surfaces Claude Code supportent les mêmes mécanismes — mais Claude Code reste distinct du produit Claude.ai (chat).</p>
+  <p>Avant de configurer quoi que ce soit, sache où tu vas l'installer. Toutes les surfaces Claude Code supportent les mêmes mécanismes, mais Claude Code reste distinct du produit Claude.ai (chat).</p>
 
   <h2>Les 6 surfaces officielles Claude Code</h2>
 
@@ -237,7 +237,7 @@ INSTRUCTIONS POUR LA TRADUCTION FR :
 
   <aside class="callout callout-tip">
     <div class="callout-title">Le moteur est partagé</div>
-    <p>Chaque surface se connecte au même moteur Claude Code. Ton <code>CLAUDE.md</code>, tes hooks, tes sub-agents, ton <code>.mcp.json</code> — tout marche partout. Tu démarres une tâche dans le terminal, tu la reprends sur ton tel.</p>
+    <p>Chaque surface se connecte au même moteur Claude Code. Ton <code>CLAUDE.md</code>, tes hooks, tes sub-agents, ton <code>.mcp.json</code>, tout marche partout. Tu démarres une tâche dans le terminal, tu la reprends sur ton tel.</p>
   </aside>
 
   <h2>Recommandation par profil</h2>
@@ -285,17 +285,17 @@ INSTRUCTIONS POUR LA TRADUCTION FR :
   <h2>Les 3 principes</h2>
 
   <aside class="callout callout-tip">
-    <div class="callout-title">Principe 1 — Capter le contexte</div>
+    <div class="callout-title">Principe 1, Capter le contexte</div>
     <p>Stack, conventions, gotchas, structure du projet → <code>CLAUDE.md</code>. Claude le lit à chaque session, automatiquement. Tu n'as plus à expliquer « on est en Next.js 16 ».</p>
   </aside>
 
   <aside class="callout callout-tip">
-    <div class="callout-title">Principe 2 — Déterminiser l'automatisable</div>
+    <div class="callout-title">Principe 2, Déterminiser l'automatisable</div>
     <p>Auto-format après chaque édition, log des commandes, rappels en début de session → <strong>hooks</strong>. Ce sont des scripts (bash, Python) qui tournent sur des événements. Zéro token, zéro friction.</p>
   </aside>
 
   <aside class="callout callout-tip">
-    <div class="callout-title">Principe 3 — Spécialiser les rôles</div>
+    <div class="callout-title">Principe 3, Spécialiser les rôles</div>
     <p>Audit sécu, validation de formules, scaffold de composant → <strong>sub-agents</strong>. Chaque sub-agent a son contexte, son modèle, ses outils. Tu lances un audit sécu sans polluer la session principale.</p>
   </aside>
 
@@ -351,7 +351,7 @@ INSTRUCTIONS POUR LA TRADUCTION FR :
 
   <p>Selon ton OS et ta surface :</p>
 
-  <pre data-lang="bash"># macOS, Linux, WSL — installation native (recommandée, auto-update)
+  <pre data-lang="bash"># macOS, Linux, WSL, installation native (recommandée, auto-update)
 curl -fsSL https://claude.ai/install.sh | bash
 
 # Windows PowerShell
@@ -386,9 +386,9 @@ Description en 1 phrase de ce que fait le projet.
 - Déploiement : &lt;Vercel | Fly.io | Railway | ...&gt;
 
 ## Commandes utiles
-- `&lt;commande dev&gt;` — lancer le serveur local
-- `&lt;commande verify&gt;` — type-check avant push
-- `&lt;commande test&gt;` — lancer la suite de tests
+- `&lt;commande dev&gt;`, lancer le serveur local
+- `&lt;commande verify&gt;`, type-check avant push
+- `&lt;commande test&gt;`, lancer la suite de tests
 
 ## Conventions
 - &lt;Règle de nommage&gt; (ex : camelCase JS, kebab-case fichiers)
@@ -444,7 +444,7 @@ Description en 1 phrase de ce que fait le projet.
 
   <p>Tu veux versionner les fichiers d'équipe mais pas les logs locaux :</p>
 
-  <pre data-lang="gitignore"># Claude Code — versionner agents/commands/hooks/settings.json,
+  <pre data-lang="gitignore"># Claude Code, versionner agents/commands/hooks/settings.json,
 # mais pas les logs ni les overrides perso
 .claude/*
 !.claude/agents/
@@ -477,7 +477,7 @@ Description en 1 phrase de ce que fait le projet.
     <li>Le repo est prêt pour les niveaux suivants.</li>
   </ul>
 
-  <h2 id="checkpoint-screenshot">Checkpoint — à quoi ressemble une session bien configurée <small class="muted">(nouveau en V2)</small></h2>
+  <h2 id="checkpoint-screenshot">Checkpoint, à quoi ressemble une session bien configurée <small class="muted">(nouveau en V2)</small></h2>
 
   <p>Après avoir lancé <code>claude</code> dans un repo fraîchement configuré, tu devrais voir quelque chose comme :</p>
 
@@ -514,7 +514,7 @@ Description en 1 phrase de ce que fait le projet.
     </tbody>
   </table>
 
-  <h2>Hook #1 — PostToolUse : auto-format après chaque écriture</h2>
+  <h2>Hook #1, PostToolUse : auto-format après chaque écriture</h2>
 
   <p>Crée <code>.claude/hooks/post-edit-format.sh</code> :</p>
 
@@ -538,7 +538,7 @@ exit 0</pre>
 
   <p>N'oublie pas <code>chmod +x .claude/hooks/post-edit-format.sh</code>.</p>
 
-  <h2>Hook #2 — PreToolUse : garde-fou défensif</h2>
+  <h2>Hook #2, PreToolUse : garde-fou défensif</h2>
 
   <p>Ce hook est <strong>le plus important</strong>. Il bloque les commandes destructrices avant qu'elles ne tournent. Crée <code>.claude/hooks/pre-tool-guard.sh</code> :</p>
 
@@ -576,9 +576,9 @@ fi
 
 exit 0</pre>
 
-  <h2>Hook #3 — SessionStart : récap projet</h2>
+  <h2>Hook #3, SessionStart : récap projet</h2>
 
-  <p>À l'ouverture d'une session, affiche l'état du projet en 5 lignes. Crée <code>.claude/hooks/session-start.sh</code> (cf. version EN — identique sauf strings d'affichage).</p>
+  <p>À l'ouverture d'une session, affiche l'état du projet en 5 lignes. Crée <code>.claude/hooks/session-start.sh</code> (cf. version EN, identique sauf strings d'affichage).</p>
 
   <h2>Activer les hooks dans <code>settings.json</code></h2>
 
@@ -605,7 +605,7 @@ exit 0</pre>
 
   <aside class="callout callout-warning">
     <div class="callout-title">Pré-requis</div>
-    <p>Les hooks bash ci-dessus utilisent <code>jq</code> pour parser le payload JSON. Installe-le si tu ne l'as pas : <code>brew install jq</code> (macOS) ou <code>apt install jq</code> (Linux). Sinon, écris les hooks en Python — équivalent en 5 lignes avec <code>json.load(sys.stdin)</code>.</p>
+    <p>Les hooks bash ci-dessus utilisent <code>jq</code> pour parser le payload JSON. Installe-le si tu ne l'as pas : <code>brew install jq</code> (macOS) ou <code>apt install jq</code> (Linux). Sinon, écris les hooks en Python, équivalent en 5 lignes avec <code>json.load(sys.stdin)</code>.</p>
   </aside>
 
   <h2>Tester un hook sans redémarrer la session</h2>
@@ -618,7 +618,7 @@ echo "Exit code: $?"
 
   <aside class="callout callout-tip">
     <div class="callout-title">Performance</div>
-    <p>Un hook doit tourner en <strong>moins de 200 ms</strong>. Au-delà, tu sentiras la friction. Si ton hook fait des appels réseau ou lance un linter lourd, marque-le <code>"async": true</code> dans la config — il tournera en arrière-plan sans bloquer.</p>
+    <p>Un hook doit tourner en <strong>moins de 200 ms</strong>. Au-delà, tu sentiras la friction. Si ton hook fait des appels réseau ou lance un linter lourd, marque-le <code>"async": true</code> dans la config, il tournera en arrière-plan sans bloquer.</p>
   </aside>
 
   <h2 id="hook-debug">Debug d'un hook silencieux <small class="muted">(nouveau en V2)</small></h2>
@@ -626,7 +626,7 @@ echo "Exit code: $?"
   <p>Le bug le plus fréquent c'est « le hook ne fait rien ». Trois diagnostics rapides avant de fouiller le script :</p>
 
   <ol>
-    <li><strong>Est-il exécutable ?</strong> <code>ls -la .claude/hooks/</code> — chaque <code>.sh</code> doit avoir le bit <code>x</code>. <code>chmod +x .claude/hooks/*.sh</code>.</li>
+    <li><strong>Est-il exécutable ?</strong> <code>ls -la .claude/hooks/</code>, chaque <code>.sh</code> doit avoir le bit <code>x</code>. <code>chmod +x .claude/hooks/*.sh</code>.</li>
     <li><strong>Est-il branché dans settings.json ?</strong> Vérifie que le <code>matcher</code> et le <code>command</code> path matchent. Une typo dans le path échoue silencieusement.</li>
     <li><strong>Quel input voit-il ?</strong> Ajoute <code>cat > /tmp/hook-debug.json</code> en haut du script pour capturer le JSON réel envoyé par Claude Code. Inspecte, puis retire.</li>
   </ol>
@@ -646,12 +646,12 @@ echo "Exit code: $?"
 
   <aside class="callout callout-warning">
     <div class="callout-title">Fusion skills + commands</div>
-    <p>« Custom commands » et « skills » sont désormais <strong>fusionnés</strong> dans Claude Code. Un fichier <code>.claude/commands/deploy.md</code> et une skill <code>.claude/skills/deploy/SKILL.md</code> créent tous les deux <code>/deploy</code>. Les fichiers <code>.claude/commands/</code> existants continuent de marcher (rétro-compat). Le chemin moderne recommandé est <code>.claude/skills/</code> — il débloque les fichiers compagnons, le contrôle d'invocation, et le chargement automatique. Le chapitre 06 détaille le dossier skill.</p>
+    <p>« Custom commands » et « skills » sont désormais <strong>fusionnés</strong> dans Claude Code. Un fichier <code>.claude/commands/deploy.md</code> et une skill <code>.claude/skills/deploy/SKILL.md</code> créent tous les deux <code>/deploy</code>. Les fichiers <code>.claude/commands/</code> existants continuent de marcher (rétro-compat). Le chemin moderne recommandé est <code>.claude/skills/</code>, il débloque les fichiers compagnons, le contrôle d'invocation, et le chargement automatique. Le chapitre 06 détaille le dossier skill.</p>
   </aside>
 
   <h2>Deux façons de créer une commande</h2>
 
-  <h3>Chemin A — Simple : <code>.claude/commands/&lt;nom&gt;.md</code></h3>
+  <h3>Chemin A, Simple : <code>.claude/commands/&lt;nom&gt;.md</code></h3>
 
   <p>Un seul fichier markdown avec frontmatter + instructions. Couvre 90 % des cas.</p>
 
@@ -660,7 +660,7 @@ description: "Verify + commit + push en 1 commande"
 argument-hint: "&lt;message de commit&gt;"
 ---
 
-# /ship — Verify, commit &amp; push
+# /ship, Verify, commit &amp; push
 
 ## Procédure
 
@@ -690,23 +690,23 @@ Affiche le SHA, le message, le résumé insertions/deletions.
 - **Jamais** de force-push sans confirmation explicite.
 - Si le push échoue (rejected) : pull `--no-rebase`, résoudre, re-push.</pre>
 
-  <h3>Chemin B — Puissant : <code>.claude/skills/&lt;nom&gt;/SKILL.md</code></h3>
+  <h3>Chemin B, Puissant : <code>.claude/skills/&lt;nom&gt;/SKILL.md</code></h3>
 
-  <p>Un dossier dédié avec un <code>SKILL.md</code> + fichiers compagnons (scripts, références). Mieux quand le workflow utilise des scripts bundlés ou de la doc détaillée. Le chapitre 06 détaille la discipline du dossier skill — la même s'applique ici.</p>
+  <p>Un dossier dédié avec un <code>SKILL.md</code> + fichiers compagnons (scripts, références). Mieux quand le workflow utilise des scripts bundlés ou de la doc détaillée. Le chapitre 06 détaille la discipline du dossier skill, la même s'applique ici.</p>
 
   <h2>3 commandes à coder en semaine 3</h2>
 
-  <h3><code>/ship "&lt;message&gt;"</code> — deploy en 1 ligne</h3>
+  <h3><code>/ship "&lt;message&gt;"</code>, deploy en 1 ligne</h3>
 
   <p>Template ci-dessus. C'est <strong>la commande la plus utile</strong>. Remplace ta routine commit/push manuelle et garantit que le typecheck passe.</p>
 
-  <h3><code>/audit-quick</code> — audit code + sécu en parallèle</h3>
+  <h3><code>/audit-quick</code>, audit code + sécu en parallèle</h3>
 
   <pre data-lang="markdown">---
 description: "Audit rapide : code + sécu en parallèle, rapport synthétisé"
 ---
 
-# /audit-quick — Audit pré-release
+# /audit-quick, Audit pré-release
 
 Lance ces 2 agents EN PARALLÈLE (même message, plusieurs tool calls) :
 
@@ -725,7 +725,7 @@ Quand les deux finissent, présente un rapport unifié :
 
 Termine par UNE recommandation prioritaire.</pre>
 
-  <h3><code>/standup</code> — récap quotidien</h3>
+  <h3><code>/standup</code>, récap quotidien</h3>
 
   <pre data-lang="markdown">---
 description: "Récap matinal : commits 24h, WIP, focus suggéré"
@@ -750,7 +750,7 @@ Termine par une question : « On attaque le focus #1 ou autre chose ? »</pre>
 
   <aside class="callout callout-tip">
     <div class="callout-title">Désambiguïsation</div>
-    <p>Crée un fichier <code>.claude/COMMANDS.md</code> (hors du dossier <code>commands/</code> — le mettre dedans créerait une commande <code>/COMMANDS</code>) qui liste toutes tes commandes avec une table « Je veux X → commande Y ». Gain de temps quand tu as 10+ commandes.</p>
+    <p>Crée un fichier <code>.claude/COMMANDS.md</code> (hors du dossier <code>commands/</code>, le mettre dedans créerait une commande <code>/COMMANDS</code>) qui liste toutes tes commandes avec une table « Je veux X → commande Y ». Gain de temps quand tu as 10+ commandes.</p>
   </aside>
 
   <aside class="callout callout-danger">
@@ -788,10 +788,10 @@ Termine par une question : « On attaque le focus #1 ou autre chose ? »</pre>
   <h2>Pourquoi diviser plutôt que tout faire en un</h2>
 
   <ol>
-    <li><strong>Contexte préservé</strong> — chaque agent démarre avec un contexte propre, ne pollue pas la session principale.</li>
-    <li><strong>Périmètre restreint</strong> — un agent d'audit n'a pas d'outils Write/Edit. Il <em>ne peut pas</em> casser le code.</li>
-    <li><strong>Modèle adapté</strong> — un audit complexe utilise <code>opus</code>, une classification rapide <code>haiku</code>. Tu optimises le coût.</li>
-    <li><strong>Spécialisation</strong> — l'agent sécu connaît OWASP ; l'agent métier connaît tes conventions. Pas mélangés.</li>
+    <li><strong>Contexte préservé</strong>, chaque agent démarre avec un contexte propre, ne pollue pas la session principale.</li>
+    <li><strong>Périmètre restreint</strong>, un agent d'audit n'a pas d'outils Write/Edit. Il <em>ne peut pas</em> casser le code.</li>
+    <li><strong>Modèle adapté</strong>, un audit complexe utilise <code>opus</code>, une classification rapide <code>haiku</code>. Tu optimises le coût.</li>
+    <li><strong>Spécialisation</strong>, l'agent sécu connaît OWASP ; l'agent métier connaît tes conventions. Pas mélangés.</li>
   </ol>
 
   <h2>Anatomie d'un agent</h2>
@@ -804,7 +804,7 @@ description: &gt;
   Audit READ-ONLY de qualité de code. Use proactively quand l'utilisateur
   dit "audite le code", "review", ou avant un gros refactor.
   Détecte : code mort, duplication, complexité, anti-patterns, `any`
-  injustifiés. Ne modifie AUCUN fichier — produit un rapport structuré.
+  injustifiés. Ne modifie AUCUN fichier, produit un rapport structuré.
 model: opus
 tools: Read, Grep, Glob, Bash, WebFetch
 ---
@@ -844,7 +844,7 @@ Termine par : Score /10 + Top 3 actions prioritaires.
     <thead><tr><th>Modèle</th><th>Quand</th></tr></thead>
     <tbody>
       <tr><td><code>haiku</code></td><td>Classification, triage rapide, exploration de codebase, tâches répétitives</td></tr>
-      <tr><td><code>sonnet</code></td><td>Génération de code, audits standards, contenu structuré — le défaut raisonnable</td></tr>
+      <tr><td><code>sonnet</code></td><td>Génération de code, audits standards, contenu structuré, le défaut raisonnable</td></tr>
       <tr><td><code>opus</code></td><td>Audits complexes (sécu, DB, archi), raisonnement long, décisions stratégiques</td></tr>
     </tbody>
   </table>
@@ -858,10 +858,10 @@ Termine par : Score /10 + Top 3 actions prioritaires.
   <table>
     <thead><tr><th>Type d'agent</th><th>Outils</th></tr></thead>
     <tbody>
-      <tr><td>Agent d'audit (read-only)</td><td><code>Read, Grep, Glob, Bash, WebFetch, WebSearch</code> — pas de Write/Edit</td></tr>
-      <tr><td>Agent qui crée du code</td><td><code>Read, Write, Edit, Bash, Glob</code> — Bash si besoin (tests)</td></tr>
-      <tr><td>Agent qui écrit du contenu</td><td><code>Read, Write, Edit, Grep, WebFetch, WebSearch</code> — pas de Bash</td></tr>
-      <tr><td>Agent de classification</td><td><code>Read, Grep, Glob</code> — minimaliste, modèle <code>haiku</code></td></tr>
+      <tr><td>Agent d'audit (read-only)</td><td><code>Read, Grep, Glob, Bash, WebFetch, WebSearch</code>, pas de Write/Edit</td></tr>
+      <tr><td>Agent qui crée du code</td><td><code>Read, Write, Edit, Bash, Glob</code>, Bash si besoin (tests)</td></tr>
+      <tr><td>Agent qui écrit du contenu</td><td><code>Read, Write, Edit, Grep, WebFetch, WebSearch</code>, pas de Bash</td></tr>
+      <tr><td>Agent de classification</td><td><code>Read, Grep, Glob</code>, minimaliste, modèle <code>haiku</code></td></tr>
     </tbody>
   </table>
 
@@ -875,9 +875,9 @@ Termine par : Score /10 + Top 3 actions prioritaires.
   <p>Démarre avec ces 3 agents qui couvrent 80 % des cas :</p>
 
   <ol>
-    <li><code>code-auditor</code> — audit qualité (template ci-dessus)</li>
-    <li><code>security-auditor</code> — RLS, secrets, OWASP, RGPD (cf. Annexe D)</li>
-    <li><code>qa-tester</code> — flows utilisateur bout en bout après un gros changement</li>
+    <li><code>code-auditor</code>, audit qualité (template ci-dessus)</li>
+    <li><code>security-auditor</code>, RLS, secrets, OWASP, RGPD (cf. Annexe D)</li>
+    <li><code>qa-tester</code>, flows utilisateur bout en bout après un gros changement</li>
   </ol>
 
   <p>Ajoute-en plus quand tu identifies un besoin <em>récurrent</em>.</p>
@@ -885,9 +885,9 @@ Termine par : Score /10 + Top 3 actions prioritaires.
   <h2>Invoquer un sub-agent</h2>
 
   <ul>
-    <li><strong>Automatique</strong> — Claude lit la <code>description</code> et déclenche l'agent quand le pattern match.</li>
-    <li><strong>Explicite</strong> — l'utilisateur dit <em>« Lance security-auditor sur les server actions de la semaine »</em>.</li>
-    <li><strong>Via une slash command</strong> — qui wrap l'invocation avec du contexte pré-formaté (cf. Chapitre 04).</li>
+    <li><strong>Automatique</strong>, Claude lit la <code>description</code> et déclenche l'agent quand le pattern match.</li>
+    <li><strong>Explicite</strong>, l'utilisateur dit <em>« Lance security-auditor sur les server actions de la semaine »</em>.</li>
+    <li><strong>Via une slash command</strong>, qui wrap l'invocation avec du contexte pré-formaté (cf. Chapitre 04).</li>
   </ul>
 
   <aside class="callout callout-tip">
@@ -920,7 +920,7 @@ PAS les fichiers.</pre>
   <p>Le pattern : <strong>ce que ça fait</strong> + <strong>« Use proactively quand… »</strong> avec phrases déclencheurs concrètes + <strong>ce que ça produit</strong> + <strong>ce que ça ne fait pas</strong>. La dernière partie compte : elle dit à Claude quand <em>ne pas</em> invoquer cet agent.</p>
 </article>
 
-<!-- ===== CHAPITRE 06 — TRADUIT EN ENTIER COMME RÉFÉRENCE ===== -->
+<!-- ===== CHAPITRE 06, TRADUIT EN ENTIER COMME RÉFÉRENCE ===== -->
 <article class="chapter">
   <h1 class="chapter-title"><span class="chapter-number">Chapitre 06 <span class="badge badge-intermediate">INTERMÉDIAIRE</span></span>Skills (la bonne méthode)</h1>
 
@@ -974,7 +974,7 @@ graph LR
 
   <p>La convention de nommage <code>&lt;préfixe&gt;-&lt;sujet&gt;.md</code> compte : ça permet de parcourir la skill alphabétiquement et de grouper par catégorie. Les trois fichiers à underscore (<code>_sections</code>, <code>_template</code>, <code>_contributing</code>) sont du scaffolding, pas des règles.</p>
 
-  <h2>SKILL.md — le point d'entrée</h2>
+  <h2>SKILL.md, le point d'entrée</h2>
 
   <p>Frontmatter minimum :</p>
 
@@ -993,9 +993,9 @@ metadata:
     catégories.
 ---</pre>
 
-  <p>Le corps de <code>SKILL.md</code> explique ensuite <em>quand appliquer</em> la skill et <em>comment utiliser</em> le dossier references/. Deux sections — c'est tout. Ne mets pas les règles dans <code>SKILL.md</code> ; mets-les dans <code>references/</code>.</p>
+  <p>Le corps de <code>SKILL.md</code> explique ensuite <em>quand appliquer</em> la skill et <em>comment utiliser</em> le dossier references/. Deux sections, c'est tout. Ne mets pas les règles dans <code>SKILL.md</code> ; mets-les dans <code>references/</code>.</p>
 
-  <h2>Un fichier de référence — le pattern Incorrect → Correct</h2>
+  <h2>Un fichier de référence, le pattern Incorrect → Correct</h2>
 
   <p>Chaque fichier de règle suit la même structure : 1–2 phrases pour expliquer pourquoi ça compte, puis la version <strong>Incorrect</strong> (le piège), puis la version <strong>Correct</strong>. Exemple concret, depuis <code>references/format-type-required.md</code> :</p>
 
@@ -1041,9 +1041,9 @@ la description est à l'impératif présent.
   <p>Remarque la discipline :</p>
 
   <ul>
-    <li>Le frontmatter déclare <code>impact</code> et <code>impactDescription</code> — Claude peut prioriser quand plusieurs règles s'appliquent.</li>
+    <li>Le frontmatter déclare <code>impact</code> et <code>impactDescription</code>, Claude peut prioriser quand plusieurs règles s'appliquent.</li>
     <li>Le titre est action-oriented (« doit commencer par un type »), pas abstrait (« sur les types »).</li>
-    <li>Incorrect vient <em>avant</em> Correct — ça entraîne le lecteur à reconnaître l'anti-pattern sur le terrain.</li>
+    <li>Incorrect vient <em>avant</em> Correct, ça entraîne le lecteur à reconnaître l'anti-pattern sur le terrain.</li>
     <li>Les cas particuliers sont listés. Ne laisse pas le lecteur deviner.</li>
   </ul>
 
@@ -1069,11 +1069,11 @@ plutôt que de réécrire la règle. La skill fait foi.</pre>
   <aside class="callout callout-danger">
     <div class="callout-title">Ne fais pas ça</div>
     <ul>
-      <li><strong>Skills orphelines</strong> — un dossier skill qu'aucun agent ne référence. La skill n'est jamais chargée ; les règles dérivent. Détecté par l'audit mensuel (chapitre 13).</li>
-      <li><strong>Règle dupliquée dans le prompt d'un agent ET la skill</strong> — la prochaine fois que quelqu'un en met à jour une, l'autre dérive silencieusement. Choisis un seul lieu.</li>
-      <li><strong>Skill sans <code>_sections.md</code></strong> — les références ne sont pas groupées, la skill devient un dépotoir plat.</li>
-      <li><strong>Règles sans exemple « Incorrect »</strong> — le lecteur doit deviner à quoi ressemble l'anti-pattern. Toujours le montrer.</li>
-      <li><strong>Un fichier de règle géant</strong> — si un fichier dépasse 2 pages, splitte. Une règle, un fichier.</li>
+      <li><strong>Skills orphelines</strong>, un dossier skill qu'aucun agent ne référence. La skill n'est jamais chargée ; les règles dérivent. Détecté par l'audit mensuel (chapitre 13).</li>
+      <li><strong>Règle dupliquée dans le prompt d'un agent ET la skill</strong>, la prochaine fois que quelqu'un en met à jour une, l'autre dérive silencieusement. Choisis un seul lieu.</li>
+      <li><strong>Skill sans <code>_sections.md</code></strong>, les références ne sont pas groupées, la skill devient un dépotoir plat.</li>
+      <li><strong>Règles sans exemple « Incorrect »</strong>, le lecteur doit deviner à quoi ressemble l'anti-pattern. Toujours le montrer.</li>
+      <li><strong>Un fichier de règle géant</strong>, si un fichier dépasse 2 pages, splitte. Une règle, un fichier.</li>
     </ul>
   </aside>
 
@@ -1121,7 +1121,7 @@ graph TB
     style Step5 fill:#dcfce7,stroke:#15803d,stroke-width:2px
     style Rethink fill:#fee2e2,stroke:#b91c1c
     </pre>
-    <figcaption>Le pipeline /new-feature. L'étape 1.5 — plan-reviewer — est le checkpoint le moins cher et le plus rentable de toute la boucle.</figcaption>
+    <figcaption>Le pipeline /new-feature. L'étape 1.5, plan-reviewer, est le checkpoint le moins cher et le plus rentable de toute la boucle.</figcaption>
   </figure>
 
   <p>La façon la plus rapide de gâcher un après-midi avec Claude Code est de taper « construis la feature X » et de le laisser faire. Même si le résultat semble raisonnable, tu découvriras souvent au fichier #6 que l'architecture était fausse dès le fichier #2. Le développement plan-first inverse la boucle : <strong>écris le plan dans un fichier markdown, fais-le relire, puis code</strong>. Coût : 30 secondes en amont. Gain : éviter le refacto d'1 heure.</p>
@@ -1137,29 +1137,29 @@ description: "Pipeline orchestré pour tout chantier conséquent : plan → revi
 argument-hint: "&lt;description courte de la feature&gt;"
 ---
 
-# /new-feature — Pipeline guidé
+# /new-feature, Pipeline guidé
 
 À utiliser quand le chantier touche **≥ 3 fichiers**, OU un module
 critique (paiements, auth, calculs), OU une migration DB, OU une
 feature transversale. Pour un fix d'un fichier, fais l'Edit direct.
 
-## Étape 0 — Capture du scope
+## Étape 0, Capture du scope
 
 Reformule `$ARGUMENTS` en 1-2 lignes. Attends confirmation explicite.
 
-## Étape 1 — Écris le plan
+## Étape 1, Écris le plan
 
 Crée `PLAN_&lt;slug&gt;.md` à la racine avec cette structure :
 
 ```
-# Plan — &lt;titre&gt;
+# Plan, &lt;titre&gt;
 
 ## Scope
 - Une phrase : ce qui sera livré.
 - Hors scope : ce qu'on NE fait PAS.
 
 ## Fichiers à créer / modifier
-- `chemin/du/fichier.ts` — créer / modifier — rôle
+- `chemin/du/fichier.ts`, créer / modifier, rôle
 
 ## Dépendances entre fichiers
 1. A doit précéder B parce que…
@@ -1173,34 +1173,34 @@ Crée `PLAN_&lt;slug&gt;.md` à la racine avec cette structure :
 - Variantes : [si applicable]
 ```
 
-## Étape 1.5 — Plan review (invoque l'agent plan-reviewer)
+## Étape 1.5, Plan review (invoque l'agent plan-reviewer)
 
 Passe le plan à `plan-reviewer`. Affiche son verdict à l'utilisateur
 (🟢 GO / 🟡 GO avec ajustements / 🔴 STOP).
 
 **N'écris aucun code avant que l'utilisateur dise « go ».**
 
-## Étape 2 — Implémente, fichier par fichier, dans l'ordre des dépendances
+## Étape 2, Implémente, fichier par fichier, dans l'ordre des dépendances
 
 Après chaque fichier, lance ton verify (typecheck + tests).
 STOP au moindre rouge ; n'empile jamais les erreurs.
 
-## Étape 3 — Verify final
+## Étape 3, Verify final
 
 Si rouge, STOP et montre les erreurs. Ne lance pas les audits.
 
-## Étape 4 — Audits ciblés en parallèle
+## Étape 4, Audits ciblés en parallèle
 
 Selon ce qui a été touché, invoque 2-3 agents en parallèle
 (qa-tester toujours, plus sécu/db/design selon le cas).
 
-## Étape 5 — Synthèse
+## Étape 5, Synthèse
 
 Rapport unifié. Suggère /ship si pas de findings 🔴.</pre>
 
   <h2>L'agent plan-reviewer</h2>
 
-  <p>L'étape cruciale est la 1.5 — une 2e instance Claude, en mode « staff engineer », relit le plan écrit par la 1ère. Crée <code>.claude/agents/plan-reviewer.md</code> :</p>
+  <p>L'étape cruciale est la 1.5, une 2e instance Claude, en mode « staff engineer », relit le plan écrit par la 1ère. Crée <code>.claude/agents/plan-reviewer.md</code> :</p>
 
   <pre data-lang="yaml">---
 name: plan-reviewer
@@ -1236,7 +1236,7 @@ tools: Read, Grep, Glob, Bash
     <div class="callout-title">TL;DR</div>
     <ul>
       <li>Un hook te nudge après chaque commit <em>significatif</em> : « extraire une leçon ? »</li>
-      <li>La commande <code>/extract-lesson</code> pin 1-3 leçons dans <code>CLAUDE.md</code> — versionné, survit aux re-clones.</li>
+      <li>La commande <code>/extract-lesson</code> pin 1-3 leçons dans <code>CLAUDE.md</code>, versionné, survit aux re-clones.</li>
       <li>Remplace les memories locales (perdues au changement de machine) par du savoir track dans Git.</li>
     </ul>
   </aside>
@@ -1259,22 +1259,22 @@ graph LR
     <figcaption>La boucle : un commit déclenche un nudge ; tu décides si ça vaut la peine ; si oui, la leçon atterrit dans du markdown versionné.</figcaption>
   </figure>
 
-  <p>Chaque fois que Claude fait une erreur — ou prend une bonne décision non-évidente — c'est une opportunité de capturer une leçon. La boucle d'audit est la discipline qui consiste à <strong>transformer ce moment en une ligne versionnée dans ton repo</strong> pour que la même leçon soit chargée à la prochaine session, le mois prochain, et au prochain reclone.</p>
+  <p>Chaque fois que Claude fait une erreur, ou prend une bonne décision non-évidente, c'est une opportunité de capturer une leçon. La boucle d'audit est la discipline qui consiste à <strong>transformer ce moment en une ligne versionnée dans ton repo</strong> pour que la même leçon soit chargée à la prochaine session, le mois prochain, et au prochain reclone.</p>
 
   <h2>Pourquoi les memories locales ne suffisent pas</h2>
 
-  <p>Claude Code stocke les user memories dans <code>~/.claude/projects/&lt;projet&gt;/memory/</code>. Elles survivent entre sessions sur la même machine — mais pas entre machines, pas entre collaborateurs, pas après un wipe. Tout ce que tu veux voir se composer dans le temps doit atterrir dans des fichiers <strong>versionnés Git</strong>.</p>
+  <p>Claude Code stocke les user memories dans <code>~/.claude/projects/&lt;projet&gt;/memory/</code>. Elles survivent entre sessions sur la même machine, mais pas entre machines, pas entre collaborateurs, pas après un wipe. Tout ce que tu veux voir se composer dans le temps doit atterrir dans des fichiers <strong>versionnés Git</strong>.</p>
 
   <h2>Le workflow /extract-lesson</h2>
 
   <p>Deux pièces le branchent : un hook qui <em>remarque</em> un commit significatif, et une slash command qui <em>extrait</em> la leçon.</p>
 
-  <h3>Le hook — extract-lesson.sh</h3>
+  <h3>Le hook, extract-lesson.sh</h3>
 
   <p>Déclenché sur <code>PostToolUse: Bash</code>, le hook filtre sur les <code>git commit</code> et vérifie si le commit est « significatif » (match <code>feat/fix/refactor</code>, OU touche 3+ fichiers, OU touche une zone sensible comme <code>src/auth/</code> ou les migrations). Si oui, il imprime un nudge d'une ligne sur stderr :</p>
 
   <pre data-lang="terminal">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  💡 Commit significatif détecté (a3b1f0) — extraire une leçon ?
+  💡 Commit significatif détecté (a3b1f0), extraire une leçon ?
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   fix(api): handle TZ shift on Date.toJSON()
   (type fix, 4 fichiers)
@@ -1285,9 +1285,9 @@ graph LR
 
   <p>Détail crucial : le hook compare le <code>HEAD</code> actuel à <code>.claude/logs/last-extract-head</code>. Si HEAD n'a pas bougé (parce que le commit a échoué un pre-commit hook), il reste silencieux. Les faux positifs tuent l'habitude plus vite que les faux négatifs.</p>
 
-  <h3>La slash command — /extract-lesson</h3>
+  <h3>La slash command, /extract-lesson</h3>
 
-  <p>La commande lit le diff et le message du dernier commit (ou d'un SHA donné), puis décide s'il y a vraiment une leçon à pinner. La barre est haute — la plupart des commits n'ont pas besoin de leçon. Les critères, dans l'ordre :</p>
+  <p>La commande lit le diff et le message du dernier commit (ou d'un SHA donné), puis décide s'il y a vraiment une leçon à pinner. La barre est haute, la plupart des commits n'ont pas besoin de leçon. Les critères, dans l'ordre :</p>
 
   <ol>
     <li>Un piège non-évident que quelqu'un pourrait re-découvrir douloureusement (ex : « <code>Date.toJSON()</code> drop silencieusement le timezone offset »).</li>
@@ -1351,11 +1351,11 @@ graph LR
 
   <p>Le Coach corrige ça en 3 couches.</p>
 
-  <h2>Couche 1 — Règles dans CLAUDE.md</h2>
+  <h2>Couche 1, Règles dans CLAUDE.md</h2>
 
   <p>Ajoute une section « Mode Coach » dans <code>CLAUDE.md</code> avec une table de déclencheurs. Relue à chaque session.</p>
 
-  <pre data-lang="markdown">## Mode Coach — quand proposer quoi
+  <pre data-lang="markdown">## Mode Coach, quand proposer quoi
 
 Déclencheurs à honorer avant d'agir. Si une condition est vraie,
 propose la commande/agent plutôt que foncer.
@@ -1372,15 +1372,15 @@ propose la commande/agent plutôt que foncer.
 
 **Règle générale** : si une commande couvre ~80 % de ce qui allait être
 fait à la main, propose avant. L'utilisateur peut toujours dire « non,
-fais à la main » — c'est OK.</pre>
+fais à la main », c'est OK.</pre>
 
-  <h2>Couche 2 — Hook Stop qui observe</h2>
+  <h2>Couche 2, Hook Stop qui observe</h2>
 
   <p>Le hook <code>Stop</code> se déclenche à la fin du tour de Claude. Il lit l'activity log de la session courante, détecte ce qui a été touché, et imprime des suggestions ciblées <strong>dans ton terminal</strong>, à zéro token.</p>
 
-  <p>Pré-requis : avoir un hook PostToolUse qui log Write/Edit/Bash dans <code>.claude/logs/activity.log</code>. Puis crée <code>.claude/hooks/coach-suggest.sh</code> (cf. version EN — identique sauf strings).</p>
+  <p>Pré-requis : avoir un hook PostToolUse qui log Write/Edit/Bash dans <code>.claude/logs/activity.log</code>. Puis crée <code>.claude/hooks/coach-suggest.sh</code> (cf. version EN, identique sauf strings).</p>
 
-  <h2>Couche 3 — Slash <code>/coach</code> manuel</h2>
+  <h2>Couche 3, Slash <code>/coach</code> manuel</h2>
 
   <p>Pour les moments où tu hésites toi-même. Crée <code>.claude/commands/coach.md</code> :</p>
 
@@ -1450,9 +1450,9 @@ Termine par : « On lance #1 ou tu préfères réfléchir d'abord ? »</pre>
   <h2>Quand ça ne paye pas</h2>
 
   <ul>
-    <li>Deux chantiers qui touchent les mêmes fichiers — les merges seront cauchemardesques.</li>
-    <li>Tu débutes sur Claude Code — une session à la fois reste plus sûr jusqu'à ce que tu aies la mémoire musculaire.</li>
-    <li>RAM limitée — trois dev servers concurrents + trois sessions Claude dépassent facilement 6 Go.</li>
+    <li>Deux chantiers qui touchent les mêmes fichiers, les merges seront cauchemardesques.</li>
+    <li>Tu débutes sur Claude Code, une session à la fois reste plus sûr jusqu'à ce que tu aies la mémoire musculaire.</li>
+    <li>RAM limitée, trois dev servers concurrents + trois sessions Claude dépassent facilement 6 Go.</li>
   </ul>
 
   <h2>Setup</h2>
@@ -1464,7 +1464,7 @@ cd ../mon-projet-worktrees/marketing
 npm install   # node_modules par worktree, pas de partage
 
 # Conventions
-# - Branch : chantier/&lt;slug&gt;  (pas feature/* — ça dérive)
+# - Branch : chantier/&lt;slug&gt;  (pas feature/*, ça dérive)
 # - Dossier : ../mon-projet-worktrees/&lt;slug&gt;
 # - Durée   : idéalement &lt; 7 jours, sinon merge ou kill
 
@@ -1484,9 +1484,9 @@ git branch -d chantier/marketing-launch</pre>
 
   <ul>
     <li><strong><code>.env.local</code> n'est pas tracked</strong>, donc absent du nouveau worktree. Copie-le manuellement après <code>git worktree add</code>.</li>
-    <li><strong><code>settings.local.json</code></strong> est gitignored aussi — même problème.</li>
-    <li><strong>Conflits de ports dev server</strong> — si ton défaut est <code>3000</code>, lance le 2e worktree avec <code>PORT=3001 npm run dev</code>.</li>
-    <li><strong>Les hooks tournent par worktree</strong> — c'est une feature : chaque worktree a son propre <code>.claude/logs/last-extract-head</code>, donc la boucle d'audit marche bien en parallèle.</li>
+    <li><strong><code>settings.local.json</code></strong> est gitignored aussi, même problème.</li>
+    <li><strong>Conflits de ports dev server</strong>, si ton défaut est <code>3000</code>, lance le 2e worktree avec <code>PORT=3001 npm run dev</code>.</li>
+    <li><strong>Les hooks tournent par worktree</strong>, c'est une feature : chaque worktree a son propre <code>.claude/logs/last-extract-head</code>, donc la boucle d'audit marche bien en parallèle.</li>
   </ul>
 
   <aside class="callout callout-danger">
@@ -1592,7 +1592,7 @@ graph TB
 </article>
 
 <article class="chapter">
-  <h1 class="chapter-title"><span class="chapter-number">Chapitre 12 <span class="badge badge-advanced">AVANCÉ</span></span>MCP — Connecter à l'extérieur</h1>
+  <h1 class="chapter-title"><span class="chapter-number">Chapitre 12 <span class="badge badge-advanced">AVANCÉ</span></span>MCP, Connecter à l'extérieur</h1>
 
   <p>Le <strong>Model Context Protocol</strong> donne à Claude accès à des outils externes (DB, navigateur, filesystem, APIs). Configuration dans <code>.mcp.json</code> à la racine :</p>
 
@@ -1623,7 +1623,7 @@ graph TB
       <tr><td><strong>filesystem</strong></td><td>Accès en lecture à un dossier précis (données CSV, exports)</td><td>au cas par cas</td></tr>
       <tr><td><strong>Tavily</strong></td><td>Recherche web premium (mieux que WebSearch par défaut)</td><td>si recherche fréquente</td></tr>
       <tr><td><strong>GitHub</strong></td><td>Lire PRs, issues, comments sans quitter Claude</td><td>si workflows équipe</td></tr>
-      <tr><td>DB (Postgres, Supabase…)</td><td>Lire le schéma DB sans copy-paste — <strong>lock read-only</strong></td><td>si la DB est centrale</td></tr>
+      <tr><td>DB (Postgres, Supabase…)</td><td>Lire le schéma DB sans copy-paste, <strong>lock read-only</strong></td><td>si la DB est centrale</td></tr>
     </tbody>
   </table>
 
@@ -1641,7 +1641,7 @@ graph TB
     <li>Dans <code>.claude/settings.local.json</code> (gitignored, local), restreins la liste des outils MCP aux opérations read-only.</li>
   </ol>
 
-  <p>Deux couches redondantes — si quelqu'un édite l'une, l'autre tient. Une seule couche échoue silencieusement. Exemple pour un MCP Postgres :</p>
+  <p>Deux couches redondantes, si quelqu'un édite l'une, l'autre tient. Une seule couche échoue silencieusement. Exemple pour un MCP Postgres :</p>
 
   <pre data-lang="json">// .mcp.json
 {
@@ -1705,7 +1705,7 @@ graph TB
 @.claude/CONVENTIONS.md
 @.claude/WORKFLOW.md
 
-# &lt;Projet&gt; — hub de configuration
+# &lt;Projet&gt;, hub de configuration
 
 | Tu cherches… | Va dans |
 |---|---|
@@ -1724,10 +1724,10 @@ graph TB
   <p>Tous les ~30 jours, ou avant une release, lance <code>/audit-claude-setup</code>. La slash command complète vit en Annexe E ; voici la checklist qu'elle implémente :</p>
 
   <ol>
-    <li><strong>Inventaire.</strong> Compte agents, slash commands, hooks, skills, mémoires actives, serveurs MCP. Compare à ton index <code>COMMANDS.md</code> — quelque chose non documenté ?</li>
+    <li><strong>Inventaire.</strong> Compte agents, slash commands, hooks, skills, mémoires actives, serveurs MCP. Compare à ton index <code>COMMANDS.md</code>, quelque chose non documenté ?</li>
     <li><strong>Agents dormants.</strong> Un agent qui n'apparaît jamais dans ton activity log est soit redondant, soit avec une <code>description</code> mal calibrée. Décide.</li>
     <li><strong>Références cassées.</strong> Pour chaque fichier mentionné dans <code>CLAUDE.md</code>, vérifie qu'il existe.</li>
-    <li><strong>Permissions inutilisées.</strong> Une entrée <code>Bash(*)</code> jamais invoquée est du bruit — restreins-la.</li>
+    <li><strong>Permissions inutilisées.</strong> Une entrée <code>Bash(*)</code> jamais invoquée est du bruit, restreins-la.</li>
     <li><strong>Mémoires agent vides.</strong> Un agent <code>memory: project</code> dont le <code>MEMORY.md</code> est vide depuis 30+ jours ne capitalise rien. Sous-utilisé ou critères mal calibrés.</li>
     <li><strong>Hooks lents.</strong> Un hook qui prend &gt; 500 ms ralentit chaque session. Profile, fix, ou passe en async.</li>
     <li><strong>Modèles désalignés.</strong> <code>opus</code> pour des agents triviaux gaspille des tokens ; <code>haiku</code> pour des complexes donne de mauvais résultats.</li>
@@ -1899,7 +1899,7 @@ Description en une phrase.
     <dd>Pattern qui consiste à ne donner à chaque agent que les outils dont il a besoin (Read-only pour un auditeur, Read+Write pour un générateur). Réduit la surface d'attaque et les erreurs.</dd>
 
     <dt>MCP</dt>
-    <dd>Model Context Protocol — le standard ouvert pour connecter Claude à des outils externes (DB, GitHub, navigateurs). Configuré via <code>.mcp.json</code>.</dd>
+    <dd>Model Context Protocol, le standard ouvert pour connecter Claude à des outils externes (DB, GitHub, navigateurs). Configuré via <code>.mcp.json</code>.</dd>
 
     <dt>Matrice mémoire</dt>
     <dd>La règle de décision pour savoir où stocker une info donnée : <code>CLAUDE.md</code>, une skill, une mémoire d'agent, ou la mémoire utilisateur locale. Cf. Chapitre 11.</dd>
@@ -1945,13 +1945,13 @@ Description en une phrase.
 <article class="chapter">
   <h1 class="chapter-title"><span class="chapter-number">Annexe H</span>Deux études de cas</h1>
 
-  <p>Deux histoires anonymisées — un dev, une knowledge worker — qui appliquent le setup. Pas de nom de produit, pas de spécificités de domaine. Les enseignements se généralisent.</p>
+  <p>Deux histoires anonymisées, un dev, une knowledge worker, qui appliquent le setup. Pas de nom de produit, pas de spécificités de domaine. Les enseignements se généralisent.</p>
 
-  <h2>Cas 1 — Dev SaaS solo (6 mois)</h2>
+  <h2>Cas 1, Dev SaaS solo (6 mois)</h2>
 
   <p>Environ 30 k LOC de TypeScript, déploiements quotidiens, ~40 commits par semaine. Stack web moderne avec une DB transactionnelle et un dashboard analytique. Dev solo avec un an d'expérience de code.</p>
 
-  <blockquote>« Je passais 15 à 20 minutes par session à ré-expliquer le contexte. Huit builds CI cassés en deux semaines à cause d'un <code>any</code> implicite. Aucune trace écrite des décisions d'archi — toutes les deux semaines je re-débattais d'un truc que j'avais déjà tranché. »</blockquote>
+  <blockquote>« Je passais 15 à 20 minutes par session à ré-expliquer le contexte. Huit builds CI cassés en deux semaines à cause d'un <code>any</code> implicite. Aucune trace écrite des décisions d'archi, toutes les deux semaines je re-débattais d'un truc que j'avais déjà tranché. »</blockquote>
 
   <h3>Ce qui a été configuré</h3>
 
@@ -1979,7 +1979,7 @@ Description en une phrase.
   <h3>Ce qui a marché</h3>
 
   <ul>
-    <li>Plan-first via <code>/new-feature</code>. Zéro refacto majeur en 6 mois — rattrapé au planning, pas après le code.</li>
+    <li>Plan-first via <code>/new-feature</code>. Zéro refacto majeur en 6 mois, rattrapé au planning, pas après le code.</li>
     <li>Skills > inline prompts. Dérive éliminée après le 1er audit mensuel qui a révélé deux skills dupliquées dans des prompts d'agents.</li>
     <li>La matrice mémoire. Plus de doute sur « où écrire ça ».</li>
   </ul>
@@ -1988,17 +1988,17 @@ Description en une phrase.
 
   <ul>
     <li>4 sub-agents jamais invoqués. Soit redondants, soit avec une <code>description</code> mal calibrée. 2 fusionnés, 2 supprimés.</li>
-    <li>Worktrees parallèles abandonnés après un essai — le laptop n'avait pas la RAM pour 3 dev servers concurrents.</li>
+    <li>Worktrees parallèles abandonnés après un essai, le laptop n'avait pas la RAM pour 3 dev servers concurrents.</li>
     <li>Un hook TDD-guard parfois trop strict sur les fichiers UI cosmétiques. Mitigation : une entrée ciblée dans agent-memory.</li>
   </ul>
 
   <h3>Citation de clôture</h3>
 
-  <blockquote>« Le setup ne te rend pas plus rapide — il te rend reproductible. C'est l'opposé du glamour, mais c'est ce qui m'a permis de tenir 6 mois sans abandonner. »</blockquote>
+  <blockquote>« Le setup ne te rend pas plus rapide, il te rend reproductible. C'est l'opposé du glamour, mais c'est ce qui m'a permis de tenir 6 mois sans abandonner. »</blockquote>
 
-  <h2>Cas 2 — Knowledge worker / chercheuse indépendante (3 mois)</h2>
+  <h2>Cas 2, Knowledge worker / chercheuse indépendante (3 mois)</h2>
 
-  <p>Une rédactrice technique freelance et analyste de recherche qui utilise Claude Code comme outil quotidien d'écriture et d'analyse. Pas de code en production, mais usage intensif de longs documents, vérification de faces, prise de notes structurée. Travaille sur deux repos — un pour les livrables client, un pour une base de connaissances perso.</p>
+  <p>Une rédactrice technique freelance et analyste de recherche qui utilise Claude Code comme outil quotidien d'écriture et d'analyse. Pas de code en production, mais usage intensif de longs documents, vérification de faces, prise de notes structurée. Travaille sur deux repos, un pour les livrables client, un pour une base de connaissances perso.</p>
 
   <blockquote>« J'utilisais Claude dans un onglet de navigateur depuis un an. Chaque conversation commençait par coller mon style guide, mes sources, le contexte de mon projet. Je perdais deux heures par semaine rien que sur ce rituel. J'ai essayé Claude Code sur recommandation d'un ami ; avec le setup de ce manuel, le rituel a disparu. »</blockquote>
 
@@ -2009,7 +2009,7 @@ Description en une phrase.
     <li>3 sub-agents : <code>fact-checker</code> (vérifie les affirmations contre les sources avant rédaction), <code>tone-reviewer</code> (flagge la dérive du style guide), <code>structure-reviewer</code> (vérifie hiérarchie des titres et distribution de longueurs)</li>
     <li>4 hooks : <code>session-start.sh</code> montre les « 3 derniers documents touchés », <code>pre-tool-guard.sh</code> bloque les écritures hors de <code>drafts/</code> et <code>published/</code>, <code>post-edit-format.sh</code> lance <code>prettier</code> sur le markdown, <code>extract-lesson.sh</code> nudge pour capturer les décisions éditoriales</li>
     <li>3 slash commands : <code>/draft &lt;sujet&gt;</code> (recherche + outline), <code>/polish</code> (les 3 reviewers en parallèle), <code>/cite &lt;url&gt;</code> (fetch + format)</li>
-    <li>1 skill : <code>citation-styles</code> avec règles pour formats académique, journalistique et blog — élimine la ré-explication à chaque essai</li>
+    <li>1 skill : <code>citation-styles</code> avec règles pour formats académique, journalistique et blog, élimine la ré-explication à chaque essai</li>
   </ul>
 
   <h3>Résultats à 3 mois</h3>
@@ -2020,13 +2020,13 @@ Description en une phrase.
       <tr><td>Temps de rituel en début de session</td><td>~10 min</td><td>0 min</td></tr>
       <tr><td>Articles publiés par mois</td><td>4</td><td>7</td></tr>
       <tr><td>Dérive du style guide rattrapée avant publication</td><td>par l'éditeur, après coup</td><td>par <code>tone-reviewer</code>, en amont</td></tr>
-      <tr><td>Heures économisées par semaine (auto-déclarées)</td><td>—</td><td>5–7</td></tr>
+      <tr><td>Heures économisées par semaine (auto-déclarées)</td><td>-</td><td>5–7</td></tr>
     </tbody>
   </table>
 
   <h3>Citation de clôture</h3>
 
-  <blockquote>« Je ne suis pas développeuse, et la plupart du contenu sur Claude Code suppose que tu l'es. Ce manuel a expliqué le même setup d'une manière qui colle à mon workflow. Les patterns — planifier avant, capturer les leçons après, une skill par domaine — se traduisent un pour un en écriture. »</blockquote>
+  <blockquote>« Je ne suis pas développeuse, et la plupart du contenu sur Claude Code suppose que tu l'es. Ce manuel a expliqué le même setup d'une manière qui colle à mon workflow. Les patterns, planifier avant, capturer les leçons après, une skill par domaine, se traduisent un pour un en écriture. »</blockquote>
 
   <h2>Ce que les deux cas partagent</h2>
 

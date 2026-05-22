@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Claude Code Handbook V2 — A pro setup, step by step</title>
+  <title>Claude Code Handbook V2, A pro setup, step by step</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/css/print.css">
   <!-- Mermaid for diagrams. For static rendering in EPUB, see prepare-for-epub.js. -->
@@ -46,7 +46,7 @@
 
   <p>If you've used Claude Code for more than two weeks, you've probably noticed a pattern: the first 10 minutes of every session are spent re-explaining your stack, your conventions, the thing you fixed yesterday. You correct the same drift over and over. You discover that Claude wrote a destructive command into your <code>.env</code> file. You stop trusting it for anything serious.</p>
 
-  <p>None of this is Claude's fault. It's an artifact of running an LLM with no project context, no guardrails, and no memory. This handbook fixes that — not with a framework or a heavy abstraction, but with a small set of files that live in your repo and turn Claude Code into a reproducible, opinionated collaborator.</p>
+  <p>None of this is Claude's fault. It's an artifact of running an LLM with no project context, no guardrails, and no memory. This handbook fixes that, not with a framework or a heavy abstraction, but with a small set of files that live in your repo and turn Claude Code into a reproducible, opinionated collaborator.</p>
 
   <p>By the end of the book you'll have:</p>
 
@@ -65,7 +65,7 @@
 </article>
 
 <!-- =================================================================
-     WHO THIS IS FOR / NOT FOR (1 page) — new in V2
+     WHO THIS IS FOR / NOT FOR (1 page), new in V2
      ================================================================= -->
 <article class="chapter">
   <h1 class="chapter-title"><span class="chapter-number">For who</span>This book is for you if…</h1>
@@ -74,16 +74,16 @@
 
   <ul>
     <li><strong>A developer</strong> (any stack, any seniority) who uses Claude Code daily or wants to.</li>
-    <li><strong>A knowledge worker</strong> — writer, researcher, analyst — who uses Claude Code to write, research, or generate content and wants a stable, repeatable setup instead of starting from scratch each session.</li>
+    <li><strong>A knowledge worker</strong>, writer, researcher, analyst, who uses Claude Code to write, research, or generate content and wants a stable, repeatable setup instead of starting from scratch each session.</li>
     <li><strong>A solo founder or small-team lead</strong> who wants to scale their own output without scaling headcount.</li>
     <li><strong>A team that wants a shared, opinionated baseline</strong> so everyone configures Claude the same way and the setup itself is reviewable in PRs.</li>
-    <li><strong>A non-native English speaker</strong> — the entire book is available in French with the same depth, no shortcuts.</li>
+    <li><strong>A non-native English speaker</strong>, the entire book is available in French with the same depth, no shortcuts.</li>
   </ul>
 
   <h2>This is NOT for you (yet) if…</h2>
 
   <ul>
-    <li><strong>You've never opened a terminal.</strong> Start with the official Anthropic docs first — <code>code.claude.com/docs</code>. Come back when you've installed Claude Code and had your first session.</li>
+    <li><strong>You've never opened a terminal.</strong> Start with the official Anthropic docs first, <code>code.claude.com/docs</code>. Come back when you've installed Claude Code and had your first session.</li>
     <li><strong>You want a 500-page reference.</strong> This is a focused 52-page book you can finish in two hours. If you want encyclopedic coverage with 181 skill templates and 271 quiz questions, the Ultimate Guide by Florian Bruniaux is excellent.</li>
     <li><strong>You expect this to write code <em>for</em> you.</strong> This book is about <em>configuring Claude Code</em>, not replacing yourself with it. You will still write code, plans, decisions. Claude will be more useful, faster, and safer.</li>
   </ul>
@@ -93,7 +93,7 @@
   <ul>
     <li>A repository where new Claude Code sessions load your context automatically, refuse destructive operations, and remember what you taught them last week.</li>
     <li>A small toolkit of specialized assistants (sub-agents) you trust enough to delegate to.</li>
-    <li>A discipline — plan before code, capture lessons after — that compounds over time.</li>
+    <li>A discipline, plan before code, capture lessons after, that compounds over time.</li>
   </ul>
 
   <p class="muted small">A note on language: this book uses some specific terms (hook, sub-agent, frontmatter, skill, MCP). Each is defined on first use and again in the Glossary (Annex F). You don't need to remember them before starting; just read on.</p>
@@ -113,17 +113,17 @@
     </thead>
     <tbody>
       <tr><td>New to Claude Code</td><td>Foreword → Part I → Part II → Annex G (checklist)</td><td>Part III, IV, V for now</td></tr>
-      <tr><td>Comfortable but ad-hoc</td><td>Part I (skim) → Part II → Part III in full</td><td>—</td></tr>
-      <tr><td>Power user upgrading from V1</td><td>What's new (Foreword) → Chap. 06 → Chap. 07 → Chap. 08 → Chap. 10 → Chap. 11 → Case study</td><td>—</td></tr>
+      <tr><td>Comfortable but ad-hoc</td><td>Part I (skim) → Part II → Part III in full</td><td>-</td></tr>
+      <tr><td>Power user upgrading from V1</td><td>What's new (Foreword) → Chap. 06 → Chap. 07 → Chap. 08 → Chap. 10 → Chap. 11 → Case study</td><td>-</td></tr>
     </tbody>
   </table>
 
   <h2>Conventions</h2>
 
   <ul>
-    <li><code>code in body</code> — file paths, commands, variable names</li>
-    <li><strong>Bold</strong> — concepts being introduced</li>
-    <li><em>Italic</em> — quoted user-facing copy or first mention of an external term</li>
+    <li><code>code in body</code>, file paths, commands, variable names</li>
+    <li><strong>Bold</strong>, concepts being introduced</li>
+    <li><em>Italic</em>, quoted user-facing copy or first mention of an external term</li>
   </ul>
 
   <h2>Difficulty badges</h2>
@@ -153,7 +153,7 @@
 
   <aside class="callout callout-info">
     <div class="callout-title">Background</div>
-    <p>Context or "why" — safe to skip if you trust the recommendation.</p>
+    <p>Context or "why", safe to skip if you trust the recommendation.</p>
   </aside>
 </article>
 
@@ -164,29 +164,29 @@
   <h1 class="chapter-title"><span class="chapter-number">Contents</span>Where to find what</h1>
 
   <ul class="toc-list">
-    <li class="toc-part"><span>Part I — Foundations</span><span class="toc-page">9</span></li>
-    <li><span>00 — Choose your interface</span><span class="toc-page">10</span></li>
-    <li><span>01 — Philosophy &amp; ROI</span><span class="toc-page">12</span></li>
+    <li class="toc-part"><span>Part I, Foundations</span><span class="toc-page">9</span></li>
+    <li><span>00, Choose your interface</span><span class="toc-page">10</span></li>
+    <li><span>01, Philosophy &amp; ROI</span><span class="toc-page">12</span></li>
 
-    <li class="toc-part"><span>Part II — Baseline setup</span><span class="toc-page">17</span></li>
-    <li><span>02 — The minimum viable setup (30 min)</span><span class="toc-page">18</span></li>
-    <li><span>03 — Hooks</span><span class="toc-page">23</span></li>
+    <li class="toc-part"><span>Part II, Baseline setup</span><span class="toc-page">17</span></li>
+    <li><span>02, The minimum viable setup (30 min)</span><span class="toc-page">18</span></li>
+    <li><span>03, Hooks</span><span class="toc-page">23</span></li>
 
-    <li class="toc-part"><span>Part III — Specialized configuration</span><span class="toc-page">30</span></li>
-    <li><span>04 — Slash commands</span><span class="toc-page">31</span></li>
-    <li><span>05 — Sub-agents</span><span class="toc-page">34</span></li>
-    <li><span>06 — Skills (the right way)</span><span class="toc-page">40</span></li>
+    <li class="toc-part"><span>Part III, Specialized configuration</span><span class="toc-page">30</span></li>
+    <li><span>04, Slash commands</span><span class="toc-page">31</span></li>
+    <li><span>05, Sub-agents</span><span class="toc-page">34</span></li>
+    <li><span>06, Skills (the right way)</span><span class="toc-page">40</span></li>
 
-    <li class="toc-part"><span>Part IV — Advanced workflow</span><span class="toc-page">46</span></li>
-    <li><span>07 — Plan-first development</span><span class="toc-page">47</span></li>
-    <li><span>08 — The audit loop</span><span class="toc-page">50</span></li>
-    <li><span>09 — Coach mode</span><span class="toc-page">53</span></li>
+    <li class="toc-part"><span>Part IV, Advanced workflow</span><span class="toc-page">46</span></li>
+    <li><span>07, Plan-first development</span><span class="toc-page">47</span></li>
+    <li><span>08, The audit loop</span><span class="toc-page">50</span></li>
+    <li><span>09, Coach mode</span><span class="toc-page">53</span></li>
 
-    <li class="toc-part"><span>Part V — Going further</span><span class="toc-page">56</span></li>
-    <li><span>10 — Parallel worktrees</span><span class="toc-page">57</span></li>
-    <li><span>11 — The memory matrix</span><span class="toc-page">59</span></li>
-    <li><span>12 — MCP — connect to the outside</span><span class="toc-page">62</span></li>
-    <li><span>13 — Long-term maintenance</span><span class="toc-page">65</span></li>
+    <li class="toc-part"><span>Part V, Going further</span><span class="toc-page">56</span></li>
+    <li><span>10, Parallel worktrees</span><span class="toc-page">57</span></li>
+    <li><span>11, The memory matrix</span><span class="toc-page">59</span></li>
+    <li><span>12, MCP, connect to the outside</span><span class="toc-page">62</span></li>
+    <li><span>13, Long-term maintenance</span><span class="toc-page">65</span></li>
 
     <li class="toc-part"><span>Annexes</span><span class="toc-page">67</span></li>
     <li><span>A. Universal CLAUDE.md</span><span class="toc-page">68</span></li>
@@ -210,13 +210,13 @@
 </section>
 
 <!-- =================================================================
-     CHAPTER 00 — Choose your interface  (~2 pages)
+     CHAPTER 00, Choose your interface  (~2 pages)
      ADAPTED FROM V1. Copy the body content from en/source.html ch 00.
      ================================================================= -->
 <article class="chapter">
   <h1 class="chapter-title"><span class="chapter-number">Chapter 00 <span class="badge badge-beginner">BEGINNER</span></span>Choose your interface</h1>
 
-  <p>Before configuring anything, know where you're installing it. All Claude Code surfaces support the same mechanisms — but Claude Code is distinct from the Claude.ai chat product.</p>
+  <p>Before configuring anything, know where you're installing it. All Claude Code surfaces support the same mechanisms, but Claude Code is distinct from the Claude.ai chat product.</p>
 
   <h2>The 6 official Claude Code surfaces</h2>
 
@@ -258,7 +258,7 @@
 </article>
 
 <!-- =================================================================
-     CHAPTER 01 — Philosophy & ROI  (~4 pages)
+     CHAPTER 01, Philosophy & ROI  (~4 pages)
      ADAPTED FROM V1, extended with "what this does NOT do".
      ================================================================= -->
 <article class="chapter">
@@ -288,17 +288,17 @@
   <h2>The 3 principles</h2>
 
   <aside class="callout callout-tip">
-    <div class="callout-title">Principle 1 — Capture context</div>
+    <div class="callout-title">Principle 1, Capture context</div>
     <p>Stack, conventions, gotchas, project structure → <code>CLAUDE.md</code>. Claude reads it every session, automatically. You no longer have to explain "we're on Next.js 16".</p>
   </aside>
 
   <aside class="callout callout-tip">
-    <div class="callout-title">Principle 2 — Determinize the automatable</div>
+    <div class="callout-title">Principle 2, Determinize the automatable</div>
     <p>Auto-format after each edit, log commands, session-start recaps → <strong>hooks</strong>. These are scripts (bash, Python) that run on events. Zero tokens, zero friction.</p>
   </aside>
 
   <aside class="callout callout-tip">
-    <div class="callout-title">Principle 3 — Specialize roles</div>
+    <div class="callout-title">Principle 3, Specialize roles</div>
     <p>Security audit, formula validation, component scaffolding → <strong>sub-agents</strong>. Each sub-agent has its own context, model, and tools. Run a security audit without polluting the main session.</p>
   </aside>
 
@@ -346,7 +346,7 @@
 </section>
 
 <!-- =================================================================
-     CHAPTER 02 — Minimum viable setup  (~5 pages)
+     CHAPTER 02, Minimum viable setup  (~5 pages)
      ADAPTED FROM V1.
      ================================================================= -->
 <article class="chapter">
@@ -360,7 +360,7 @@
 
   <p>Pick your OS and surface:</p>
 
-  <pre data-lang="bash"># macOS, Linux, WSL — native install (recommended, auto-updates)
+  <pre data-lang="bash"># macOS, Linux, WSL, native install (recommended, auto-updates)
 curl -fsSL https://claude.ai/install.sh | bash
 
 # Windows PowerShell
@@ -395,9 +395,9 @@ One-sentence description of what the project does.
 - Deployment: &lt;Vercel | Fly.io | Railway | ...&gt;
 
 ## Useful commands
-- `&lt;dev command&gt;` — start the local server
-- `&lt;verify command&gt;` — type-check before push
-- `&lt;test command&gt;` — run the test suite
+- `&lt;dev command&gt;`, start the local server
+- `&lt;verify command&gt;`, type-check before push
+- `&lt;test command&gt;`, run the test suite
 
 ## Conventions
 - &lt;Naming rule&gt; (e.g., camelCase JS, kebab-case files)
@@ -453,7 +453,7 @@ One-sentence description of what the project does.
 
   <p>You want to version team config but not local logs:</p>
 
-  <pre data-lang="gitignore"># Claude Code — version agents/commands/hooks/settings.json,
+  <pre data-lang="gitignore"># Claude Code, version agents/commands/hooks/settings.json,
 # not logs or personal overrides
 .claude/*
 !.claude/agents/
@@ -486,7 +486,7 @@ One-sentence description of what the project does.
     <li>The repo is ready for the next levels.</li>
   </ul>
 
-  <h2 id="checkpoint-screenshot">Checkpoint — what a well-configured session looks like <small class="muted">(new in V2)</small></h2>
+  <h2 id="checkpoint-screenshot">Checkpoint, what a well-configured session looks like <small class="muted">(new in V2)</small></h2>
 
   <p>After running <code>claude</code> in a freshly-configured repo, you should see something like:</p>
 
@@ -505,7 +505,7 @@ One-sentence description of what the project does.
 </article>
 
 <!-- =================================================================
-     CHAPTER 03 — Hooks  (~6 pages)
+     CHAPTER 03, Hooks  (~6 pages)
      ADAPTED FROM V1.
      ================================================================= -->
 <article class="chapter">
@@ -527,7 +527,7 @@ One-sentence description of what the project does.
     </tbody>
   </table>
 
-  <h2>Hook #1 — PostToolUse: auto-format after each write</h2>
+  <h2>Hook #1, PostToolUse: auto-format after each write</h2>
 
   <p>Create <code>.claude/hooks/post-edit-format.sh</code>:</p>
 
@@ -556,7 +556,7 @@ exit 0</pre>
 
   <p>Don't forget <code>chmod +x .claude/hooks/post-edit-format.sh</code>.</p>
 
-  <h2>Hook #2 — PreToolUse: defensive guard</h2>
+  <h2>Hook #2, PreToolUse: defensive guard</h2>
 
   <p>This hook is <strong>the most important</strong>. It blocks destructive commands before they run. Create <code>.claude/hooks/pre-tool-guard.sh</code>:</p>
 
@@ -599,7 +599,7 @@ fi
 
 exit 0</pre>
 
-  <h2>Hook #3 — SessionStart: project recap</h2>
+  <h2>Hook #3, SessionStart: project recap</h2>
 
   <p>When a session opens, show the project state in 5 lines. Create <code>.claude/hooks/session-start.sh</code>:</p>
 
@@ -653,7 +653,7 @@ echo ""</pre>
 
   <aside class="callout callout-warning">
     <div class="callout-title">Prerequisite</div>
-    <p>The bash hooks above use <code>jq</code> to parse the JSON payload. Install it if you don't have it: <code>brew install jq</code> (macOS) or <code>apt install jq</code> (Linux). Otherwise, write hooks in Python — equivalent in 5 lines with <code>json.load(sys.stdin)</code>.</p>
+    <p>The bash hooks above use <code>jq</code> to parse the JSON payload. Install it if you don't have it: <code>brew install jq</code> (macOS) or <code>apt install jq</code> (Linux). Otherwise, write hooks in Python, equivalent in 5 lines with <code>json.load(sys.stdin)</code>.</p>
   </aside>
 
   <h2>Test a hook without restarting the session</h2>
@@ -666,7 +666,7 @@ echo "Exit code: $?"
 
   <aside class="callout callout-tip">
     <div class="callout-title">Performance</div>
-    <p>A hook should run in <strong>under 200 ms</strong>. Beyond that you'll feel friction. If your hook makes network calls or runs a heavy linter, mark it <code>"async": true</code> in the config — it runs in the background without blocking.</p>
+    <p>A hook should run in <strong>under 200 ms</strong>. Beyond that you'll feel friction. If your hook makes network calls or runs a heavy linter, mark it <code>"async": true</code> in the config, it runs in the background without blocking.</p>
   </aside>
 
   <h2 id="hook-debug">Debugging a silent hook <small class="muted">(new in V2)</small></h2>
@@ -674,7 +674,7 @@ echo "Exit code: $?"
   <p>The most common bug is "the hook does nothing." Three quick diagnostics before you dig into the script:</p>
 
   <ol>
-    <li><strong>Is it executable?</strong> <code>ls -la .claude/hooks/</code> — every <code>.sh</code> needs the <code>x</code> bit. <code>chmod +x .claude/hooks/*.sh</code>.</li>
+    <li><strong>Is it executable?</strong> <code>ls -la .claude/hooks/</code>, every <code>.sh</code> needs the <code>x</code> bit. <code>chmod +x .claude/hooks/*.sh</code>.</li>
     <li><strong>Is it wired in settings.json?</strong> Check that the <code>matcher</code> and the <code>command</code> path match. A typo in the path fails silently.</li>
     <li><strong>What does it see as input?</strong> Add <code>cat &gt; /tmp/hook-debug.json</code> at the top of the script to capture the actual JSON Claude Code sends. Inspect, then remove.</li>
   </ol>
@@ -690,7 +690,7 @@ echo "Exit code: $?"
 </section>
 
 <!-- =================================================================
-     CHAPTER 04 — Slash commands  (~3 pages)
+     CHAPTER 04, Slash commands  (~3 pages)
      ADAPTED FROM V1.
      ================================================================= -->
 <article class="chapter">
@@ -700,12 +700,12 @@ echo "Exit code: $?"
 
   <aside class="callout callout-warning">
     <div class="callout-title">Skills + commands merger</div>
-    <p>"Custom commands" and "skills" are now <strong>merged</strong> in Claude Code. A <code>.claude/commands/deploy.md</code> file and a <code>.claude/skills/deploy/SKILL.md</code> skill both create <code>/deploy</code>. Existing <code>.claude/commands/</code> files still work (backwards compatible). The recommended modern path is <code>.claude/skills/</code> — it unlocks bundled supporting files, invocation control, and Claude loading the skill automatically when relevant. Chapter 06 covers the skill folder in full.</p>
+    <p>"Custom commands" and "skills" are now <strong>merged</strong> in Claude Code. A <code>.claude/commands/deploy.md</code> file and a <code>.claude/skills/deploy/SKILL.md</code> skill both create <code>/deploy</code>. Existing <code>.claude/commands/</code> files still work (backwards compatible). The recommended modern path is <code>.claude/skills/</code>, it unlocks bundled supporting files, invocation control, and Claude loading the skill automatically when relevant. Chapter 06 covers the skill folder in full.</p>
   </aside>
 
   <h2>Two ways to create a command</h2>
 
-  <h3>Path A — Simple: <code>.claude/commands/&lt;name&gt;.md</code></h3>
+  <h3>Path A, Simple: <code>.claude/commands/&lt;name&gt;.md</code></h3>
 
   <p>A single markdown file with frontmatter + instructions. Covers 90 % of cases.</p>
 
@@ -714,7 +714,7 @@ description: "Verify + commit + push in one command"
 argument-hint: "&lt;commit message&gt;"
 ---
 
-# /ship — Verify, commit &amp; push
+# /ship, Verify, commit &amp; push
 
 ## Procedure
 
@@ -743,23 +743,23 @@ Display SHA, message, insertions/deletions summary.
 - **Never** force-push without explicit confirmation.
 - If push fails (rejected): pull `--no-rebase`, resolve conflicts, re-push.</pre>
 
-  <h3>Path B — Powerful: <code>.claude/skills/&lt;name&gt;/SKILL.md</code></h3>
+  <h3>Path B, Powerful: <code>.claude/skills/&lt;name&gt;/SKILL.md</code></h3>
 
-  <p>A dedicated folder with a <code>SKILL.md</code> + supporting files (scripts, references). Best when the workflow uses bundled scripts or detailed docs. Chapter 06 details the skill folder discipline — the same applies here.</p>
+  <p>A dedicated folder with a <code>SKILL.md</code> + supporting files (scripts, references). Best when the workflow uses bundled scripts or detailed docs. Chapter 06 details the skill folder discipline, the same applies here.</p>
 
   <h2>3 commands to code in week 3</h2>
 
-  <h3><code>/ship "&lt;message&gt;"</code> — deploy in one line</h3>
+  <h3><code>/ship "&lt;message&gt;"</code>, deploy in one line</h3>
 
   <p>Template above. It's <strong>the most useful command</strong>. Replaces your manual commit/push routine and guarantees the typecheck passes.</p>
 
-  <h3><code>/audit-quick</code> — code + security audit in parallel</h3>
+  <h3><code>/audit-quick</code>, code + security audit in parallel</h3>
 
   <pre data-lang="markdown">---
 description: "Quick audit: code + security in parallel, synthesized report"
 ---
 
-# /audit-quick — Pre-release audit
+# /audit-quick, Pre-release audit
 
 Launch these 2 agents IN PARALLEL (same message, multiple tool calls):
 
@@ -778,7 +778,7 @@ When both finish, present a unified report:
 
 End with a single priority recommendation.</pre>
 
-  <h3><code>/standup</code> — daily recap</h3>
+  <h3><code>/standup</code>, daily recap</h3>
 
   <pre data-lang="markdown">---
 description: "Morning recap: 24h commits, WIP, suggested focus"
@@ -803,7 +803,7 @@ End with a question: "Tackling focus #1 or something else?"</pre>
 
   <aside class="callout callout-tip">
     <div class="callout-title">Disambiguation</div>
-    <p>Create a <code>.claude/COMMANDS.md</code> file (outside the <code>commands/</code> folder — putting it inside would create a <code>/COMMANDS</code> slash command) listing all your commands with a "I want X → command Y" table. Saves time when you have 10+ commands.</p>
+    <p>Create a <code>.claude/COMMANDS.md</code> file (outside the <code>commands/</code> folder, putting it inside would create a <code>/COMMANDS</code> slash command) listing all your commands with a "I want X → command Y" table. Saves time when you have 10+ commands.</p>
   </aside>
 
   <aside class="callout callout-danger">
@@ -834,7 +834,7 @@ End with a question: "Tackling focus #1 or something else?"</pre>
 </article>
 
 <!-- =================================================================
-     CHAPTER 05 — Sub-agents  (~5 pages)
+     CHAPTER 05, Sub-agents  (~5 pages)
      ADAPTED FROM V1.
      ================================================================= -->
 <article class="chapter">
@@ -845,10 +845,10 @@ End with a question: "Tackling focus #1 or something else?"</pre>
   <h2>Why split rather than do everything in one</h2>
 
   <ol>
-    <li><strong>Context preserved</strong> — each agent starts with a clean context, doesn't pollute the main session.</li>
-    <li><strong>Narrow scope</strong> — an audit agent has no Write/Edit tools. It <em>cannot</em> break code.</li>
-    <li><strong>Right-sized model</strong> — a complex audit uses <code>opus</code>, a quick classification uses <code>haiku</code>. You optimize cost.</li>
-    <li><strong>Specialization</strong> — the security agent knows OWASP; the domain agent knows your conventions. Not mixed.</li>
+    <li><strong>Context preserved</strong>, each agent starts with a clean context, doesn't pollute the main session.</li>
+    <li><strong>Narrow scope</strong>, an audit agent has no Write/Edit tools. It <em>cannot</em> break code.</li>
+    <li><strong>Right-sized model</strong>, a complex audit uses <code>opus</code>, a quick classification uses <code>haiku</code>. You optimize cost.</li>
+    <li><strong>Specialization</strong>, the security agent knows OWASP; the domain agent knows your conventions. Not mixed.</li>
   </ol>
 
   <h2>Anatomy of an agent</h2>
@@ -861,7 +861,7 @@ description: &gt;
   READ-ONLY code quality audit. Use proactively when the user says
   "audit the code", "review", or before a large refactor.
   Detects: dead code, duplication, complexity, anti-patterns, unjustified
-  `any` types. Modifies NO files — produces a structured report.
+  `any` types. Modifies NO files, produces a structured report.
 model: opus
 tools: Read, Grep, Glob, Bash, WebFetch
 ---
@@ -900,7 +900,7 @@ End with: Overall score /10 + Top 3 priority actions.
     <thead><tr><th>Model</th><th>When</th></tr></thead>
     <tbody>
       <tr><td><code>haiku</code></td><td>Classification, quick triage, codebase exploration, repetitive tasks</td></tr>
-      <tr><td><code>sonnet</code></td><td>Code generation, standard audits, structured content — the sane default</td></tr>
+      <tr><td><code>sonnet</code></td><td>Code generation, standard audits, structured content, the sane default</td></tr>
       <tr><td><code>opus</code></td><td>Complex audits (security, DB, architecture), long reasoning, strategic decisions</td></tr>
     </tbody>
   </table>
@@ -914,10 +914,10 @@ End with: Overall score /10 + Top 3 priority actions.
   <table>
     <thead><tr><th>Agent type</th><th>Tools</th></tr></thead>
     <tbody>
-      <tr><td>Audit agent (read-only)</td><td><code>Read, Grep, Glob, Bash, WebFetch, WebSearch</code> — no Write/Edit</td></tr>
-      <tr><td>Code-creating agent</td><td><code>Read, Write, Edit, Bash, Glob</code> — Bash only if needed (tests)</td></tr>
-      <tr><td>Content-writing agent</td><td><code>Read, Write, Edit, Grep, WebFetch, WebSearch</code> — no Bash</td></tr>
-      <tr><td>Classification agent</td><td><code>Read, Grep, Glob</code> — minimalist, <code>haiku</code> model</td></tr>
+      <tr><td>Audit agent (read-only)</td><td><code>Read, Grep, Glob, Bash, WebFetch, WebSearch</code>, no Write/Edit</td></tr>
+      <tr><td>Code-creating agent</td><td><code>Read, Write, Edit, Bash, Glob</code>, Bash only if needed (tests)</td></tr>
+      <tr><td>Content-writing agent</td><td><code>Read, Write, Edit, Grep, WebFetch, WebSearch</code>, no Bash</td></tr>
+      <tr><td>Classification agent</td><td><code>Read, Grep, Glob</code>, minimalist, <code>haiku</code> model</td></tr>
     </tbody>
   </table>
 
@@ -931,9 +931,9 @@ End with: Overall score /10 + Top 3 priority actions.
   <p>Start with these 3 agents that cover 80 % of cases:</p>
 
   <ol>
-    <li><code>code-auditor</code> — quality audit (template above)</li>
-    <li><code>security-auditor</code> — RLS, secrets, OWASP, GDPR (cf. Annex D)</li>
-    <li><code>qa-tester</code> — end-to-end user flows after a large change</li>
+    <li><code>code-auditor</code>, quality audit (template above)</li>
+    <li><code>security-auditor</code>, RLS, secrets, OWASP, GDPR (cf. Annex D)</li>
+    <li><code>qa-tester</code>, end-to-end user flows after a large change</li>
   </ol>
 
   <p>Add more as you identify a <em>recurring</em> need.</p>
@@ -941,9 +941,9 @@ End with: Overall score /10 + Top 3 priority actions.
   <h2>Invoking a sub-agent</h2>
 
   <ul>
-    <li><strong>Automatic</strong> — Claude reads the <code>description</code> and triggers the agent when the pattern matches.</li>
-    <li><strong>Explicit</strong> — the user says <em>"Launch security-auditor on this week's server actions"</em>.</li>
-    <li><strong>Via a slash command</strong> — which wraps the invocation with pre-formatted context (cf. Chapter 04).</li>
+    <li><strong>Automatic</strong>, Claude reads the <code>description</code> and triggers the agent when the pattern matches.</li>
+    <li><strong>Explicit</strong>, the user says <em>"Launch security-auditor on this week's server actions"</em>.</li>
+    <li><strong>Via a slash command</strong>, which wraps the invocation with pre-formatted context (cf. Chapter 04).</li>
   </ul>
 
   <aside class="callout callout-tip">
@@ -975,7 +975,7 @@ unjustified `any` types. Does NOT modify files.</pre>
 </article>
 
 <!-- =================================================================
-     CHAPTER 06 — Skills  ⭐ NEW (~5 pages)  — FULLY WRITTEN BELOW
+     CHAPTER 06, Skills  ⭐ NEW (~5 pages) , FULLY WRITTEN BELOW
      ================================================================= -->
 <article class="chapter">
   <h1 class="chapter-title"><span class="chapter-number">Chapter 06 <span class="badge badge-intermediate">INTERMEDIATE</span></span>Skills (the right way)</h1>
@@ -1030,7 +1030,7 @@ graph LR
 
   <p>The naming convention <code>&lt;prefix&gt;-&lt;topic&gt;.md</code> matters: it lets the skill be browsed alphabetically and grouped by category. The three underscored files (<code>_sections</code>, <code>_template</code>, <code>_contributing</code>) are scaffolding, not rules.</p>
 
-  <h2>SKILL.md — the entry point</h2>
+  <h2>SKILL.md, the entry point</h2>
 
   <p>Minimum frontmatter:</p>
 
@@ -1048,9 +1048,9 @@ metadata:
     change marker) with Incorrect → Correct examples and a category map.
 ---</pre>
 
-  <p>The body of <code>SKILL.md</code> then explains <em>when to apply</em> the skill and <em>how to use</em> the references folder. Two sections — that's it. Don't put rules in <code>SKILL.md</code>; put them in <code>references/</code>.</p>
+  <p>The body of <code>SKILL.md</code> then explains <em>when to apply</em> the skill and <em>how to use</em> the references folder. Two sections, that's it. Don't put rules in <code>SKILL.md</code>; put them in <code>references/</code>.</p>
 
-  <h2>A reference file — the Incorrect → Correct pattern</h2>
+  <h2>A reference file, the Incorrect → Correct pattern</h2>
 
   <p>Every rule file uses the same structure: explain in 1–2 sentences why it matters, show the <strong>incorrect</strong> version (the trap), then the <strong>correct</strong> version. Concrete example, from <code>references/format-type-required.md</code>:</p>
 
@@ -1096,9 +1096,9 @@ is imperative present tense.
   <p>Notice the discipline:</p>
 
   <ul>
-    <li>Frontmatter declares <code>impact</code> and <code>impactDescription</code> — so Claude can prioritize when applying multiple rules.</li>
+    <li>Frontmatter declares <code>impact</code> and <code>impactDescription</code>, so Claude can prioritize when applying multiple rules.</li>
     <li>Title is action-oriented ("must start with a type prefix"), not abstract ("about types").</li>
-    <li>Incorrect comes <em>before</em> Correct — this trains the reader to recognize the anti-pattern in the wild.</li>
+    <li>Incorrect comes <em>before</em> Correct, this trains the reader to recognize the anti-pattern in the wild.</li>
     <li>Edge cases are listed explicitly. Don't make the reader guess.</li>
   </ul>
 
@@ -1124,11 +1124,11 @@ instead of rewriting the rule. The skill is the single source of truth.</pre>
   <aside class="callout callout-danger">
     <div class="callout-title">Don't do this</div>
     <ul>
-      <li><strong>Orphan skills</strong> — a skill folder no agent references. The skill is never loaded; the rules drift. Detected by your monthly audit (Chapter 13).</li>
-      <li><strong>Rule duplicated in agent prompt AND skill</strong> — the next time someone updates one, the other drifts silently. Pick one location.</li>
-      <li><strong>Skill without <code>_sections.md</code></strong> — references aren't grouped, the skill becomes a flat dumping ground.</li>
-      <li><strong>Rules without "Incorrect" example</strong> — the reader has to infer what the anti-pattern looks like. Always show it.</li>
-      <li><strong>One giant rule file</strong> — if a rule file is longer than two pages, split it. One rule, one file.</li>
+      <li><strong>Orphan skills</strong>, a skill folder no agent references. The skill is never loaded; the rules drift. Detected by your monthly audit (Chapter 13).</li>
+      <li><strong>Rule duplicated in agent prompt AND skill</strong>, the next time someone updates one, the other drifts silently. Pick one location.</li>
+      <li><strong>Skill without <code>_sections.md</code></strong>, references aren't grouped, the skill becomes a flat dumping ground.</li>
+      <li><strong>Rules without "Incorrect" example</strong>, the reader has to infer what the anti-pattern looks like. Always show it.</li>
+      <li><strong>One giant rule file</strong>, if a rule file is longer than two pages, split it. One rule, one file.</li>
     </ul>
   </aside>
 
@@ -1148,7 +1148,7 @@ instead of rewriting the rule. The skill is the single source of truth.</pre>
 </section>
 
 <!-- =================================================================
-     CHAPTER 07 — Plan-first development  ⭐ NEW (~3 pages)
+     CHAPTER 07, Plan-first development  ⭐ NEW (~3 pages)
      ================================================================= -->
 <article class="chapter">
   <h1 class="chapter-title"><span class="chapter-number">Chapter 07 <span class="badge badge-advanced">ADVANCED</span></span>Plan-first development</h1>
@@ -1183,7 +1183,7 @@ graph TB
     style Step5 fill:#dcfce7,stroke:#15803d,stroke-width:2px
     style Rethink fill:#fee2e2,stroke:#b91c1c
     </pre>
-    <figcaption>The /new-feature pipeline. Step 1.5 — plan-reviewer — is the cheapest, highest-ROI checkpoint in the whole loop.</figcaption>
+    <figcaption>The /new-feature pipeline. Step 1.5, plan-reviewer, is the cheapest, highest-ROI checkpoint in the whole loop.</figcaption>
   </figure>
 
   <blockquote>"If my goal is to write a Pull Request, I use Plan mode and go back and forth with Claude until I like its plan. From there, I switch into auto-accept edits mode and Claude can usually one-shot it. A good plan is really important."<br><span class="small muted">— Boris Cherny, creator of Claude Code</span></blockquote>
@@ -1197,29 +1197,29 @@ description: "Orchestrated pipeline for any sizeable change: plan → review →
 argument-hint: "&lt;short description of the feature&gt;"
 ---
 
-# /new-feature — Guided pipeline
+# /new-feature, Guided pipeline
 
 Use when the change touches **3+ files**, OR a critical module
 (payments, auth, calculations), OR a database migration, OR a
 cross-cutting feature. For a one-file fix, use direct Edit.
 
-## Step 0 — Capture scope
+## Step 0, Capture scope
 
 Reformulate `$ARGUMENTS` in 1-2 lines. Wait for explicit user confirmation.
 
-## Step 1 — Write the plan
+## Step 1, Write the plan
 
 Create `PLAN_&lt;slug&gt;.md` at repo root with this exact structure:
 
 ```
-# Plan — &lt;title&gt;
+# Plan, &lt;title&gt;
 
 ## Scope
 - One sentence: what will be delivered.
 - Out of scope: what we are NOT doing.
 
 ## Files to create / modify
-- `path/to/file.ts` — create / modify — role
+- `path/to/file.ts`, create / modify, role
 
 ## Dependencies between files
 1. A must precede B because …
@@ -1233,34 +1233,34 @@ Create `PLAN_&lt;slug&gt;.md` at repo root with this exact structure:
 - Variants: [if applicable]
 ```
 
-## Step 1.5 — Plan review (invoke plan-reviewer agent)
+## Step 1.5, Plan review (invoke plan-reviewer agent)
 
 Pass the plan to the `plan-reviewer` sub-agent. Show its verdict to
 the user (🟢 GO / 🟡 GO with adjustments / 🔴 STOP).
 
 **Do not write code until the user says "go".**
 
-## Step 2 — Implement, file by file, in dependency order
+## Step 2, Implement, file by file, in dependency order
 
 After each file, run your verify command (typecheck + tests).
 Stop on failure; don't stack errors.
 
-## Step 3 — Final verify
+## Step 3, Final verify
 
 If red, STOP and show errors. Don't run audits on broken code.
 
-## Step 4 — Targeted audits in parallel
+## Step 4, Targeted audits in parallel
 
 Based on what was touched, invoke 2–3 agents in parallel
 (qa-tester always, plus security/db/design as relevant).
 
-## Step 5 — Synthesis
+## Step 5, Synthesis
 
 Unified report. Suggest /ship if no 🔴 findings.</pre>
 
   <h2>The plan-reviewer sub-agent</h2>
 
-  <p>The crucial step is 1.5 — a second Claude instance, playing "staff engineer," reviews the plan written by the first. Create <code>.claude/agents/plan-reviewer.md</code>:</p>
+  <p>The crucial step is 1.5, a second Claude instance, playing "staff engineer," reviews the plan written by the first. Create <code>.claude/agents/plan-reviewer.md</code>:</p>
 
   <pre data-lang="yaml">---
 name: plan-reviewer
@@ -1290,7 +1290,7 @@ tools: Read, Grep, Glob, Bash
 </article>
 
 <!-- =================================================================
-     CHAPTER 08 — The audit loop  ⭐ NEW (~3 pages)
+     CHAPTER 08, The audit loop  ⭐ NEW (~3 pages)
      ================================================================= -->
 <article class="chapter">
   <h1 class="chapter-title"><span class="chapter-number">Chapter 08 <span class="badge badge-advanced">ADVANCED</span></span>The audit loop</h1>
@@ -1299,12 +1299,12 @@ tools: Read, Grep, Glob, Bash
     <div class="callout-title">TL;DR</div>
     <ul>
       <li>A hook nudges you after every <em>significant</em> commit: "extract a lesson?"</li>
-      <li>The <code>/extract-lesson</code> slash command pins 1-3 lessons to <code>CLAUDE.md</code> — versioned, survives reclones.</li>
+      <li>The <code>/extract-lesson</code> slash command pins 1-3 lessons to <code>CLAUDE.md</code>, versioned, survives reclones.</li>
       <li>Replaces local-only memories (which are lost on machine change) with Git-tracked knowledge.</li>
     </ul>
   </aside>
 
-  <p>Every time Claude makes a mistake — or makes a non-obvious correct decision — that's an opportunity to capture a lesson. The audit loop is the discipline of <strong>turning that moment into a versioned line in your repo</strong> so the same lesson is loaded next session, next month, and next time you reclone.</p>
+  <p>Every time Claude makes a mistake, or makes a non-obvious correct decision, that's an opportunity to capture a lesson. The audit loop is the discipline of <strong>turning that moment into a versioned line in your repo</strong> so the same lesson is loaded next session, next month, and next time you reclone.</p>
 
   <figure>
     <pre class="mermaid">
@@ -1326,18 +1326,18 @@ graph LR
 
   <h2>Why locally-stored memory isn't enough</h2>
 
-  <p>Claude Code keeps user memories in <code>~/.claude/projects/&lt;project&gt;/memory/</code>. They survive across sessions on the same machine — but not across machines, not across team members, and not across a wipe. Anything you want to compound over time has to land in <strong>Git-versioned</strong> files.</p>
+  <p>Claude Code keeps user memories in <code>~/.claude/projects/&lt;project&gt;/memory/</code>. They survive across sessions on the same machine, but not across machines, not across team members, and not across a wipe. Anything you want to compound over time has to land in <strong>Git-versioned</strong> files.</p>
 
   <h2>The /extract-lesson workflow</h2>
 
   <p>Two pieces wire it up: a hook that <em>notices</em> a meaningful commit, and a slash command that <em>extracts</em> the lesson.</p>
 
-  <h3>The hook — extract-lesson.sh</h3>
+  <h3>The hook, extract-lesson.sh</h3>
 
   <p>Triggered on <code>PostToolUse: Bash</code>, the hook filters for <code>git commit</code> commands and checks whether the commit is "significant" (matches <code>feat/fix/refactor</code>, OR touches 3+ files, OR touches a sensitive zone like <code>src/auth/</code> or migrations). If yes, it prints a one-line nudge on stderr:</p>
 
   <pre data-lang="terminal">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  💡 Significant commit detected (a3b1f0) — extract a lesson?
+  💡 Significant commit detected (a3b1f0), extract a lesson?
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   fix(api): handle TZ shift on Date.toJSON()
   (type fix, 4 files)
@@ -1348,9 +1348,9 @@ graph LR
 
   <p>Crucial detail: the hook compares the current <code>HEAD</code> to <code>.claude/logs/last-extract-head</code>. If HEAD didn't actually move (because the commit failed a pre-commit hook), it stays silent. False positives kill the habit faster than missed positives.</p>
 
-  <h3>The slash — /extract-lesson</h3>
+  <h3>The slash, /extract-lesson</h3>
 
-  <p>The command reads the diff and the message of the last commit (or a given SHA), then decides whether there's actually a lesson worth pinning. The bar is high — most commits don't need a lesson. The criteria, applied in order:</p>
+  <p>The command reads the diff and the message of the last commit (or a given SHA), then decides whether there's actually a lesson worth pinning. The bar is high, most commits don't need a lesson. The criteria, applied in order:</p>
 
   <ol>
     <li>A non-obvious gotcha somebody would re-discover painfully (e.g., "<code>Date.toJSON()</code> silently drops timezone offset").</li>
@@ -1404,7 +1404,7 @@ graph LR
 </article>
 
 <!-- =================================================================
-     CHAPTER 09 — Coach mode  (~2 pages)
+     CHAPTER 09, Coach mode  (~2 pages)
      ADAPTED FROM V1.
      ================================================================= -->
 <article class="chapter">
@@ -1418,11 +1418,11 @@ graph LR
 
   <p>The Coach fixes this in 3 layers.</p>
 
-  <h2>Layer 1 — Rules in CLAUDE.md</h2>
+  <h2>Layer 1, Rules in CLAUDE.md</h2>
 
   <p>Add a "Coach mode" section in <code>CLAUDE.md</code> with a trigger table. It gets re-read every session.</p>
 
-  <pre data-lang="markdown">## Coach mode — when to propose what
+  <pre data-lang="markdown">## Coach mode, when to propose what
 
 Triggers to honor before acting. If a condition is true,
 propose the command/agent rather than just running.
@@ -1439,16 +1439,16 @@ propose the command/agent rather than just running.
 
 **General rule**: if a command covers ~80 % of what was about to be
 done manually, propose first. The user can always reply "no, do it
-manually" — that's fine.</pre>
+manually", that's fine.</pre>
 
-  <h2>Layer 2 — Stop hook that observes</h2>
+  <h2>Layer 2, Stop hook that observes</h2>
 
   <p>The <code>Stop</code> hook fires when Claude finishes its turn. It reads the current session's activity log, detects what was touched, and prints targeted suggestions <strong>in your terminal</strong>, consuming zero tokens.</p>
 
   <p>Prerequisite: have a PostToolUse hook that logs Write/Edit/Bash to <code>.claude/logs/activity.log</code>. Then create <code>.claude/hooks/coach-suggest.sh</code>:</p>
 
   <pre data-lang="bash">#!/usr/bin/env bash
-# Stop hook — Coach. Analyzes the current session's activity log
+# Stop hook, Coach. Analyzes the current session's activity log
 # and prints suggestions based on what was touched.
 set -e
 cd "$(dirname "$0")/../.."
@@ -1493,7 +1493,7 @@ fi
 
 exit 0</pre>
 
-  <h2>Layer 3 — Manual <code>/coach</code> slash</h2>
+  <h2>Layer 3, Manual <code>/coach</code> slash</h2>
 
   <p>For moments when you hesitate yourself. Create <code>.claude/commands/coach.md</code>:</p>
 
@@ -1541,7 +1541,7 @@ End with: "Run #1 or want to think first?"</pre>
 </section>
 
 <!-- =================================================================
-     CHAPTER 10 — Parallel worktrees  ⭐ NEW (~2 pages)
+     CHAPTER 10, Parallel worktrees  ⭐ NEW (~2 pages)
      ================================================================= -->
 <article class="chapter">
   <h1 class="chapter-title"><span class="chapter-number">Chapter 10 <span class="badge badge-advanced">ADVANCED</span></span>Parallel worktrees</h1>
@@ -1568,9 +1568,9 @@ End with: "Run #1 or want to think first?"</pre>
   <h2>When it doesn't</h2>
 
   <ul>
-    <li>Two chantiers that touch the same files — the merges will be painful.</li>
-    <li>You're new to Claude Code — one session at a time is safer until you have the muscle memory.</li>
-    <li>Limited RAM — three concurrent dev servers + three Claude sessions easily exceeds 6 GB.</li>
+    <li>Two chantiers that touch the same files, the merges will be painful.</li>
+    <li>You're new to Claude Code, one session at a time is safer until you have the muscle memory.</li>
+    <li>Limited RAM, three concurrent dev servers + three Claude sessions easily exceeds 6 GB.</li>
   </ul>
 
   <h2>Setup</h2>
@@ -1582,7 +1582,7 @@ cd ../my-project-worktrees/marketing
 npm install   # node_modules per worktree, no sharing
 
 # Conventions
-# - Branch name : chantier/&lt;slug&gt;  (not feature/* — drifts too easily)
+# - Branch name : chantier/&lt;slug&gt;  (not feature/*, drifts too easily)
 # - Folder name : ../my-project-worktrees/&lt;slug&gt;
 # - Lifetime    : ideally &lt; 7 days, otherwise merge or kill
 
@@ -1602,9 +1602,9 @@ git branch -d chantier/marketing-launch</pre>
 
   <ul>
     <li><strong><code>.env.local</code> is not tracked</strong>, so it's not in the new worktree. Copy it manually after <code>git worktree add</code>.</li>
-    <li><strong><code>settings.local.json</code></strong> is gitignored too — same issue.</li>
-    <li><strong>Dev server port collisions</strong> — if your default is <code>3000</code>, start the second worktree with <code>PORT=3001 npm run dev</code>.</li>
-    <li><strong>Hooks fire per worktree</strong> — that's a feature: each worktree has independent <code>.claude/logs/last-extract-head</code>, so the audit loop works correctly across parallel work.</li>
+    <li><strong><code>settings.local.json</code></strong> is gitignored too, same issue.</li>
+    <li><strong>Dev server port collisions</strong>, if your default is <code>3000</code>, start the second worktree with <code>PORT=3001 npm run dev</code>.</li>
+    <li><strong>Hooks fire per worktree</strong>, that's a feature: each worktree has independent <code>.claude/logs/last-extract-head</code>, so the audit loop works correctly across parallel work.</li>
   </ul>
 
   <aside class="callout callout-danger">
@@ -1614,7 +1614,7 @@ git branch -d chantier/marketing-launch</pre>
 </article>
 
 <!-- =================================================================
-     CHAPTER 11 — The memory matrix  ⭐ NEW (~3 pages)
+     CHAPTER 11, The memory matrix  ⭐ NEW (~3 pages)
      ================================================================= -->
 <article class="chapter">
   <h1 class="chapter-title"><span class="chapter-number">Chapter 11 <span class="badge badge-advanced">ADVANCED</span></span>The memory matrix</h1>
@@ -1717,11 +1717,11 @@ graph TB
 </article>
 
 <!-- =================================================================
-     CHAPTER 12 — MCP  (~3 pages)
+     CHAPTER 12, MCP  (~3 pages)
      ADAPTED FROM V1.
      ================================================================= -->
 <article class="chapter">
-  <h1 class="chapter-title"><span class="chapter-number">Chapter 12 <span class="badge badge-advanced">ADVANCED</span></span>MCP — Connect to the outside</h1>
+  <h1 class="chapter-title"><span class="chapter-number">Chapter 12 <span class="badge badge-advanced">ADVANCED</span></span>MCP, Connect to the outside</h1>
 
   <p>The <strong>Model Context Protocol</strong> gives Claude access to external tools (DB, browser, filesystem, APIs). Configure in <code>.mcp.json</code> at the root:</p>
 
@@ -1752,7 +1752,7 @@ graph TB
       <tr><td><strong>filesystem</strong></td><td>Read access to a specific folder (CSV data, exports)</td><td>case-by-case</td></tr>
       <tr><td><strong>Tavily</strong></td><td>Premium web search (better than default WebSearch)</td><td>if research is frequent</td></tr>
       <tr><td><strong>GitHub</strong></td><td>Read PRs, issues, comments without leaving Claude</td><td>if team workflows</td></tr>
-      <tr><td>DB (Postgres, Supabase…)</td><td>Read DB schema without copy-paste — <strong>lock read-only</strong></td><td>if DB is central</td></tr>
+      <tr><td>DB (Postgres, Supabase…)</td><td>Read DB schema without copy-paste, <strong>lock read-only</strong></td><td>if DB is central</td></tr>
     </tbody>
   </table>
 
@@ -1770,7 +1770,7 @@ graph TB
     <li>In <code>.claude/settings.local.json</code> (gitignored, machine-local), narrow the MCP's tool list to read-only operations.</li>
   </ol>
 
-  <p>Two redundant layers — if someone edits one, the other still holds. A single layer fails silently. Example for a Postgres MCP:</p>
+  <p>Two redundant layers, if someone edits one, the other still holds. A single layer fails silently. Example for a Postgres MCP:</p>
 
   <pre data-lang="json">// .mcp.json
 {
@@ -1802,7 +1802,7 @@ graph TB
 </article>
 
 <!-- =================================================================
-     CHAPTER 13 — Long-term maintenance  (~2 pages)
+     CHAPTER 13, Long-term maintenance  (~2 pages)
      ADAPTED FROM V1, with audit-claude-setup extended.
      ================================================================= -->
 <article class="chapter">
@@ -1838,7 +1838,7 @@ graph TB
 @.claude/CONVENTIONS.md
 @.claude/WORKFLOW.md
 
-# &lt;Project&gt; — configuration hub
+# &lt;Project&gt;, configuration hub
 
 | Looking for… | Go to |
 |---|---|
@@ -1857,10 +1857,10 @@ graph TB
   <p>Once a month, or before a release, run <code>/audit-claude-setup</code>. The full slash command lives in Annex E; here's the checklist it implements:</p>
 
   <ol>
-    <li><strong>Inventory.</strong> Count agents, slash commands, hooks, skills, active memories, MCP servers. Compare to your <code>COMMANDS.md</code> index — anything undocumented?</li>
+    <li><strong>Inventory.</strong> Count agents, slash commands, hooks, skills, active memories, MCP servers. Compare to your <code>COMMANDS.md</code> index, anything undocumented?</li>
     <li><strong>Dormant agents.</strong> An agent that never appears in your activity log is either redundant or has a poorly-calibrated <code>description</code>. Decide which.</li>
     <li><strong>Broken references.</strong> For every file mentioned in <code>CLAUDE.md</code>, verify it exists.</li>
-    <li><strong>Unused permissions.</strong> A <code>Bash(*)</code> entry that's never invoked is noise — narrow it.</li>
+    <li><strong>Unused permissions.</strong> A <code>Bash(*)</code> entry that's never invoked is noise, narrow it.</li>
     <li><strong>Empty agent memories.</strong> A <code>memory: project</code> agent whose <code>MEMORY.md</code> is empty for 30+ days isn't capitalizing. Either it's under-used or the memory criteria are wrong.</li>
     <li><strong>Slow hooks.</strong> A hook that takes &gt;500 ms slows every session. Profile, fix, or async it.</li>
     <li><strong>Model misalignment.</strong> <code>opus</code> for trivial agents wastes tokens; <code>haiku</code> for complex ones gives bad results.</li>
@@ -2009,7 +2009,7 @@ One-sentence description.
 </article>
 
 <!-- =================================================================
-     ANNEX F — Glossary  ⭐ NEW
+     ANNEX F, Glossary  ⭐ NEW
      ================================================================= -->
 <article class="chapter">
   <h1 class="chapter-title"><span class="chapter-number">Annex F</span>Glossary</h1>
@@ -2034,7 +2034,7 @@ One-sentence description.
     <dd>Pattern of giving each agent only the tools it needs (Read-only for an auditor, Read+Write for a generator). Reduces attack surface and mistakes.</dd>
 
     <dt>MCP</dt>
-    <dd>Model Context Protocol — the open standard for connecting Claude to external tools (databases, GitHub, browsers). Configured via <code>.mcp.json</code>.</dd>
+    <dd>Model Context Protocol, the open standard for connecting Claude to external tools (databases, GitHub, browsers). Configured via <code>.mcp.json</code>.</dd>
 
     <dt>Memory matrix</dt>
     <dd>The decision rule for where to store a given piece of information: <code>CLAUDE.md</code>, a skill, an agent memory, or local user memory. See Chapter 11.</dd>
@@ -2060,7 +2060,7 @@ One-sentence description.
 </article>
 
 <!-- =================================================================
-     ANNEX G — 30-minute quick start
+     ANNEX G, 30-minute quick start
      ================================================================= -->
 <article class="chapter">
   <h1 class="chapter-title"><span class="chapter-number">Annex G</span>30-minute quick start</h1>
@@ -2081,18 +2081,18 @@ One-sentence description.
 </article>
 
 <!-- =================================================================
-     ANNEX H — Two case studies (anonymized)  ⭐ NEW
+     ANNEX H, Two case studies (anonymized)  ⭐ NEW
      ================================================================= -->
 <article class="chapter">
   <h1 class="chapter-title"><span class="chapter-number">Annex H</span>Two case studies</h1>
 
-  <p>Two anonymized stories — one developer, one knowledge worker — applying the setup. No product name, no domain specifics. The takeaways generalize.</p>
+  <p>Two anonymized stories, one developer, one knowledge worker, applying the setup. No product name, no domain specifics. The takeaways generalize.</p>
 
-  <h2>Case 1 — Solo SaaS developer (6 months)</h2>
+  <h2>Case 1, Solo SaaS developer (6 months)</h2>
 
   <p>About 30 k LOC of TypeScript, daily deployments, ~40 commits per week. Modern web stack with a transactional database and an analytics dashboard. Solo developer with one year of coding experience.</p>
 
-  <blockquote>"I was spending 15 to 20 minutes per session re-explaining context. Eight CI builds broken in two weeks because of one implicit <code>any</code>. No paper trail of architecture decisions — every two weeks I'd re-debate something I'd already decided."</blockquote>
+  <blockquote>"I was spending 15 to 20 minutes per session re-explaining context. Eight CI builds broken in two weeks because of one implicit <code>any</code>. No paper trail of architecture decisions, every two weeks I'd re-debate something I'd already decided."</blockquote>
 
   <h3>What got configured</h3>
 
@@ -2120,7 +2120,7 @@ One-sentence description.
   <h3>What worked</h3>
 
   <ul>
-    <li>Plan-first via <code>/new-feature</code>. Zero major refactor in six months — caught at planning, not after coding.</li>
+    <li>Plan-first via <code>/new-feature</code>. Zero major refactor in six months, caught at planning, not after coding.</li>
     <li>Skills over inline prompts. Drift eliminated after the first monthly audit revealed two skills duplicated in agent prompts.</li>
     <li>The memory matrix. Stopped second-guessing where to write each new piece of info.</li>
   </ul>
@@ -2129,17 +2129,17 @@ One-sentence description.
 
   <ul>
     <li>4 sub-agents were never invoked. Either redundant or with badly calibrated <code>description</code> fields. Two merged, two deleted.</li>
-    <li>Parallel worktrees abandoned after one try — the laptop didn't have the RAM for three concurrent dev servers.</li>
+    <li>Parallel worktrees abandoned after one try, the laptop didn't have the RAM for three concurrent dev servers.</li>
     <li>A test-guarding hook was occasionally over-strict on cosmetic UI changes. Fixed via a targeted agent-memory entry.</li>
   </ul>
 
   <h3>Closing quote</h3>
 
-  <blockquote>"The setup doesn't make you faster — it makes you reproducible. That's the opposite of glamorous, but it's what let me keep going for six months without giving up."</blockquote>
+  <blockquote>"The setup doesn't make you faster, it makes you reproducible. That's the opposite of glamorous, but it's what let me keep going for six months without giving up."</blockquote>
 
-  <h2>Case 2 — Knowledge worker / independent researcher (3 months)</h2>
+  <h2>Case 2, Knowledge worker / independent researcher (3 months)</h2>
 
-  <p>A freelance technical writer and research analyst using Claude Code as a daily writing and analysis tool. No production code, but heavy use of long-form documents, fact-checking, and structured note-taking. Worked across two repositories — one for client deliverables, one for a personal knowledge base.</p>
+  <p>A freelance technical writer and research analyst using Claude Code as a daily writing and analysis tool. No production code, but heavy use of long-form documents, fact-checking, and structured note-taking. Worked across two repositories, one for client deliverables, one for a personal knowledge base.</p>
 
   <blockquote>"I'd been using Claude in a browser tab for a year. Every conversation started by pasting my style guide, my sources, my project context. I lost two hours a week to that ritual alone. I tried Claude Code on a friend's recommendation; with this handbook's setup, the ritual disappeared."</blockquote>
 
@@ -2150,7 +2150,7 @@ One-sentence description.
     <li>3 sub-agents: <code>fact-checker</code> (verifies claims against sources before write), <code>tone-reviewer</code> (flags drift from style guide), <code>structure-reviewer</code> (checks heading hierarchy and length distribution)</li>
     <li>4 hooks: <code>session-start.sh</code> shows "last 3 documents touched", <code>pre-tool-guard.sh</code> blocks writes outside <code>drafts/</code> and <code>published/</code>, <code>post-edit-format.sh</code> runs <code>prettier</code> on markdown, <code>extract-lesson.sh</code> nudges to capture editorial decisions</li>
     <li>3 slash commands: <code>/draft &lt;topic&gt;</code> (research + outline), <code>/polish</code> (run all 3 reviewers), <code>/cite &lt;url&gt;</code> (fetch + format)</li>
-    <li>1 skill: <code>citation-styles</code> with rules for academic, journalistic, and blog formats — eliminated rewriting the same instruction every essay</li>
+    <li>1 skill: <code>citation-styles</code> with rules for academic, journalistic, and blog formats, eliminated rewriting the same instruction every essay</li>
   </ul>
 
   <h3>Three-month results</h3>
@@ -2161,13 +2161,13 @@ One-sentence description.
       <tr><td>Ritual time at session start</td><td>~10 min</td><td>0 min</td></tr>
       <tr><td>Articles published per month</td><td>4</td><td>7</td></tr>
       <tr><td>Style-guide drift caught before publish</td><td>by editor, post-hoc</td><td>by <code>tone-reviewer</code>, pre-publish</td></tr>
-      <tr><td>Hours per week saved (self-reported)</td><td>—</td><td>5–7</td></tr>
+      <tr><td>Hours per week saved (self-reported)</td><td>-</td><td>5–7</td></tr>
     </tbody>
   </table>
 
   <h3>Closing quote</h3>
 
-  <blockquote>"I'm not a developer, and most Claude Code content assumes you are. This handbook explained the same setup in a way that fit my workflow. The patterns — plan first, capture lessons, one skill per domain — translate one-to-one to writing."</blockquote>
+  <blockquote>"I'm not a developer, and most Claude Code content assumes you are. This handbook explained the same setup in a way that fit my workflow. The patterns, plan first, capture lessons, one skill per domain, translate one-to-one to writing."</blockquote>
 
   <h2>What both cases share</h2>
 
@@ -2175,7 +2175,7 @@ One-sentence description.
 </article>
 
 <!-- =================================================================
-     ANNEX I — Cheat sheet (2 pages)  ⭐ NEW
+     ANNEX I, Cheat sheet (2 pages)  ⭐ NEW
      ================================================================= -->
 <article class="chapter">
   <h1 class="chapter-title"><span class="chapter-number">Annex I</span>Cheat sheet</h1>
