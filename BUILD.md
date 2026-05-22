@@ -87,6 +87,39 @@ chromium --headless \
 
 Add `--virtual-time-budget=10000` if you have webfonts.
 
+## EPUB build
+
+EPUBs are produced from the same `source-v2.html` files via Pandoc, with a Mermaid-to-SVG pre-pass (Pandoc doesn't execute JavaScript so the live `mermaid.js` rendering wouldn't run).
+
+### Prerequisites
+
+- Node.js (for the pre-pass)
+- [Pandoc](https://pandoc.org/installing.html) (~50 MB MSI on Windows)
+
+### Build
+
+```powershell
+# Step 1 — render Mermaid diagrams to inline SVG
+node prepare-for-epub.js
+
+# Step 2 — build both EPUBs (calls Pandoc under the hood)
+.\build-epub.ps1
+```
+
+Output: `en/claude-code-handbook-v2.epub`, `fr/le-code-du-claudeur-v2.epub`. The intermediate `en/source-v2-rendered.html` and `fr/source-v2-rendered.html` are gitignored build artifacts — leave them on disk.
+
+### Known issue — PowerShell 5.1 silently skips the FR EPUB
+
+On **Windows PowerShell 5.1**, the backtick line-continuations in `build-epub.ps1` are mis-parsed for the FR `pandoc` invocation. Result: the EN EPUB is built, the FR EPUB silently fails with no error and no output file.
+
+**Workaround until the script is fixed** — run the FR pandoc as a one-liner after `build-epub.ps1`:
+
+```powershell
+pandoc fr/source-v2-rendered.html -o fr/le-code-du-claudeur-v2.epub --metadata title="Le Code du Claudeur V2" --metadata subtitle="Le manuel que tu finis vraiment." --metadata author="TheMiryon" --metadata lang=fr --metadata date="2026-05" --toc --toc-depth=2 --split-level=1
+```
+
+PowerShell 7+ (`pwsh`) parses the backticks correctly — the script should work as-is on `pwsh`.
+
 ## Pre-flight checklist before publishing
 
 - [ ] Both EN and FR source files compile to PDF without errors
@@ -162,8 +195,7 @@ claude-code-handbook/
     │   ├── agents/
     │   │   ├── code-auditor.md
     │   │   ├── security-auditor.md
-    │   │   ├── plan-reviewer.md         ← NEW V2
-    │   │   └── doc-writer.md            ← NEW V2
+    │   │   └── plan-reviewer.md         ← NEW V2
     │   ├── commands/
     │   │   ├── ship.md
     │   │   ├── audit-quick.md

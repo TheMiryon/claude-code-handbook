@@ -100,6 +100,8 @@ chmod +x .claude/hooks/*.sh
 $EDITOR CLAUDE.md
 ```
 
+> **Windows users**: run these commands from **git-bash**, **WSL**, or any POSIX shell. The native PowerShell terminal doesn't have `cp -r`, `cat >>`, or `chmod` — the install steps assume a Unix-style shell. (Once installed, Claude Code itself runs fine on Windows.)
+
 Then launch Claude Code from your project — it picks up everything automatically.
 
 ---
