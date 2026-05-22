@@ -10,10 +10,8 @@
 
 | | English | Français |
 |---|---|---|
-| **Read online** | [themiryon.github.io/claude-code-handbook/en/](https://themiryon.github.io/claude-code-handbook/en/) | [themiryon.github.io/claude-code-handbook/fr/](https://themiryon.github.io/claude-code-handbook/fr/) |
-| **PDF (V2)** | [`en/claude-code-handbook-v2.pdf`](en/claude-code-handbook-v2.pdf) | [`fr/le-code-du-claudeur-v2.pdf`](fr/le-code-du-claudeur-v2.pdf) |
+| **Read online** | [themiryon.github.io/claude-code-handbook/en/](https://themiryon.github.io/claude-code-handbook/en/) | [themiryon.github.io/claude-code-handbook/fr/](https://themiryon.github.io/claude-code-handbook/fr/)
 | **EPUB (V2)** | [`en/claude-code-handbook-v2.epub`](en/claude-code-handbook-v2.epub) | [`fr/le-code-du-claudeur-v2.epub`](fr/le-code-du-claudeur-v2.epub) |
-| Archived V1 | [`en/claude-code-handbook-v1.pdf`](en/claude-code-handbook-v1.pdf) | [`fr/le-code-du-claudeur-v1.pdf`](fr/le-code-du-claudeur-v1.pdf) |
 
 ---
 
