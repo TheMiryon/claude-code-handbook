@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Claude Code Handbook · TheMiryon</title>
+  <meta name="description" content="The Claude Code handbook you actually finish. 52 pages, bilingual (EN/FR), free. Hooks, sub-agents, skills, plan-first dev, audit loop. For developers and knowledge workers.">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --accent: #cc785c;
+      --text: #1a1a1a;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+      --bg: #fafafa;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: #fff;
+      color: var(--text);
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+    }
+    main {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 80px 24px 60px;
+    }
+    .eyebrow {
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin: 0 0 24px 0;
+    }
+    h1 {
+      font-size: clamp(36px, 6vw, 56px);
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      line-height: 1.05;
+      margin: 0 0 24px 0;
+    }
+    .sub {
+      font-size: clamp(16px, 2.4vw, 19px);
+      color: var(--muted);
+      line-height: 1.5;
+      margin: 0 0 56px 0;
+      max-width: 580px;
+    }
+    h2 {
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: 56px 0 16px 0;
+    }
+    .lang-block {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px 28px;
+      margin: 0 0 16px 0;
+      background: #fff;
+      transition: border-color 0.15s ease;
+    }
+    .lang-block:hover { border-color: var(--accent); }
+    .lang-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin: 0 0 4px 0;
+    }
+    .lang-tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border-radius: 4px;
+      background: #f6f8fa;
+      color: var(--muted);
+      margin-left: 8px;
+      vertical-align: middle;
+    }
+    .lang-desc {
+      color: var(--muted);
+      font-size: 14px;
+      margin: 0 0 16px 0;
+    }
+    .links {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 16px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.15s ease;
+    }
+    .btn-primary {
+      background: var(--text);
+      color: #fff;
+    }
+    .btn-primary:hover { background: var(--accent); }
+    .btn-secondary {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-secondary:hover { border-color: var(--text); }
+    .btn-icon { margin-left: 6px; font-size: 12px; }
+    .meta {
+      margin-top: 56px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .meta a { color: var(--text); text-decoration: none; border-bottom: 1px solid var(--border); }
+    .meta a:hover { border-color: var(--accent); }
+    .features {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px 24px;
+    }
+    .features li {
+      font-size: 14px;
+      color: var(--muted);
+      padding-left: 18px;
+      position: relative;
+    }
+    .features li::before {
+      content: "→";
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+    }
+    @media (max-width: 600px) {
+      .features { grid-template-columns: 1fr; }
+      main { padding: 56px 20px 40px; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <p class="eyebrow">Claude Code · Handbook</p>
+    <h1>The handbook you actually finish.</h1>
+    <p class="sub">~50 pages. Bilingual. Free under MIT. Hooks, sub-agents, skills, plan-first development, audit loop, parallel worktrees, memory matrix. For developers and knowledge workers.</p>
+
+    <h2>Read it</h2>
+
+    <div class="lang-block">
+      <p class="lang-title">English <span class="lang-tag">V2</span></p>
+      <p class="lang-desc">The handbook in English.</p>
+      <div class="links">
+        <a href="en/" class="btn btn-primary">Read online <span class="btn-icon">→</span></a>
+        <a href="en/claude-code-handbook-v2.epub" class="btn btn-secondary">Download EPUB</a>
+        <a href="en/claude-code-handbook-v1.pdf" class="btn btn-secondary">V1 PDF (archived)</a>
+      </div>
+    </div>
+
+    <div class="lang-block">
+      <p class="lang-title">Français <span class="lang-tag">V2</span></p>
+      <p class="lang-desc">Le manuel en français.</p>
+      <div class="links">
+        <a href="fr/" class="btn btn-primary">Lire en ligne <span class="btn-icon">→</span></a>
+        <a href="fr/le-code-du-claudeur-v2.epub" class="btn btn-secondary">Télécharger EPUB</a>
+        <a href="fr/le-code-du-claudeur-v1.pdf" class="btn btn-secondary">V1 PDF (archivé)</a>
+      </div>
+    </div>
+
+    <h2>What's inside</h2>
+    <ul class="features">
+      <li>The 30-minute minimum viable setup</li>
+      <li>Hooks (4 events, 6 production-ready scripts)</li>
+      <li>Sub-agents (anatomy, models, least privilege)</li>
+      <li>Skills (the Anthropic folder pattern)</li>
+      <li>Plan-first development + plan-reviewer</li>
+      <li>The audit loop (extract-lesson hook)</li>
+      <li>Coach mode (3 layers)</li>
+      <li>Parallel worktrees (Boris Cherny pattern)</li>
+      <li>The 4-locations memory matrix</li>
+      <li>MCP setup + read-only lock pattern</li>
+      <li>Monthly /audit-claude-setup checklist</li>
+      <li>2 anonymized case studies</li>
+    </ul>
+
+    <div class="meta">
+      <p>
+        Open source · MIT licensed ·
+        <a href="https://github.com/TheMiryon/claude-code-handbook">GitHub</a> ·
+        Templates in <a href="https://github.com/TheMiryon/claude-code-handbook/tree/main/templates"><code>templates/</code></a>
+      </p>
+      <p>Maintained by <a href="https://github.com/TheMiryon">@TheMiryon</a></p>
+    </div>
+  </main>
+</body>
+</html>
