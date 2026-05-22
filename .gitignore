@@ -1,3 +1,6 @@
-
 node_modules/
 package-lock.json
+
+# EPUB build artifacts
+en/source-v2-rendered.html
+fr/source-v2-rendered.html
