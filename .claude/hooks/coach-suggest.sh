@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Hook Stop — Coach mode.
+# Hook Stop, Coach mode.
 # Analyzes the activity log of the just-finished session and suggests the next
 # relevant command/agent based on what was touched. Zero-token (local script),
 # zero friction (output to stderr → visible in terminal).
@@ -28,7 +28,7 @@ SID=$(echo "$INPUT" | jq -r '.session_id // empty' 2>/dev/null | cut -c1-8)
 RECENT=$(grep "\[$SID\]" "$LOG" 2>/dev/null | tail -200)
 [ -z "$RECENT" ] && exit 0
 
-# Files touched (WRITE | EDIT) — unique
+# Files touched (WRITE | EDIT), unique
 FILES=$(echo "$RECENT" | grep -E 'WRITE  \||EDIT   \|' | sed 's/.*| //' | sort -u)
 WRITES=$(echo "$RECENT" | grep -cE 'WRITE  \||EDIT   \|' || true)
 

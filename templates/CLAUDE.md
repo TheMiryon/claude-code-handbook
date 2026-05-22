@@ -10,10 +10,10 @@ One-sentence description of what the app does.
 - Deployment: <Vercel | Fly.io | Railway | self-hosted>
 
 ## Useful commands
-- `<dev command>` — start the local server
-- `<verify command>` — type-check before push (the thing that blocks the build)
-- `<test command>` — run the test suite
-- `<build command>` — production build (what the deploy provider runs)
+- `<dev command>`, start the local server
+- `<verify command>`, type-check before push (the thing that blocks the build)
+- `<test command>`, run the test suite
+- `<build command>`, production build (what the deploy provider runs)
 
 ## Conventions
 - <Naming rule, e.g. camelCase JS, kebab-case files, PascalCase components>
@@ -34,7 +34,7 @@ One-sentence description of what the app does.
 ## Hard rules (impératives)
 - **Never** modify production data without explicit confirmation
 - **Always** run `<verify>` before push (typecheck is what blocks the build)
-- **Never** commit secrets to git — use the deploy provider's env vars
+- **Never** commit secrets to git, use the deploy provider's env vars
 
 ## When to use which agent (if you have .claude/agents/)
 - Before a public deployment → `security-auditor`
@@ -42,11 +42,11 @@ One-sentence description of what the app does.
 - After a multi-file change → `qa-tester` (if you have one)
 
 ## Slash commands (if you have .claude/commands/)
-- `/ship "<msg>"` — verify + commit + push in one line
-- `/audit-quick` — code + security audit in parallel
-- `/standup` — morning recap
+- `/ship "<msg>"`, verify + commit + push in one line
+- `/audit-quick`, code + security audit in parallel
+- `/standup`, morning recap
 
-## Coach mode — when to propose what
+## Coach mode, when to propose what
 
 Triggers I honor before acting. If a condition is true, propose
 the command rather than just running.
@@ -61,7 +61,7 @@ the command rather than just running.
 
 **General rule**: if a command covers ~80 % of what was about to be
 done manually, propose first. The user can always reply "no, do it
-manually" — that's fine.
+manually", that's fine.
 
 ## Pre-deployment checklist
 1. `<verify command>` green

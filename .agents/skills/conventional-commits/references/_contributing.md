@@ -24,7 +24,7 @@ Always. The reader trains pattern-recognition by seeing the trap first.
 
 ### 3. Concrete examples only
 
-No "imagine a commit that…" — write a real message. Even if it's invented, make it look like something somebody would actually type.
+No "imagine a commit that…", write a real message. Even if it's invented, make it look like something somebody would actually type.
 
 ### 4. Frontmatter is required
 
@@ -43,7 +43,7 @@ Without the frontmatter, agents can't prioritize.
 
 ### 5. Edge cases listed explicitly
 
-Don't make the reader guess. Merge commits, reverts, breaking changes, multi-scope commits — each gets a bullet in the "Edge cases" section.
+Don't make the reader guess. Merge commits, reverts, breaking changes, multi-scope commits, each gets a bullet in the "Edge cases" section.
 
 ## Checklist before submitting
 

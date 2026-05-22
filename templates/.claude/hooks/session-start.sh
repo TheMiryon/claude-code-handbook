@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Hook SessionStart — Show a quick project status at session open.
+# Hook SessionStart, Show a quick project status at session open.
 # Read-only, no destructive actions.
 
 set -e
@@ -34,7 +34,7 @@ if [ "$AHEAD" != "0" ] && [ "$AHEAD" != "?" ]; then
   echo "  ⚠  $AHEAD unpushed commit(s)"
 fi
 if [ "$BEHIND" != "0" ] && [ "$BEHIND" != "?" ]; then
-  echo "  ⚠  $BEHIND commit(s) behind upstream — git pull"
+  echo "  ⚠  $BEHIND commit(s) behind upstream, git pull"
 fi
 
 # 6. Last 3 commits

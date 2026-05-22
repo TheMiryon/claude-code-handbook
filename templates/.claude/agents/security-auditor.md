@@ -91,6 +91,6 @@ End with:
 
 ## Rules
 
-- **Don't panic** — distinguish "blocking for public launch" vs "before scale".
+- **Don't panic**, distinguish "blocking for public launch" vs "before scale".
 - If you detect a **critical exploitable flaw**, mention it first in the report (not at the end).
 - Read-only strict. No automatic fixes.

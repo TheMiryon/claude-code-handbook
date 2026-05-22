@@ -4,7 +4,7 @@ package-lock.json
 # EPUB build artifacts
 en/source-v2-rendered.html
 fr/source-v2-rendered.html
-# Claude Code — append these lines to your existing .gitignore.
+# Claude Code, append these lines to your existing .gitignore.
 # Version the team-shared files, ignore local logs and personal overrides.
 
 # Default: ignore everything under .claude/
@@ -24,7 +24,7 @@ fr/source-v2-rendered.html
 # !.claude/CONVENTIONS.md
 # !.claude/WORKFLOW.md
 
-# Activity log — local debug only, never commit
+# Activity log, local debug only, never commit
 .claude/logs/
 
 # Personal settings overrides (per-machine secrets, webhook URLs)
@@ -33,7 +33,7 @@ fr/source-v2-rendered.html
 # Personal memo (your lessons learned, gotchas discovered)
 .claude/CLAUDE.local.md
 
-# Coach mute flag — machine-local
+# Coach mute flag, machine-local
 .claude/coach-mute
 
 # Local-scope agent memory (sensitive knowledge that shouldn't be versioned)

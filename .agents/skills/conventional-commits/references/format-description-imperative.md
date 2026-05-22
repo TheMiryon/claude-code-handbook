@@ -7,7 +7,7 @@ tags: format, description, grammar
 
 ## Imperative present, lowercase, no period
 
-The commit description (after the colon and space) is written in **imperative present tense** — as if completing the sentence "If applied, this commit will…". It starts with a **lowercase** letter and ends **without a period**.
+The commit description (after the colon and space) is written in **imperative present tense**, as if completing the sentence "If applied, this commit will…". It starts with a **lowercase** letter and ends **without a period**.
 
 **Incorrect (mixed past, capitalized, with period):**
 
@@ -23,7 +23,7 @@ Three problems: "Fixed" is past tense (sounds like a report), the first letter i
 fix(api): fix timezone offset shift on date serialization
 ```
 
-Imperative ("fix" — what this commit does, not what was done), lowercase start, no period. Reads cleanly as a bullet in a CHANGELOG.
+Imperative ("fix", what this commit does, not what was done), lowercase start, no period. Reads cleanly as a bullet in a CHANGELOG.
 
 ### Why this matters
 

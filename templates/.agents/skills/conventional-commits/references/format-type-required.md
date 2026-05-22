@@ -28,13 +28,13 @@ feat(auth): add login form validation
 ### Edge cases
 
 - **A revert commit**: `revert: feat(auth): add login form validation`. The original message is preserved after `revert:` so you can trace what was undone.
-- **A merge commit**: skip the convention — merges are auto-generated and downstream tools ignore them anyway.
+- **A merge commit**: skip the convention, merges are auto-generated and downstream tools ignore them anyway.
 - **A commit that's both feat and fix**: it's actually two commits. Split them.
 - **A commit with no clean category**: use `chore` as the fallback, never invent a new type. `chore` is the universal "maintenance / nothing user-visible" type.
 
 ### Tools that enforce this
 
-- `commitlint` rule: `type-enum` — accepts a configured list of types
+- `commitlint` rule: `type-enum`, accepts a configured list of types
 - Husky `commit-msg` hook: `npx --no-install commitlint --edit "$1"`
 - semantic-release: refuses to publish if no commits match a recognized type
 

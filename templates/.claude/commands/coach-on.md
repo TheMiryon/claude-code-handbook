@@ -2,7 +2,7 @@
 description: "Re-enable the Coach (end-of-session suggestions)"
 ---
 
-# /coach-on — Turn the Coach back on
+# /coach-on, Turn the Coach back on
 
 You will re-enable the `coach-suggest.sh` Stop hook by removing the mute flag.
 
@@ -19,5 +19,5 @@ You will re-enable the `coach-suggest.sh` Stop hook by removing the mute flag.
 
 ## Safeguards
 
-- `rm -f` doesn't fail if absent — intentional.
+- `rm -f` doesn't fail if absent, intentional.
 - No side effects: no other files touched.

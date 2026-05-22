@@ -3,7 +3,7 @@ description: "Verify + commit + push in one command"
 argument-hint: "<commit message>"
 ---
 
-# /ship — Verify, commit & push
+# /ship, Verify, commit & push
 
 You will deploy a commit following **strictly** this procedure.
 

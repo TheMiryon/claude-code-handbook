@@ -34,7 +34,7 @@
   @bottom-right { content: ""; }
 }
 
-/* Part covers — no number, no header */
+/* Part covers, no number, no header */
 @page part-cover {
   @bottom-left { content: ""; }
   @bottom-right { content: ""; }
@@ -63,7 +63,7 @@ body {
 /* ---------- Page-break discipline ---------- */
 
 /* Only Part covers and the main cover force a new page.
-   Regular chapters flow continuously — clear visual separation
+   Regular chapters flow continuously, clear visual separation
    via h1.chapter-title styling (margin-top, accent color). */
 .part-cover,
 .cover {
@@ -87,7 +87,7 @@ h2, h3, h4, h5 {
   break-after: avoid-page;
 }
 
-/* Force the 4 elements following a chapter title to stay on the same page —
+/* Force the 4 elements following a chapter title to stay on the same page,
    prevents "lonely title at the bottom of a page" */
 h1.chapter-title + *,
 h1.chapter-title + * + *,
@@ -114,7 +114,7 @@ h3 + * + * {
 
 /* Ghost-space trick: makes headings "consume" virtual space so the renderer
    pushes them to the next page if not enough room remains. The negative
-   margin cancels the visual effect — pure pagination hint. */
+   margin cancels the visual effect, pure pagination hint. */
 h1.chapter-title::after {
   content: "";
   display: block;
@@ -400,7 +400,7 @@ pre.mermaid {
   max-height: 130mm;
 }
 
-/* When rendered to SVG — cap height to keep diagram on the same page as
+/* When rendered to SVG, cap height to keep diagram on the same page as
    surrounding context */
 pre.mermaid svg {
   max-width: 90%;

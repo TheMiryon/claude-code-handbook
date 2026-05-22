@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Hook PreToolUse — Defensive guards against common destructive mistakes.
+# Hook PreToolUse, Defensive guards against common destructive mistakes.
 # Blocks before execution (exit code 2 = blocked) rather than warning after.
 # Cf. chapter 3 of the Claude Code Handbook.
 
@@ -39,9 +39,9 @@ if [ "$TOOL" = "Bash" ]; then
     exit 2
   fi
 
-  # git reset --hard with HEAD~ or origin/ (warn only, don't block — sometimes legitimate)
+  # git reset --hard with HEAD~ or origin/ (warn only, don't block, sometimes legitimate)
   if echo "$CMD" | grep -qE 'git[[:space:]]+reset[[:space:]]+--hard[[:space:]]+(HEAD~|HEAD\^|origin/)' ; then
-    echo "WARN: git reset --hard detected — possible commit loss. Verify nothing is unstashed first." >&2
+    echo "WARN: git reset --hard detected, possible commit loss. Verify nothing is unstashed first." >&2
     # Not exit 2: just warn the user.
   fi
 fi

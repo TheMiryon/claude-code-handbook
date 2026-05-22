@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Hook PostToolUse — Lightweight zero-token log of Claude Code activity.
+# Hook PostToolUse, Lightweight zero-token log of Claude Code activity.
 # Logs: Write, Edit, Bash (commands truncated to 200 chars), sub-agent invocations.
 # Output: .claude/logs/activity.log (gitignored).
 # Self-rotating: keeps last 3000 lines once log exceeds 5000.
@@ -33,7 +33,7 @@ case "$TOOL" in
     echo "[$TS] [$SID] EDIT   | $FP" >> "$LOG_FILE"
     ;;
   Agent|Task)
-    # Sub-agent invocation — log the agent type to track which agents are actually used
+    # Sub-agent invocation, log the agent type to track which agents are actually used
     SUB=$(echo "$INPUT" | jq -r '.tool_input.subagent_type // .tool_input.description // empty' 2>/dev/null | cut -c1-80)
     echo "[$TS] [$SID] AGENT  | $SUB" >> "$LOG_FILE"
     ;;

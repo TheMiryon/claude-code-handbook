@@ -2,7 +2,7 @@
 description: "Quick pre-release audit: code + security in parallel, synthesized report"
 ---
 
-# /audit-quick — Quick audit before an important release
+# /audit-quick, Quick audit before an important release
 
 You will launch **2 sub-agents in parallel** to give a project health status in ~5 minutes, **without modifying any files**.
 
@@ -10,12 +10,12 @@ You will launch **2 sub-agents in parallel** to give a project health status in 
 
 ### 1. Launch these 2 agents simultaneously (same message, multiple tool calls)
 
-**Agent #1 — `code-auditor`**:
+**Agent #1, `code-auditor`**:
 > READ-ONLY code quality audit. Focus: dead code, duplication, excessive complexity,
 > framework anti-patterns, unjustified `any` types, performance issues, inconsistencies.
 > Short report (≤ 500 words) ranked by severity (🔴 / 🟠 / 🟡). Focus on the main source folder.
 
-**Agent #2 — `security-auditor`**:
+**Agent #2, `security-auditor`**:
 > READ-ONLY security audit. Focus: auth, secrets, injections, XSS, PII exposure,
 > OWASP Top 10 essentials, basic GDPR compliance. Short report (≤ 500 words) ranked
 > (🔴 / 🟠 / 🟡). Check server actions modified in the last 7 days

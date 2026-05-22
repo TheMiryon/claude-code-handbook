@@ -1,4 +1,4 @@
-# Agent Memory — versioned cross-session memory
+# Agent Memory, versioned cross-session memory
 
 > Pattern from Claude Code's official `memory: project` / `memory: user` / `memory: local`
 > frontmatter support. Cf. `code.claude.com/docs/en/sub-agents#enable-persistent-memory`.
@@ -47,7 +47,7 @@ When `memory:` is set, Claude Code:
 .claude/agent-memory/
 └── <agent-name>/
     ├── MEMORY.md              ← INDEX. Auto-loaded at every invocation (first 200 lines or 25KB)
-    │                            One line per memory: "- [Title](file.md) — one-line hook"
+    │                            One line per memory: "- [Title](file.md), one-line hook"
     ├── feedback_<topic>.md    ← User corrections / validations
     ├── project_<topic>.md     ← Decisions, deadlines, motivations
     ├── reference_<topic>.md   ← Pointers to external systems (Linear, Grafana, Slack)
@@ -70,7 +70,7 @@ Each file (except `MEMORY.md`) starts with a YAML frontmatter:
 ```markdown
 ---
 name: <short title>
-description: <one line — used to decide relevance in future conversations>
+description: <one line, used to decide relevance in future conversations>
 type: feedback | project | reference | user
 ---
 
@@ -87,9 +87,9 @@ For feedback and project, recommended structure:
 No frontmatter. One line per memory, < 150 characters:
 
 ```markdown
-- [No DB mocks in integration tests](feedback_db_tests.md) — Q3 migration incident
-- [RLS Supabase validated 14.05](project_rls_audit.md) — don't re-flag validated policies
-- [Linear INGEST = pipeline bugs](reference_linear.md) — check before duplicates
+- [No DB mocks in integration tests](feedback_db_tests.md), Q3 migration incident
+- [RLS Supabase validated 14.05](project_rls_audit.md), don't re-flag validated policies
+- [Linear INGEST = pipeline bugs](reference_linear.md), check before duplicates
 ```
 
 The index is loaded in full; detail files are read on demand.

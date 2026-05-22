@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Hook PostToolUse — nudge to capture a lesson after a significant commit.
+# Hook PostToolUse, nudge to capture a lesson after a significant commit.
 # Triggered when a `git commit` was run via Bash. If the commit is significant
 # (type feat/fix/refactor, OR ≥ 3 files, OR touches a sensitive zone), prints
 # a suggestion on stderr to run `/extract-lesson`.
@@ -81,7 +81,7 @@ fi
 {
   echo ""
   printf "${C_BORDER}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${C_RESET}\n"
-  printf "${C_TITLE}  💡 Significant commit (%s) — extract a lesson?${C_RESET}\n" "$SHA"
+  printf "${C_TITLE}  💡 Significant commit (%s), extract a lesson?${C_RESET}\n" "$SHA"
   printf "${C_BORDER}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${C_RESET}\n"
   printf "  %s\n" "$SUBJECT"
   printf "  ${C_HINT}(%s)${C_RESET}\n" "$REASON"

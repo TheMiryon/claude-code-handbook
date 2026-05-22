@@ -12,7 +12,7 @@ metadata:
     commit-reviewer agent or referenced from a /ship slash command.
 ---
 
-# Conventional Commits — skill reference
+# Conventional Commits, skill reference
 
 Canonical rules for the Conventional Commits format (https://www.conventionalcommits.org/). One single source of truth: if an agent or a slash command needs to validate a commit message, it loads this skill.
 

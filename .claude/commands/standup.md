@@ -2,7 +2,7 @@
 description: "Morning recap: done yesterday, WIP, suggested focus, friction"
 ---
 
-# /standup — Daily solo standup
+# /standup, Daily solo standup
 
 You will produce a short recap (≤ 200 words) in 3 sections to frame the day. To use at the start of a session, especially after a 24h+ break.
 
@@ -10,14 +10,14 @@ You will produce a short recap (≤ 200 words) in 3 sections to frame the day. T
 
 ### 1. Collect (in parallel)
 
-- `git log --since='24 hours ago' --oneline` — last 24h commits
-- `git log --since='7 days ago' --oneline | head -20` — full week if nothing in 24h
-- `git status --short` — uncommitted work in progress
-- `git diff --stat` — scope of the WIP
+- `git log --since='24 hours ago' --oneline`, last 24h commits
+- `git log --since='7 days ago' --oneline | head -20`, full week if nothing in 24h
+- `git status --short`, uncommitted work in progress
+- `git diff --stat`, scope of the WIP
 - Read your roadmap file if you have one (e.g. `ROADMAP.md`, `TODO.md`, `src/ROADMAP.md`)
 - If a "Definition of Done" or release checklist exists: spot 2-3 priority items unchecked
 
-### 2. Report — strict format
+### 2. Report, strict format
 
 ```
 ═══ Standup · <day of week + date> ═══
@@ -47,6 +47,6 @@ End with ONE open question:
 
 - **Max 3 bullets per section**. Standup discipline = brevity.
 - **No judgment** ("should have done X"). Just observation + suggestion.
-- **No detailed action plan** — this isn't `/new-feature`. Just orientation.
+- **No detailed action plan**, this isn't `/new-feature`. Just orientation.
 - If nothing notable in 24h → say so without padding: *"Working tree clean, last push <date>. No visible friction. What are you tackling?"*
-- Max 1 invocation of `/standup` per day — otherwise it's procrastination.
+- Max 1 invocation of `/standup` per day, otherwise it's procrastination.

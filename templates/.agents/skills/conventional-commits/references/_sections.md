@@ -12,6 +12,6 @@ Categories of Conventional Commits rules. References are grouped automatically b
 **Impact:** HIGH
 **Description:** How to signal a backwards-incompatible change so that downstream tooling (semver bump, changelog "BREAKING CHANGES" section) reacts correctly.
 
-## 3. Tooling integration (`tooling-`) — future
+## 3. Tooling integration (`tooling-`), future
 **Impact:** MEDIUM
 **Description:** Patterns for integrating commit conventions with `commitlint`, `husky`, CI release pipelines, and semantic-release. Empty for now.

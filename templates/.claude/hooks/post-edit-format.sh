@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Hook PostToolUse — Auto-format files after Write/Edit.
+# Hook PostToolUse, Auto-format files after Write/Edit.
 # Adapt the formatter command to your stack. Default below: ESLint --fix for JS/TS.
 #
 # Other formatters you might use:
@@ -23,7 +23,7 @@ FILE=$(echo "$INPUT" | jq -r '.tool_input.file_path // .tool_input.path // empty
 # File doesn't exist (deleted, dry run) → exit
 [ ! -f "$FILE" ] && exit 0
 
-# Only handle JS/TS/JSX/TSX/MJS — adapt for your stack
+# Only handle JS/TS/JSX/TSX/MJS, adapt for your stack
 case "$FILE" in
   *.ts|*.tsx|*.js|*.jsx|*.mjs|*.cjs) ;;
   *) exit 0 ;;
@@ -36,7 +36,7 @@ esac
 
 cd "$(dirname "$0")/../.."
 
-# Run formatter — silent, non-blocking
+# Run formatter, silent, non-blocking
 # Pick ONE of these depending on your project:
 pnpm exec eslint --fix "$FILE" >/dev/null 2>&1 || true
 # npx prettier --write "$FILE" >/dev/null 2>&1 || true

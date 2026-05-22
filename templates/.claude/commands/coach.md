@@ -2,7 +2,7 @@
 description: "Analyze repo state and recommend the next command/agent to use"
 ---
 
-# /coach — What's the next step?
+# /coach, What's the next step?
 
 You will analyze the current repo state + the in-progress session, and recommend a concrete next command/agent/action. Read-only, **no modifications**.
 
@@ -13,10 +13,10 @@ To use when the user hesitates, just finished a chantier, or wants a reminder of
 ### 1. Repo state (in parallel)
 
 Launch simultaneously:
-- `git status --short` — what's modified uncommitted?
-- `git diff --stat` — how many lines, in which folders?
-- `git log --oneline -5` — what's been pushed recently?
-- `git log -1 --stat` — detail of the last commit
+- `git status --short`, what's modified uncommitted?
+- `git diff --stat`, how many lines, in which folders?
+- `git log --oneline -5`, what's been pushed recently?
+- `git log -1 --stat`, detail of the last commit
 - If `.claude/logs/activity.log` exists: `tail -100` to see what the session touched
 
 ### 2. Apply Coach triggers
@@ -41,7 +41,7 @@ Present this exact format:
 
   Modified uncommitted : N file(s)
   Scope               : [list of main folders touched]
-  Last commit         : <sha> — <message>
+  Last commit         : <sha>, <message>
   Current session     : [one-line summary of what was done since SessionStart]
 
 Recommended actions (by priority):
@@ -68,7 +68,7 @@ End with:
 ## Safeguards
 
 - **Strict read-only**: no Edit, no Write, no commit.
-- **No judgment** on the quality of work — just procedural orientation.
+- **No judgment** on the quality of work, just procedural orientation.
 - If nothing to recommend (working tree clean, recent clean commit) → say it plainly: *"Nothing to flag. Keep going."*
-- Don't re-invoke a sub-agent yourself — propose, the user decides.
+- Don't re-invoke a sub-agent yourself, propose, the user decides.
 - Max 1 `/coach` invocation per 5 minutes (otherwise it's self-flagellation).

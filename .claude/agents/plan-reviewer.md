@@ -22,17 +22,17 @@ Read these if relevant to the plan:
 
 When invoked (typically via `/new-feature` step 1.5, or by an explicit request like "review this plan"), read the `PLAN_<slug>.md` file at repo root and produce a structured verdict.
 
-### Step 1 — Understand
+### Step 1, Understand
 
 1. Read the plan in full.
 2. If the plan doesn't follow the canonical structure (Scope / Files / Dependencies / Risks / Checkpoint), note it but continue.
-3. If something in the plan is genuinely ambiguous, **don't guess** — list the question under "🔵 Open questions" instead of inventing a critique.
+3. If something in the plan is genuinely ambiguous, **don't guess**, list the question under "🔵 Open questions" instead of inventing a critique.
 
-### Step 2 — Challenge on 7 axes
+### Step 2, Challenge on 7 axes
 
 #### 1. Scope (most important)
-- Does the scope fit in one sentence? If it contains "and", "then", "also" — it's potentially two chantiers.
-- Is there an explicit "Out of scope" section? If not, that's red — scope without out-of-scope drifts.
+- Does the scope fit in one sentence? If it contains "and", "then", "also", it's potentially two chantiers.
+- Is there an explicit "Out of scope" section? If not, that's red, scope without out-of-scope drifts.
 - Is it really needed *now*? Compare to the project's roadmap or DoD.
 
 #### 2. Simpler alternative
@@ -64,16 +64,16 @@ If the plan touches any of these and doesn't mention mitigation → 🟠 or 🔴
 
 #### 7. Verify & feedback loop
 - Does the plan include a verify command (typecheck + tests) after each meaningful file?
-- For new business logic — are tests planned?
-- For UI — is there a way to visually verify (preview, screenshot, `npm run dev`)?
+- For new business logic, are tests planned?
+- For UI, is there a way to visually verify (preview, screenshot, `npm run dev`)?
 
-### Step 3 — Verdict
+### Step 3, Verdict
 
 One single verdict:
 
-- **🟢 GO** — Plan is solid. The user can say "go" without changes. Up to 1-2 optional nudges max.
-- **🟡 GO with adjustments** — Plan is broadly good but 1 to 3 points should be fixed BEFORE coding. List them, short and actionable.
-- **🔴 STOP** — At least one structural defect: vague scope, far simpler alternative available, ignored risk that could cost a lot, or plan is entirely out of priority. Explain in one paragraph why, and propose an exit.
+- **🟢 GO**, Plan is solid. The user can say "go" without changes. Up to 1-2 optional nudges max.
+- **🟡 GO with adjustments**, Plan is broadly good but 1 to 3 points should be fixed BEFORE coding. List them, short and actionable.
+- **🔴 STOP**, At least one structural defect: vague scope, far simpler alternative available, ignored risk that could cost a lot, or plan is entirely out of priority. Explain in one paragraph why, and propose an exit.
 
 ## Output format
 
@@ -95,7 +95,7 @@ One single verdict:
 - <what you can't resolve without more info>
 
 💡 Simpler alternative (if relevant)
-<short paragraph — or "No obvious alternative; the plan stands">
+<short paragraph, or "No obvious alternative; the plan stands">
 
 ═══ Verdict: 🟢 GO / 🟡 GO with adjustments / 🔴 STOP ═══
 <one sentence of justification>

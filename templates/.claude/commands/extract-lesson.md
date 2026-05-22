@@ -3,7 +3,7 @@ description: "Extract 1-3 lessons from a commit and pin them to CLAUDE.md (versi
 argument-hint: "[short-sha | empty for HEAD]"
 ---
 
-# /extract-lesson — Make a lesson stick
+# /extract-lesson, Make a lesson stick
 
 Inspired by Boris Cherny's principle: *"Anytime we see Claude do something incorrectly, we add it to CLAUDE.md so it doesn't repeat next time."* Extended here to *"any time we learn something non-obvious"*.
 
@@ -35,13 +35,13 @@ Read:
 
 If, after reading the diff, nothing fits the criteria, say so honestly:
 
-> *"Commit `<sha>` analyzed — nothing non-obvious to extract. The message + the diff are self-sufficient. No lesson added."*
+> *"Commit `<sha>` analyzed, nothing non-obvious to extract. The message + the diff are self-sufficient. No lesson added."*
 
 And stop.
 
 ### 3. Write 1 to 3 lessons (max)
 
-Format for each lesson — short, actionable:
+Format for each lesson, short, actionable:
 
 ```markdown
 - **<Short, action-oriented title>** (commit `<sha>`)
@@ -81,7 +81,7 @@ Find or create a `## 📚 Lessons learned` section at the bottom of the file (or
 
 Suggested next:
   → /ship "docs(claude): lessons from <sha>"
-  or: keep working, I wrote — not committed.
+  or: keep working, I wrote, not committed.
 ```
 
 ## Guardrails
@@ -89,5 +89,5 @@ Suggested next:
 - **Never** add a lesson that exposes a secret (API keys, private schema, etc.). `CLAUDE.md` is versioned.
 - **Never** add a lesson that names a competing product. Generic technical references only.
 - **Never** duplicate a lesson already present in `CLAUDE.md` or in an existing skill. Grep first.
-- **When in doubt**, ask the user before writing: *"I'm proposing to add X — you validate?"*
+- **When in doubt**, ask the user before writing: *"I'm proposing to add X, you validate?"*
 - **Stay under 3 lessons per commit.** Beyond that, the section becomes unreadable.

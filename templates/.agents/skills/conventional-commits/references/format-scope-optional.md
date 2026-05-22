@@ -27,7 +27,7 @@ Scope (`api`) + a description that adds locality (`for /products endpoint`). The
 
 ### Edge cases
 
-- **A change that legitimately spans multiple scopes**: pick the dominant one and mention the others in the body: `feat(api,db): add caching, schema for cache_entries`. Most commitlint configs reject this — prefer splitting if you can.
+- **A change that legitimately spans multiple scopes**: pick the dominant one and mention the others in the body: `feat(api,db): add caching, schema for cache_entries`. Most commitlint configs reject this, prefer splitting if you can.
 - **A repo with no obvious scopes**: don't invent them. Skip scope entirely until natural boundaries emerge.
 - **A breaking change**: scope still goes between type and `!` marker: `feat(api)!: …`.
 

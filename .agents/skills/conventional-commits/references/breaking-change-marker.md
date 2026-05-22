@@ -15,7 +15,7 @@ A commit that introduces a backwards-incompatible change must signal this in **t
 feat(api): replace cookies with JWT tokens
 ```
 
-This is a feature, yes — but it breaks every existing client that relied on cookie auth. Without the `!` marker, semantic-release will ship this as a minor version bump (`1.4.0` → `1.5.0`), and existing consumers will upgrade transparently and break at runtime.
+This is a feature, yes, but it breaks every existing client that relied on cookie auth. Without the `!` marker, semantic-release will ship this as a minor version bump (`1.4.0` → `1.5.0`), and existing consumers will upgrade transparently and break at runtime.
 
 **Correct:**
 
@@ -37,7 +37,7 @@ The `!` makes the breaking change visible in `git log --oneline`. The `BREAKING 
 - **A "soft" breaking change** (a deprecation that will become breaking later): use `feat(api): deprecate cookies, add JWT support` with no `!` yet. Mark `!` only when the deprecation lands.
 - **Multiple breaking changes in one commit**: list each in the footer. One `BREAKING CHANGE:` line per change, or one block with bullet points.
 - **A breaking refactor with no user-visible change**: still mark it. Internal consumers (other modules, plugins) may break. The convention is conservative on purpose.
-- **Reverting a breaking change**: `revert: feat(api)!: replace cookies with JWT tokens` — the revert is itself breaking (in the reverse direction).
+- **Reverting a breaking change**: `revert: feat(api)!: replace cookies with JWT tokens`, the revert is itself breaking (in the reverse direction).
 
 ### Tools that enforce this
 
