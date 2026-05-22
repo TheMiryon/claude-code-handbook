@@ -110,6 +110,8 @@ Output: `en/claude-code-handbook-v2.epub`, `fr/le-code-du-claudeur-v2.epub`. The
 
 ### Known issue — PowerShell 5.1 silently skips the FR EPUB
 
+> Tracked in [#2](https://github.com/TheMiryon/claude-code-handbook/issues/2).
+
 On **Windows PowerShell 5.1**, the backtick line-continuations in `build-epub.ps1` are mis-parsed for the FR `pandoc` invocation. Result: the EN EPUB is built, the FR EPUB silently fails with no error and no output file.
 
 **Workaround until the script is fixed** — run the FR pandoc as a one-liner after `build-epub.ps1`:
