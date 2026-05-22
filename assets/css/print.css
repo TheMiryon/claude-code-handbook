@@ -1,0 +1,613 @@
+/* ============================================================
+   Claude Code Handbook V2 — Print stylesheet
+   Layout: A4, generous margins, no orphan page breaks.
+   Renders well in Paged.js, Prince XML, WeasyPrint.
+   Chrome headless honors most rules (some page-break-inside
+   on long tables may still slip).
+   ============================================================ */
+
+/* ---------- Fonts (use Google Fonts in HTML head) ---------- */
+/* Inter for body, JetBrains Mono for code. Falls back to system. */
+
+/* ---------- @page rules ---------- */
+
+@page {
+  size: A4;
+  margin: 14mm 16mm 14mm 16mm;
+
+  @bottom-left {
+    content: "Claude Code Handbook V2";
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 7.5pt;
+    color: #b1b6bd;
+  }
+  @bottom-right {
+    content: counter(page) " / " counter(pages);
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 7.5pt;
+    color: #b1b6bd;
+  }
+}
+
+/* No page number on cover */
+@page :first {
+  @bottom-left { content: ""; }
+  @bottom-right { content: ""; }
+}
+
+/* Part covers — no number, no header */
+@page part-cover {
+  @bottom-left { content: ""; }
+  @bottom-right { content: ""; }
+}
+.part-cover { page: part-cover; }
+
+/* ---------- Reset / base ---------- */
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: #ffffff;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: 10pt;
+  line-height: 1.35;
+  color: #1a1a1a;
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: 'kern', 'liga', 'calt';
+}
+
+/* ---------- Page-break discipline ---------- */
+
+/* Only Part covers and the main cover force a new page.
+   Regular chapters flow continuously — clear visual separation
+   via h1.chapter-title styling (margin-top, accent color). */
+.part-cover,
+.cover {
+  page-break-before: always;
+  break-before: page;
+  page-break-after: always;
+  break-after: page;
+}
+
+/* Chapter headings: strong visual break, but no forced new page */
+h1.chapter-title {
+  page-break-before: auto;
+  page-break-after: avoid;
+  break-before: auto;
+  break-after: avoid-page;
+}
+
+/* Other headings stick to their content */
+h2, h3, h4, h5 {
+  page-break-after: avoid;
+  break-after: avoid-page;
+}
+
+/* Force the 4 elements following a chapter title to stay on the same page —
+   prevents "lonely title at the bottom of a page" */
+h1.chapter-title + *,
+h1.chapter-title + * + *,
+h1.chapter-title + * + * + *,
+h1.chapter-title + * + * + * + * {
+  page-break-before: avoid;
+  break-before: avoid-page;
+}
+
+/* H2 must bring its 3 next elements along */
+h2 + *,
+h2 + * + *,
+h2 + * + * + * {
+  page-break-before: avoid;
+  break-before: avoid-page;
+}
+
+/* H3 must bring its 2 next elements along */
+h3 + *,
+h3 + * + * {
+  page-break-before: avoid;
+  break-before: avoid-page;
+}
+
+/* Ghost-space trick: makes headings "consume" virtual space so the renderer
+   pushes them to the next page if not enough room remains. The negative
+   margin cancels the visual effect — pure pagination hint. */
+h1.chapter-title::after {
+  content: "";
+  display: block;
+  height: 60mm;
+  margin-bottom: -60mm;
+  pointer-events: none;
+}
+
+h2::after {
+  content: "";
+  display: block;
+  height: 35mm;
+  margin-bottom: -35mm;
+  pointer-events: none;
+}
+
+h3::after {
+  content: "";
+  display: block;
+  height: 20mm;
+  margin-bottom: -20mm;
+  pointer-events: none;
+}
+
+/* Things that should stay together. Renderer will still split if absolutely
+   no choice (block taller than a full page). */
+figure,
+tr,
+thead,
+table,
+pre,
+blockquote,
+.callout {
+  page-break-inside: avoid;
+  break-inside: avoid-page;
+}
+
+/* Orphans / widows on text */
+p, li {
+  orphans: 3;
+  widows: 3;
+}
+
+/* ---------- Typography hierarchy ---------- */
+
+h1.chapter-title {
+  font-size: 22pt;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin: 10mm 0 4mm 0;
+  padding-top: 3mm;
+  border-top: 0.3pt solid #d0d7de;
+  color: #1a1a1a;
+}
+
+/* The very first chapter-title in the document (Foreword) should not
+   have a top margin since it follows the cover directly */
+.cover + article .chapter-title,
+.part-cover + article .chapter-title,
+.part-cover + article > .chapter-title {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
+}
+
+h1.chapter-title .chapter-number {
+  display: block;
+  font-size: 10pt;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #cc785c;
+  margin-bottom: 2mm;
+}
+
+h2 {
+  font-size: 14pt;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  margin: 5mm 0 2mm 0;
+  color: #1a1a1a;
+}
+
+h3 {
+  font-size: 11pt;
+  font-weight: 600;
+  line-height: 1.3;
+  margin: 3mm 0 1.5mm 0;
+  color: #1a1a1a;
+}
+
+h4 {
+  font-size: 10pt;
+  font-weight: 600;
+  margin: 2.5mm 0 1mm 0;
+  color: #1a1a1a;
+}
+
+p {
+  margin: 0 0 2mm 0;
+}
+
+strong {
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+em { font-style: italic; }
+
+a {
+  color: #cc785c;
+  text-decoration: none;
+}
+a:hover { text-decoration: underline; }
+
+/* ---------- Lists ---------- */
+
+ul, ol {
+  margin: 0 0 2.5mm 0;
+  padding-left: 5mm;
+}
+
+li {
+  margin-bottom: 0.8mm;
+}
+
+li > ul, li > ol {
+  margin-top: 1mm;
+  margin-bottom: 0;
+}
+
+/* ---------- Code ---------- */
+
+code {
+  font-family: 'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace;
+  font-size: 9.5pt;
+  background: #f6f8fa;
+  padding: 0.4mm 1.2mm;
+  border-radius: 1mm;
+  color: #24292f;
+}
+
+pre {
+  font-family: 'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace;
+  font-size: 8pt;
+  line-height: 1.35;
+  background: #f6f8fa;
+  border: 0.4pt solid #e5e7eb;
+  border-radius: 2mm;
+  padding: 2.5mm 3.5mm;
+  margin: 2mm 0 3mm 0;
+  overflow: visible;
+  color: #24292f;
+}
+
+pre code {
+  background: none;
+  padding: 0;
+  border-radius: 0;
+  font-size: inherit;
+}
+
+/* Lang label on pre (optional) */
+pre[data-lang]::before {
+  content: attr(data-lang);
+  display: block;
+  font-size: 8pt;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #8b949e;
+  margin-bottom: 2mm;
+}
+
+/* ---------- Tables ---------- */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 9.5pt;
+  margin: 2mm 0 4mm 0;
+}
+
+thead th {
+  background: #f6f8fa;
+  font-weight: 600;
+  text-align: left;
+  padding: 1.5mm 2.5mm;
+  border-bottom: 0.6pt solid #d0d7de;
+  font-size: 9pt;
+}
+
+tbody td {
+  padding: 1.5mm 2.5mm;
+  border-bottom: 0.3pt solid #e5e7eb;
+  vertical-align: top;
+}
+
+tbody tr:last-child td {
+  border-bottom: 0.6pt solid #d0d7de;
+}
+
+/* ---------- Callouts (tip / warning / danger / info) ---------- */
+
+.callout {
+  border-left: 1mm solid;
+  padding: 2mm 3.5mm 2mm 4mm;
+  margin: 2.5mm 0 3mm 0;
+  background: #fafafa;
+  border-radius: 0 2mm 2mm 0;
+}
+
+.callout-title {
+  font-weight: 600;
+  font-size: 9pt;
+  margin-bottom: 0.8mm;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.callout p:last-child { margin-bottom: 0; }
+
+.callout-tip      { border-left-color: #16a34a; background: #f0fdf4; }
+.callout-tip      .callout-title { color: #15803d; }
+
+.callout-info     { border-left-color: #2563eb; background: #eff6ff; }
+.callout-info     .callout-title { color: #1d4ed8; }
+
+.callout-warning  { border-left-color: #d97706; background: #fffbeb; }
+.callout-warning  .callout-title { color: #b45309; }
+
+.callout-danger   { border-left-color: #dc2626; background: #fef2f2; }
+.callout-danger   .callout-title { color: #b91c1c; }
+
+/* ---------- Blockquote ---------- */
+
+blockquote {
+  border-left: 1mm solid #cc785c;
+  margin: 3mm 0;
+  padding: 0.5mm 0 0.5mm 4mm;
+  color: #374151;
+  font-style: italic;
+  page-break-inside: avoid;
+  break-inside: avoid-page;
+}
+
+/* ---------- Figures / images ---------- */
+
+figure {
+  margin: 5mm 0 6mm 0;
+  text-align: center;
+  page-break-inside: avoid;
+}
+
+figure img,
+figure svg {
+  max-width: 100%;
+  height: auto;
+}
+
+figcaption {
+  font-size: 9pt;
+  color: #6b7280;
+  margin-top: 2mm;
+  font-style: italic;
+  text-align: center;
+}
+
+/* ---------- Mermaid diagrams ---------- */
+/* Before mermaid.js renders: pre.mermaid contains raw mermaid source.
+   After render: pre.mermaid becomes a <svg>. We style both states. */
+
+/* Mermaid diagrams */
+pre.mermaid {
+  background: none;
+  border: none;
+  padding: 0;
+  text-align: center;
+  font-size: 8.5pt;
+  color: #6b7280;
+  page-break-inside: avoid;
+  max-height: 130mm;
+}
+
+/* When rendered to SVG — cap height to keep diagram on the same page as
+   surrounding context */
+pre.mermaid svg {
+  max-width: 90%;
+  max-height: 130mm;
+  height: auto !important;
+  margin: 0 auto;
+}
+
+/* ---------- Front matter blocks ---------- */
+
+.cover {
+  page: first;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 20mm 0;
+  page-break-after: always;
+}
+
+.cover-eyebrow {
+  font-size: 11pt;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #cc785c;
+  font-weight: 500;
+  margin-bottom: 6mm;
+}
+
+.cover-title {
+  font-size: 48pt;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.05;
+  margin: 0 0 6mm 0;
+  color: #1a1a1a;
+}
+
+.cover-subtitle {
+  font-size: 14pt;
+  font-weight: 400;
+  color: #6b7280;
+  line-height: 1.4;
+  max-width: 130mm;
+}
+
+.cover-version {
+  position: absolute;
+  bottom: 25mm;
+  left: 18mm;
+  font-size: 10pt;
+  color: #8b949e;
+}
+
+/* Part cover (separates the 5 parts) */
+.part-cover {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  page-break-before: always;
+  page-break-after: always;
+}
+
+.part-cover .part-number {
+  font-size: 11pt;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #cc785c;
+  font-weight: 500;
+  margin-bottom: 4mm;
+}
+
+.part-cover .part-title {
+  font-size: 36pt;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin: 0 0 6mm 0;
+  color: #1a1a1a;
+  max-width: 150mm;
+}
+
+.part-cover .part-desc {
+  font-size: 13pt;
+  color: #6b7280;
+  line-height: 1.5;
+  max-width: 140mm;
+}
+
+/* ---------- TOC ---------- */
+
+.toc {
+  page-break-after: always;
+}
+
+.toc h2 {
+  margin-top: 0;
+}
+
+.toc-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.toc-list li {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.6mm 0;
+  border-bottom: 0.2pt dotted #d0d7de;
+  font-size: 9.5pt;
+  line-height: 1.3;
+}
+
+.toc-list li.toc-part {
+  font-weight: 600;
+  font-size: 10pt;
+  margin-top: 3mm;
+  border-bottom: 0.5pt solid #1a1a1a;
+  color: #cc785c;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.toc-list li.toc-part:first-child { margin-top: 0; }
+
+.toc-list .toc-page {
+  color: #8b949e;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Glossary ---------- */
+
+.glossary dt {
+  font-weight: 600;
+  margin-top: 3mm;
+  color: #1a1a1a;
+}
+
+.glossary dd {
+  margin-left: 0;
+  margin-bottom: 1mm;
+  color: #374151;
+}
+
+/* ---------- Annex labels ---------- */
+
+.annex-label {
+  display: inline-block;
+  background: #1a1a1a;
+  color: #ffffff;
+  padding: 0.5mm 2mm;
+  border-radius: 1mm;
+  font-size: 9pt;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  margin-right: 3mm;
+  vertical-align: middle;
+}
+
+/* ---------- Utility ---------- */
+
+.muted { color: #6b7280; }
+.small { font-size: 9pt; }
+.text-center { text-align: center; }
+.mt-0 { margin-top: 0; }
+.mb-0 { margin-bottom: 0; }
+
+/* Difficulty badges */
+.badge {
+  display: inline-block;
+  font-size: 8.5pt;
+  font-weight: 600;
+  padding: 0.4mm 2mm;
+  border-radius: 3mm;
+  vertical-align: middle;
+  margin-left: 2mm;
+  letter-spacing: 0.05em;
+}
+.badge-beginner    { background: #dcfce7; color: #15803d; }
+.badge-intermediate{ background: #dbeafe; color: #1d4ed8; }
+.badge-advanced    { background: #fee2e2; color: #b91c1c; }
+
+/* Two-column for short comparison blocks */
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4mm;
+  margin: 3mm 0 5mm 0;
+}
+
+/* ---------- Screen-only tweaks (for paged.js preview / GitHub Pages) ---------- */
+
+@media screen {
+  body {
+    max-width: 210mm;
+    margin: 0 auto;
+    padding: 22mm 18mm;
+    font-size: 11pt;
+  }
+  .chapter, .part-cover, .cover {
+    margin-bottom: 30mm;
+    border-bottom: 0.5pt dashed #e5e7eb;
+    padding-bottom: 30mm;
+  }
+}

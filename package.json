@@ -1,0 +1,23 @@
+{
+  "name": "claude-code-handbook-v1",
+  "version": "1.0.0",
+  "description": "> A bilingual step-by-step guide for configuring Claude Code and working with it like a pro. > Un guide bilingue step-by-step pour configurer Claude Code et travailler avec lui comme un pro.",
+  "main": "build-pdf.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TheMiryon/claude-code-handbook.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TheMiryon/claude-code-handbook/issues"
+  },
+  "homepage": "https://github.com/TheMiryon/claude-code-handbook#readme",
+  "devDependencies": {
+    "puppeteer": "^25.0.4"
+  }
+}
