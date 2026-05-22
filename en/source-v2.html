@@ -5,7 +5,7 @@
   <title>Claude Code Handbook V2 — A pro setup, step by step</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/css/print.css">
-  <!-- Mermaid for diagrams. For static PDF generation, see BUILD.md (pre-render via mmdc). -->
+  <!-- Mermaid for diagrams. For static rendering in EPUB, see prepare-for-epub.js. -->
   <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
   <script>
     if (typeof mermaid !== 'undefined') {
@@ -2040,7 +2040,7 @@ One-sentence description.
     <dd>The decision rule for where to store a given piece of information: <code>CLAUDE.md</code>, a skill, an agent memory, or local user memory. See Chapter 11.</dd>
 
     <dt>Page-break-inside: avoid</dt>
-    <dd>CSS rule that tells the PDF renderer to keep a block on one page rather than split it. Critical for code blocks and tables.</dd>
+    <dd>CSS rule that tells the print/EPUB renderer to keep a block on one page rather than split it. Critical for code blocks and tables.</dd>
 
     <dt>Permission denylist</dt>
     <dd>The <code>permissions.deny</code> section of <code>settings.json</code> that blocks specific commands (e.g., <code>sudo</code>, <code>rm -rf /</code>) regardless of any allowlist match.</dd>

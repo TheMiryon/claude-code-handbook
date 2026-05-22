@@ -1,9 +1,8 @@
 /* ============================================================
-   Claude Code Handbook V2 — Print stylesheet
+   Claude Code Handbook V2, print stylesheet.
    Layout: A4, generous margins, no orphan page breaks.
-   Renders well in Paged.js, Prince XML, WeasyPrint.
-   Chrome headless honors most rules (some page-break-inside
-   on long tables may still slip).
+   Used by the EPUB build (via Pandoc) and by browsers
+   for screen rendering and print-to-PDF.
    ============================================================ */
 
 /* ---------- Fonts (use Google Fonts in HTML head) ---------- */

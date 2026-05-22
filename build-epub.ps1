@@ -1,8 +1,8 @@
 # build-epub.ps1
 # One-click EPUB generation for Windows.
 # Pre-requisites:
-#   1. Node + Puppeteer installed (already done if you generated PDFs before)
-#   2. Pandoc installed — https://pandoc.org/installing.html (~50 MB MSI)
+#   1. Node + Puppeteer installed (npm install)
+#   2. Pandoc installed: https://pandoc.org/installing.html (~50 MB MSI)
 
 Write-Host "→ Step 1/2 : Rendering Mermaid diagrams inline..." -ForegroundColor Cyan
 node prepare-for-epub.js

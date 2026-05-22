@@ -7,13 +7,12 @@ Versioned with [Semantic Versioning](https://semver.org/).
 
 ---
 
-## [V1.0] — 2026-05-20
+## [V1.0] - 2026-05-20
 
 Initial public release.
 
 ### Added
-- French and English PDF guides (37 pages each)
-- HTML source files for both languages
+- French and English guides (37 pages each), HTML sources for both languages
 - Copy-paste templates :
   - Universal `CLAUDE.md`
   - Complete `.claude/settings.json` with hooks
