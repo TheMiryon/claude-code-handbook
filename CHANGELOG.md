@@ -30,11 +30,4 @@ Initial public release.
 
 ---
 
-## Planned for V2
-
-- Shareable team plugin pattern (`.claude-plugin/`)
-- CI/CD integration recipes (GitHub Actions, GitLab CI)
-- Spanish translation
-- Companion video walkthrough
-- More agent templates (db-schema-reviewer, design-reviewer, performance-profiler)
-- Skill examples using `.claude/skills/<name>/SKILL.md` format with bundled scripts
+See [`ROADMAP.md`](ROADMAP.md) for the V3 scope.
