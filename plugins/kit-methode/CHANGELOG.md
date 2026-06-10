@@ -2,6 +2,11 @@
 
 Format : [Keep a Changelog](https://keepachangelog.com/), versions [SemVer](https://semver.org/).
 
+## [0.6.0] — 2026-06-10
+
+### Added
+- `commands/retro.md` : rétrospective arrière read-only sur une fenêtre (`7 days` / `since <sha>` / un `PLAN_*.md`) — ce qui a marché / a fait mal / surprises / max 3 actions process. Distincte de `/standup` (avant) et `/extract-lesson` (technique, dans CLAUDE.md).
+
 ## [0.5.0] — 2026-06-10
 
 Commande `bootstrap` : pose l'overlay par-projet (core-only v1).

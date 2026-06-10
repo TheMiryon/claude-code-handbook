@@ -15,6 +15,7 @@ Discipline de travail réutilisable, extraite du **Claude Code Handbook** et ép
 - `audit-quick` — code-auditor + security-auditor en parallèle.
 - `coach` / `coach-mute` / `coach-on` — orientation « prochaine étape » + mute du Coach.
 - `standup` — récap quotidien (fait / en cours / focus / friction).
+- `retro` — rétrospective arrière (ce qui a marché / a fait mal / surprises / actions process).
 - `extract-lesson` — épingle 1-3 leçons d'un commit dans `CLAUDE.md`.
 - `audit-claude-setup` — audite le `.claude/` + les plugins actifs d'un projet et **propose** des améliorations étayées par les sources Anthropic (changelog, doc). **Read-only, n'applique jamais rien.**
 - `bootstrap` — pose l'**overlay par-projet** (OPERATING-CONTRACT, squelette `rules/`, hub `CLAUDE.md`, `PROJECT_BRIEF`) par-dessus le plugin. Idempotent : aperçu → confirmation, **n'écrit que les fichiers absents, n'écrase jamais**.
@@ -104,12 +105,12 @@ La commande demande le nom du projet + le domaine, montre un **aperçu** des fic
 - Les hooks opèrent sur le **projet consommateur** via `${CLAUDE_PROJECT_DIR}` ; les
   scripts bundlés sont référencés via `${CLAUDE_PLUGIN_ROOT}`.
 
-## Périmètre & limites (v0.5.0)
+## Périmètre & limites (v0.6.0)
 
-- **Inclus** : 3 agents, 10 commandes (dont `audit-claude-setup` et `bootstrap`), 8 hooks
+- **Inclus** : 3 agents, 11 commandes (dont `audit-claude-setup`, `bootstrap`, `retro`), 8 hooks
   (`session-start`, `inject-contract`, `pre-tool-guard`, `post-edit-format`, `activity-log`,
   `extract-lesson`, `stop-test-gate`, `coach-suggest`), paramétrage par `userConfig`.
-- **Pas encore inclus** : `retro` ; templates d'agent de domaine + `domain-check` (bootstrap v0.6.0) ;
+- **Pas encore inclus** : templates d'agent de domaine + `domain-check` que `bootstrap` posera (à venir) ;
   Routine cloud d'automatisation de `audit-claude-setup`.
 - Le Coach et `extract-lesson` portent des **triggers d'exemple** (Supabase, migrations…)
   commentés dans les scripts : adapte-les à ta stack.
