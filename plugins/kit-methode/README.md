@@ -20,8 +20,8 @@ Discipline de travail réutilisable, extraite du **Claude Code Handbook** et ép
 **Hooks**
 - `SessionStart` — récap git d'ouverture de session.
 - `PreToolUse` — garde-fous (`.env`, `rm -rf`, `git push --force`, `--no-verify`).
-- `PostToolUse` — log d'activité (zéro token) + nudge `extract-lesson` après un commit significatif.
-- `Stop` — Coach : suggestions de fin de session selon ce qui a été touché.
+- `PostToolUse` — formatage post-écriture (`post-edit-format`, si configuré) + log d'activité (zéro token) + nudge `extract-lesson` après un commit significatif.
+- `Stop` — test-gate (`stop-test-gate`, si configuré) + Coach : suggestions de fin de session selon ce qui a été touché.
 
 ## Installation
 
@@ -64,6 +64,22 @@ Une fois installé, **les commandes sont préfixées par le nom du plugin** :
 > Les hooks (`coach-suggest`, `extract-lesson`) impriment encore des noms `/...` nus
 > dans leurs suggestions ; lis-les comme la forme namespacée ci-dessus en projet consommateur.
 
+## Configuration (`userConfig`)
+
+Deux hooks dépendent de la stack du projet. Claude Code te demande ces valeurs **à l'activation du plugin** (et tu peux les changer ensuite via `/plugin`). Tout est **optionnel** : par défaut, formatage désactivé et test-gate en auto-détection.
+
+| Option | Rôle | Défaut |
+|---|---|---|
+| `package_manager` | `pnpm`/`npm`/`yarn`/`bun` | vide → **auto-détecté** via le lockfile |
+| `test_cmd` | commande du test-gate | vide → repli `<gestionnaire> test` ; rien de détecté → gate off |
+| `test_paths` | filtre : ne teste que si un fichier écrit correspond | vide → tout tour ayant écrit |
+| `format_cmd` | formateur post-écriture (le chemin du fichier est ajouté en argument) | vide → **aucun formatage** (jamais deviné) |
+| `test_gate_block` | tests rouges bloquent la fin du tour (`exit 2`) | `false` → **avertissement seulement** |
+
+Comportement :
+- **`post-edit-format`** ne fait rien tant que `format_cmd` est vide. Renseigné (ex. `prettier --write` ou `pnpm exec eslint --fix`), il formate chaque fichier écrit, silencieux et non-bloquant.
+- **`stop-test-gate`** ne se déclenche qu'après **≥1 écriture** dans la session (jamais sur un tour de lecture/réponse), respecte `/coach-mute`, et reste **non-bloquant par défaut**. `test_paths` se compare aux chemins **repo-relatifs** tels que loggés (ex. `src/lib/calculations`), par sous-chaîne.
+
 ## Prérequis
 
 - **bash** + **jq** disponibles dans le PATH (les hooks sont des scripts `.sh`).
@@ -71,13 +87,13 @@ Une fois installé, **les commandes sont préfixées par le nom du plugin** :
 - Les hooks opèrent sur le **projet consommateur** via `${CLAUDE_PROJECT_DIR}` ; les
   scripts bundlés sont référencés via `${CLAUDE_PLUGIN_ROOT}`.
 
-## Périmètre & limites (fondation v0.1.0)
+## Périmètre & limites (v0.2.0)
 
-- **Inclus** : composants déjà génériques (3 agents, 8 commandes, 5 hooks purs).
-- **Pas encore inclus** (chantiers suivants) : `kit.config` (paramétrage gestionnaire de
-  paquets / commande de test / format), hook `post-edit-format` (dépend de kit.config),
-  nouveau contenu (`inject-contract`, `retro`, `audit-claude-setup`, templates de docs),
-  bootstrap d'overlay par-projet, scan des sources externes.
+- **Inclus** : 3 agents, 8 commandes, 7 hooks (5 purs + `post-edit-format` et `stop-test-gate`
+  paramétrés par `userConfig`).
+- **Pas encore inclus** (chantiers suivants) : nouveau contenu non-hook (`inject-contract`,
+  `retro`, `audit-claude-setup`, templates de docs), bootstrap d'overlay par-projet,
+  scan des sources externes.
 - Le Coach et `extract-lesson` portent des **triggers d'exemple** (Supabase, migrations…)
   commentés dans les scripts : adapte-les à ta stack.
 
