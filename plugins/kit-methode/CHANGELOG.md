@@ -2,6 +2,18 @@
 
 Format : [Keep a Changelog](https://keepachangelog.com/), versions [SemVer](https://semver.org/).
 
+## [0.7.0] — 2026-06-10
+
+`bootstrap` pose aussi l'overlay de domaine.
+
+### Added
+- Templates `templates/domain-agent.md` + `templates/domain-check.md` (frontmatter à tokens `__DOMAIN_SLUG__` / `__DOMAIN__`).
+- `bootstrap` étendu : slugifie le domaine, substitue les tokens **en mémoire** puis un seul `Write`, pose `.claude/agents/<slug>-expert.md` + `.claude/commands/<slug>-check.md`. **Gate no-residual-token** : un fichier dont le frontmatter contient encore `__` est abandonné, jamais écrit (sortie toujours valide). Reste create-only / aperçu / jamais d'écrasement.
+
+### Notes
+- L'agent de domaine est invoqué par la commande domain-check **par nom nu** (convention du kit).
+- Templates sous `templates/` → non chargés comme composants ; le frontmatter à tokens ne perturbe pas `claude plugin validate`.
+
 ## [0.6.0] — 2026-06-10
 
 ### Added

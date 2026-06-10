@@ -94,9 +94,12 @@ Le plugin apporte le **générique** ; chaque projet pose son **overlay** mince 
 /kit-methode:bootstrap
 ```
 
-La commande demande le nom du projet + le domaine, montre un **aperçu** des fichiers à créer, puis (sur confirmation) pose seulement ceux qui manquent — **sans jamais écraser** : `.claude/OPERATING-CONTRACT.md` (règles 1-5 du kit + tes règles 6-7 à remplir), `.claude/rules/example.md`, `CLAUDE.md` (hub), `PROJECT_BRIEF.md`. Tu remplis ensuite les `<TODO>`.
+La commande demande le nom du projet + le domaine, montre un **aperçu** des fichiers à créer, puis (sur confirmation) pose seulement ceux qui manquent — **sans jamais écraser** :
+- `.claude/OPERATING-CONTRACT.md` (règles 1-5 du kit + tes règles 6-7 à remplir),
+- `.claude/rules/example.md`, `CLAUDE.md` (hub), `PROJECT_BRIEF.md`,
+- `.claude/agents/<domaine>-expert.md` + `.claude/commands/<domaine>-check.md` (agent de domaine + son déclencheur, frontmatter rempli, corps en `<TODO>`).
 
-> Templates d'agent de domaine + `domain-check` : prévus pour une version ultérieure.
+Tu remplis ensuite les `<TODO>`.
 
 ## Prérequis
 
@@ -105,13 +108,13 @@ La commande demande le nom du projet + le domaine, montre un **aperçu** des fic
 - Les hooks opèrent sur le **projet consommateur** via `${CLAUDE_PROJECT_DIR}` ; les
   scripts bundlés sont référencés via `${CLAUDE_PLUGIN_ROOT}`.
 
-## Périmètre & limites (v0.6.0)
+## Périmètre & limites (v0.7.0)
 
 - **Inclus** : 3 agents, 11 commandes (dont `audit-claude-setup`, `bootstrap`, `retro`), 8 hooks
   (`session-start`, `inject-contract`, `pre-tool-guard`, `post-edit-format`, `activity-log`,
   `extract-lesson`, `stop-test-gate`, `coach-suggest`), paramétrage par `userConfig`.
-- **Pas encore inclus** : templates d'agent de domaine + `domain-check` que `bootstrap` posera (à venir) ;
-  Routine cloud d'automatisation de `audit-claude-setup`.
+  `bootstrap` pose un overlay complet (contract, rules, hub, brief, **agent de domaine + domain-check**).
+- **Pas encore inclus** : Routine cloud d'automatisation de `audit-claude-setup`.
 - Le Coach et `extract-lesson` portent des **triggers d'exemple** (Supabase, migrations…)
   commentés dans les scripts : adapte-les à ta stack.
 

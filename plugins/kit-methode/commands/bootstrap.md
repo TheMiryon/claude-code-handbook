@@ -1,5 +1,5 @@
 ---
-description: "Scaffold the per-project kit-méthode overlay (operating-contract, rules skeleton, CLAUDE.md hub, project brief) on top of the generic plugin. Idempotent: previews first, writes only missing files, never overwrites without asking."
+description: "Scaffold the per-project kit-méthode overlay (operating-contract, rules skeleton, CLAUDE.md hub, project brief, domain expert agent + domain-check command) on top of the generic plugin. Idempotent: previews first, writes only missing files, never overwrites without asking."
 argument-hint: "(no args — runs interactively)"
 ---
 
@@ -11,7 +11,7 @@ You scaffold the **overlay** a project needs on top of the generic `kit-methode`
 
 ## 0. Targets
 
-The overlay is exactly these four files (relative to the project root):
+The overlay is exactly these six files (relative to the project root). `<slug>` is the slugified domain (see step 1):
 
 | Target | Source |
 |---|---|
@@ -19,14 +19,18 @@ The overlay is exactly these four files (relative to the project root):
 | `.claude/rules/example.md` | `${CLAUDE_PLUGIN_ROOT}/templates/rule.example.md` |
 | `CLAUDE.md` | `${CLAUDE_PLUGIN_ROOT}/templates/CLAUDE.hub.md` |
 | `PROJECT_BRIEF.md` | `${CLAUDE_PLUGIN_ROOT}/templates/PROJECT_BRIEF.md` |
+| `.claude/agents/<slug>-expert.md` | `${CLAUDE_PLUGIN_ROOT}/templates/domain-agent.md` (token-substituted, see step 4) |
+| `.claude/commands/<slug>-check.md` | `${CLAUDE_PLUGIN_ROOT}/templates/domain-check.md` (token-substituted, see step 4) |
 
 ## 1. Ask the minimum
 
 Ask the user two things (and nothing else): **project name** and **primary domain** (e.g. "trading indicators", "2D game engine", "SaaS dashboard"). You use these to fill the obvious blanks in the hub and brief. Everything else stays as explicit `<TODO>` markers — **never invent** content.
 
+**Derive the slug** from the domain: lowercase, spaces → `-`, keep only `[a-z0-9-]`, collapse repeated `-`. (e.g. "Trading Indicators" → `trading-indicators`.) If the slug comes out empty, ask the user for a short domain keyword and retry. The slug names `.claude/agents/<slug>-expert.md` and `.claude/commands/<slug>-check.md`.
+
 ## 2. Enumerate + test existence
 
-For each of the four targets, test whether the file already exists (`Read` it, or `ls`/`test -f`). Build two sets:
+For each of the six targets, test whether the file already exists (`Read` it, or `ls`/`test -f`). Build two sets:
 - **CREATE** = targets that do **not** exist.
 - **SKIP** = targets that already exist (left untouched by default).
 
@@ -65,6 +69,9 @@ For each target in **CREATE** only, using the `Write` tool (never Edit, never sh
    When code and a source of truth disagree, the source wins.>
   ```
 
+- **`.claude/agents/<slug>-expert.md` and `.claude/commands/<slug>-check.md`** (token-substituted): read the bundled template, substitute **in memory** `__DOMAIN_SLUG__` → `<slug>` and `__DOMAIN__` → the domain label, then do a **single `Write`** to the destination (no intermediate file, no shell `sed`/redirection on the path).
+  - **No-residual-token gate (hard):** after substitution, scan the rendered **frontmatter** for any `__` token. If one survives, **abort that file and report it** — never write a broken component. The frontmatter (`name`, `description`) must be fully filled; only the **body** may keep `<TODO>` markers.
+
 ## 5. Report
 
 ```
@@ -75,6 +82,7 @@ Skipped: <m> file(s) (already present — untouched)
 Next:
   • Fill the <TODO> markers (start with PROJECT_BRIEF.md, then OPERATING-CONTRACT §6-7).
   • Adapt .claude/rules/example.md to a real zone (rename it).
+  • Flesh out .claude/agents/<slug>-expert.md (domain context, what it checks).
   • Set the kit-methode userConfig (test_cmd / format_cmd) to match your stack.
 ```
 
@@ -82,6 +90,8 @@ Next:
 
 - **Create-only**: never `Edit`/overwrite an existing file; SKIP it and report. Regenerating a present file requires a separate, explicit per-file confirmation.
 - **No shell clobber**: use the `Write` tool, never `cp`/`>`/`>>`.
-- **No invention**: fill only project name + domain; everything else stays `<TODO>`.
+- **No invention**: fill only project name + domain (+ derived slug); everything else stays `<TODO>`.
 - **Contract is verbatim**: rules 1-5 come from the bundled file unchanged; you only append the §6-7 placeholder block.
-- **Scope**: write nothing outside `.claude/` and the two named root files. `domain-agent` / `domain-check` templates are a later version — don't scaffold them here.
+- **Substitution is in-memory then one `Write`**: never `sed`/redirect onto the destination path.
+- **No-residual-token gate**: never write a domain file whose frontmatter still contains a `__` token — abort and report instead.
+- **Scope**: write nothing outside `.claude/` and the two named root files.
