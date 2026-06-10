@@ -2,6 +2,11 @@
 
 Format : [Keep a Changelog](https://keepachangelog.com/), versions [SemVer](https://semver.org/).
 
+## [0.7.1] — 2026-06-10
+
+### Fixed
+- `pre-tool-guard.sh` : faux positif sur `rm`. La regex bloquait **tout chemin absolu** (`rm -f /tmp/x` était refusé) ; elle ne vise plus que la **racine nue** (`rm -rf /`, `/*`, `/ ...`) en plus de `~`, `../`, `$HOME`. Découvert pendant la preuve runtime ; matrice de 17 cas (doit-bloquer / doit-passer) verte. Même fix appliqué au `.claude/hooks/` du repo (cohérence).
+
 ## [0.7.0] — 2026-06-10
 
 `bootstrap` pose aussi l'overlay de domaine.

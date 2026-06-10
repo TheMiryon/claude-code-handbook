@@ -21,8 +21,9 @@ fi
 if [ "$TOOL" = "Bash" ]; then
   CMD=$(echo "$INPUT" | jq -r '.tool_input.command // empty' 2>/dev/null || echo "")
 
-  # rm -rf on dangerous paths: /, ~, ../, $HOME
-  if echo "$CMD" | grep -qE 'rm[[:space:]]+-[a-zA-Z]*[rf][a-zA-Z]*[[:space:]]+(/|~|\.\./|\$HOME)' ; then
+  # rm -rf on dangerous roots: bare / (e.g. "rm -rf /", "rm -rf /*"), ~, ../, $HOME.
+  # A specific absolute path like /tmp/x is allowed (only the bare root matches).
+  if echo "$CMD" | grep -qE 'rm[[:space:]]+-[a-zA-Z]*[rf][a-zA-Z]*[[:space:]]+(/([[:space:]]|$|\*)|~|\.\./|\$HOME)' ; then
     echo "BLOCKED: rm -rf on a dangerous path. Use an explicit, precise path." >&2
     exit 2
   fi
