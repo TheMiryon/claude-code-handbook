@@ -20,6 +20,7 @@ Discipline de travail réutilisable, extraite du **Claude Code Handbook** et ép
 
 **Hooks**
 - `SessionStart` — récap git d'ouverture de session.
+- `UserPromptSubmit` — réinjecte l'OPERATING-CONTRACT (`inject-contract`) à chaque tour.
 - `PreToolUse` — garde-fous (`.env`, `rm -rf`, `git push --force`, `--no-verify`).
 - `PostToolUse` — formatage post-écriture (`post-edit-format`, si configuré) + log d'activité (zéro token) + nudge `extract-lesson` après un commit significatif.
 - `Stop` — test-gate (`stop-test-gate`, si configuré) + Coach : suggestions de fin de session selon ce qui a été touché.
@@ -76,10 +77,12 @@ Deux hooks dépendent de la stack du projet. Claude Code te demande ces valeurs 
 | `test_paths` | filtre : ne teste que si un fichier écrit correspond | vide → tout tour ayant écrit |
 | `format_cmd` | formateur post-écriture (le chemin du fichier est ajouté en argument) | vide → **aucun formatage** (jamais deviné) |
 | `test_gate_block` | tests rouges bloquent la fin du tour (`exit 2`) | `false` → **avertissement seulement** |
+| `inject_contract` | réinjecte l'OPERATING-CONTRACT à chaque tour | `true` → mettre `false` pour économiser des tokens |
 
 Comportement :
 - **`post-edit-format`** ne fait rien tant que `format_cmd` est vide. Renseigné (ex. `prettier --write` ou `pnpm exec eslint --fix`), il formate chaque fichier écrit, silencieux et non-bloquant.
 - **`stop-test-gate`** ne se déclenche qu'après **≥1 écriture** dans la session (jamais sur un tour de lecture/réponse), respecte `/coach-mute`, et reste **non-bloquant par défaut**. `test_paths` se compare aux chemins **repo-relatifs** tels que loggés (ex. `src/lib/calculations`), par sous-chaîne.
+- **`inject-contract`** réinjecte un OPERATING-CONTRACT à chaque tour. Par défaut il injecte les **règles génériques 1-5** du kit (`templates/operating-contract.md`). Pour ajouter tes conventions dures et sources de vérité (règles 6-7), crée un **`.claude/OPERATING-CONTRACT.md`** dans ton projet : le hook l'injecte alors **à la place** du template. Mettre `inject_contract=false` pour le couper.
 
 ## Prérequis
 

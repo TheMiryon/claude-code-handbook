@@ -2,6 +2,19 @@
 
 Format : [Keep a Changelog](https://keepachangelog.com/), versions [SemVer](https://semver.org/).
 
+## [0.4.0] — 2026-06-10
+
+Réinjection de l'OPERATING-CONTRACT (la « pièce centrale » de la discipline).
+
+### Added
+- `scripts/inject-contract.sh` (hook `UserPromptSubmit`) : réinjecte l'OPERATING-CONTRACT à chaque tour via `hookSpecificOutput.additionalContext` (JSON construit avec `jq -Rs`). Dégrade en « rien émis » si jq absent / fichier illisible ou vide (jamais de JSON malformé).
+- `templates/operating-contract.md` : règles génériques 1-5 (co-pilote, confidence card, statut explicite, gates, contrarian). Bundlé, injecté par défaut.
+- `userConfig.inject_contract` (boolean, défaut `true`) : coupe la réinjection.
+
+### Notes
+- Overlay : si le projet a un `.claude/OPERATING-CONTRACT.md`, le hook l'injecte **à la place** du template bundlé (c'est là que vivent les règles 6-7 spécifiques au projet).
+- Event `UserPromptSubmit` (chaque tour) choisi conformément au mapping ; sur resume l'additionalContext est rejoué depuis le transcript (pas de staleness pour un contrat statique).
+
 ## [0.3.0] — 2026-06-10
 
 Commande d'auto-audit + enrichissement du setup Claude Code.

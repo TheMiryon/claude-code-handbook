@@ -2,7 +2,7 @@
   "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "kit-methode",
   "displayName": "Kit Méthode",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Discipline de travail réutilisable pour Claude Code : agents de revue (plan, code, sécurité), commandes d'orchestration (ship, new-feature, audit-quick, coach, standup, extract-lesson) et hooks garde-fous. Noyau générique extrait du Claude Code Handbook.",
   "author": {
     "name": "TheMiryon"
@@ -41,6 +41,12 @@
       "title": "Test-gate bloquant",
       "description": "Si activé, des tests en échec empêchent la fin du tour (exit 2). Par défaut : avertissement seulement.",
       "default": false
+    },
+    "inject_contract": {
+      "type": "boolean",
+      "title": "Injecter l'operating-contract",
+      "description": "Réinjecte l'OPERATING-CONTRACT à chaque tour (règles génériques du kit, ou le .claude/OPERATING-CONTRACT.md du projet s'il existe). Désactiver pour économiser des tokens.",
+      "default": true
     }
   }
 }
