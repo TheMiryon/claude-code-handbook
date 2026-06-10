@@ -16,6 +16,7 @@ Discipline de travail réutilisable, extraite du **Claude Code Handbook** et ép
 - `coach` / `coach-mute` / `coach-on` — orientation « prochaine étape » + mute du Coach.
 - `standup` — récap quotidien (fait / en cours / focus / friction).
 - `extract-lesson` — épingle 1-3 leçons d'un commit dans `CLAUDE.md`.
+- `audit-claude-setup` — audite le `.claude/` + les plugins actifs d'un projet et **propose** des améliorations étayées par les sources Anthropic (changelog, doc). **Read-only, n'applique jamais rien.**
 
 **Hooks**
 - `SessionStart` — récap git d'ouverture de session.

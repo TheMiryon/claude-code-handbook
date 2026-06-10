@@ -2,6 +2,18 @@
 
 Format : [Keep a Changelog](https://keepachangelog.com/), versions [SemVer](https://semver.org/).
 
+## [0.3.0] — 2026-06-10
+
+Commande d'auto-audit + enrichissement du setup Claude Code.
+
+### Added
+- `commands/audit-claude-setup.md` : commande **read-only, propose-only**. Partie A — audit local déterministe du `.claude/` + plugins actifs (cohérence hooks↔settings, frontmatter, anchors morts, dérive, duplication standalone↔plugin). Partie B — scan best-effort des sources Anthropic (changelog + doc cœur) confronté au setup, propositions avec **diff exact + preuve quotée obligatoire** (sinon question), jamais appliquées. `argument-hint` `[local | external | all]`.
+
+### Notes
+- Anti-hallucination : toute proposition externe doit citer une URL fetchée ET quoter la ligne qui la justifie ; pas de preuve → question, jamais proposition.
+- Propose-only est une convention de prompt, pas un sandbox (un verrou dur relèverait des permissions).
+- Pas de fetch du source SDK (high-noise) ; changelog + doc cœur uniquement.
+
 ## [0.2.0] — 2026-06-10
 
 Paramétrage de la couche hooks par projet via `userConfig` natif (pas de fichier `kit.config` maison), + les deux hooks 🟡 absents de la fondation.
