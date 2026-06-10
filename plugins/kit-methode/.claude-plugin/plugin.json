@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "kit-methode",
+  "displayName": "Kit Méthode",
+  "version": "0.1.0",
+  "description": "Discipline de travail réutilisable pour Claude Code : agents de revue (plan, code, sécurité), commandes d'orchestration (ship, new-feature, audit-quick, coach, standup, extract-lesson) et hooks garde-fous. Noyau générique extrait du Claude Code Handbook.",
+  "author": {
+    "name": "TheMiryon"
+  },
+  "homepage": "https://github.com/TheMiryon/claude-code-handbook",
+  "repository": "https://github.com/TheMiryon/claude-code-handbook",
+  "license": "MIT",
+  "keywords": ["workflow", "code-review", "hooks", "discipline", "agents"]
+}
