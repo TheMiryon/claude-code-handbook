@@ -17,6 +17,7 @@ Discipline de travail réutilisable, extraite du **Claude Code Handbook** et ép
 - `standup` — récap quotidien (fait / en cours / focus / friction).
 - `extract-lesson` — épingle 1-3 leçons d'un commit dans `CLAUDE.md`.
 - `audit-claude-setup` — audite le `.claude/` + les plugins actifs d'un projet et **propose** des améliorations étayées par les sources Anthropic (changelog, doc). **Read-only, n'applique jamais rien.**
+- `bootstrap` — pose l'**overlay par-projet** (OPERATING-CONTRACT, squelette `rules/`, hub `CLAUDE.md`, `PROJECT_BRIEF`) par-dessus le plugin. Idempotent : aperçu → confirmation, **n'écrit que les fichiers absents, n'écrase jamais**.
 
 **Hooks**
 - `SessionStart` — récap git d'ouverture de session.
@@ -84,6 +85,18 @@ Comportement :
 - **`stop-test-gate`** ne se déclenche qu'après **≥1 écriture** dans la session (jamais sur un tour de lecture/réponse), respecte `/coach-mute`, et reste **non-bloquant par défaut**. `test_paths` se compare aux chemins **repo-relatifs** tels que loggés (ex. `src/lib/calculations`), par sous-chaîne.
 - **`inject-contract`** réinjecte un OPERATING-CONTRACT à chaque tour. Par défaut il injecte les **règles génériques 1-5** du kit (`templates/operating-contract.md`). Pour ajouter tes conventions dures et sources de vérité (règles 6-7), crée un **`.claude/OPERATING-CONTRACT.md`** dans ton projet : le hook l'injecte alors **à la place** du template. Mettre `inject_contract=false` pour le couper.
 
+## Démarrer un nouveau projet (overlay)
+
+Le plugin apporte le **générique** ; chaque projet pose son **overlay** mince par-dessus. Après avoir installé/activé le plugin :
+
+```shell
+/kit-methode:bootstrap
+```
+
+La commande demande le nom du projet + le domaine, montre un **aperçu** des fichiers à créer, puis (sur confirmation) pose seulement ceux qui manquent — **sans jamais écraser** : `.claude/OPERATING-CONTRACT.md` (règles 1-5 du kit + tes règles 6-7 à remplir), `.claude/rules/example.md`, `CLAUDE.md` (hub), `PROJECT_BRIEF.md`. Tu remplis ensuite les `<TODO>`.
+
+> Templates d'agent de domaine + `domain-check` : prévus pour une version ultérieure.
+
 ## Prérequis
 
 - **bash** + **jq** disponibles dans le PATH (les hooks sont des scripts `.sh`).
@@ -91,13 +104,13 @@ Comportement :
 - Les hooks opèrent sur le **projet consommateur** via `${CLAUDE_PROJECT_DIR}` ; les
   scripts bundlés sont référencés via `${CLAUDE_PLUGIN_ROOT}`.
 
-## Périmètre & limites (v0.2.0)
+## Périmètre & limites (v0.5.0)
 
-- **Inclus** : 3 agents, 8 commandes, 7 hooks (5 purs + `post-edit-format` et `stop-test-gate`
-  paramétrés par `userConfig`).
-- **Pas encore inclus** (chantiers suivants) : nouveau contenu non-hook (`inject-contract`,
-  `retro`, `audit-claude-setup`, templates de docs), bootstrap d'overlay par-projet,
-  scan des sources externes.
+- **Inclus** : 3 agents, 10 commandes (dont `audit-claude-setup` et `bootstrap`), 8 hooks
+  (`session-start`, `inject-contract`, `pre-tool-guard`, `post-edit-format`, `activity-log`,
+  `extract-lesson`, `stop-test-gate`, `coach-suggest`), paramétrage par `userConfig`.
+- **Pas encore inclus** : `retro` ; templates d'agent de domaine + `domain-check` (bootstrap v0.6.0) ;
+  Routine cloud d'automatisation de `audit-claude-setup`.
 - Le Coach et `extract-lesson` portent des **triggers d'exemple** (Supabase, migrations…)
   commentés dans les scripts : adapte-les à ta stack.
 

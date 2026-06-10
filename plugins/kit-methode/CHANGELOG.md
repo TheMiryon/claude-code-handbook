@@ -2,6 +2,22 @@
 
 Format : [Keep a Changelog](https://keepachangelog.com/), versions [SemVer](https://semver.org/).
 
+## [0.5.0] — 2026-06-10
+
+Commande `bootstrap` : pose l'overlay par-projet (core-only v1).
+
+### Added
+- `commands/bootstrap.md` : scaffolder **idempotent** de l'overlay. Algorithme write-safety explicite — énumère les cibles, teste l'existence, **affiche un aperçu**, demande confirmation, puis `Write` **uniquement les fichiers absents** (jamais `Edit`, jamais `cp`/`>`, jamais d'écrasement sans confirmation par fichier). Seule commande mutante du kit.
+- Templates bundlés `templates/{rule.example,CLAUDE.hub,PROJECT_BRIEF}.md`.
+- L'OPERATING-CONTRACT posé = `templates/operating-contract.md` lu **verbatim** (règles 1-5, pas de paraphrase) + bloc statique §6-7 placeholder.
+
+### Scope
+- core-only : pose OPERATING-CONTRACT + rules/example + CLAUDE.md hub + PROJECT_BRIEF. Templates `domain-agent`/`domain-check` différés à v0.6.0.
+
+### Notes
+- Templates sous `templates/` → non chargés comme composants du plugin.
+- Une commande est un prompt : la write-safety repose sur l'algorithme inscrit + son respect par le modèle (pas de verrou sandbox) ; preuve runtime à l'exécution réelle.
+
 ## [0.4.0] — 2026-06-10
 
 Réinjection de l'OPERATING-CONTRACT (la « pièce centrale » de la discipline).
