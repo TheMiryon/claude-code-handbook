@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "kit-methode",
+  "displayName": "Kit Méthode",
+  "version": "0.7.1",
+  "description": "Discipline de travail réutilisable pour Claude Code : agents de revue (plan, code, sécurité), commandes d'orchestration (ship, new-feature, audit-quick, coach, standup, extract-lesson) et hooks garde-fous. Noyau générique extrait du Claude Code Handbook.",
+  "author": {
+    "name": "TheMiryon"
+  },
+  "homepage": "https://github.com/TheMiryon/claude-code-handbook",
+  "repository": "https://github.com/TheMiryon/claude-code-handbook",
+  "license": "MIT",
+  "keywords": ["workflow", "code-review", "hooks", "discipline", "agents"],
+  "userConfig": {
+    "package_manager": {
+      "type": "string",
+      "title": "Gestionnaire de paquets",
+      "description": "pnpm | npm | yarn | bun. Laisser vide pour auto-détection via le lockfile du projet.",
+      "default": ""
+    },
+    "test_cmd": {
+      "type": "string",
+      "title": "Commande de test (test-gate)",
+      "description": "Ex. 'pnpm test'. Vide → repli sur '<gestionnaire détecté> test'. Vide + aucun gestionnaire détecté → test-gate désactivé.",
+      "default": ""
+    },
+    "test_paths": {
+      "type": "string",
+      "title": "Chemins surveillés par le test-gate",
+      "description": "Optionnel. Liste séparée par espaces ou virgules (ex. 'src/lib/calculations'). Si renseigné, le gate ne se déclenche que si un fichier écrit correspond. Vide → tout tour ayant écrit.",
+      "default": ""
+    },
+    "format_cmd": {
+      "type": "string",
+      "title": "Commande de formatage (post-écriture)",
+      "description": "Ex. 'pnpm exec eslint --fix' ou 'prettier --write'. Le chemin du fichier est ajouté en argument. Vide → aucun formatage (jamais deviné).",
+      "default": ""
+    },
+    "test_gate_block": {
+      "type": "boolean",
+      "title": "Test-gate bloquant",
+      "description": "Si activé, des tests en échec empêchent la fin du tour (exit 2). Par défaut : avertissement seulement.",
+      "default": false
+    },
+    "inject_contract": {
+      "type": "boolean",
+      "title": "Injecter l'operating-contract",
+      "description": "Réinjecte l'OPERATING-CONTRACT à chaque tour (règles génériques du kit, ou le .claude/OPERATING-CONTRACT.md du projet s'il existe). Désactiver pour économiser des tokens.",
+      "default": true
+    }
+  }
+}

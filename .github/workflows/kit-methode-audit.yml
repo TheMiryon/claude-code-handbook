@@ -1,0 +1,61 @@
+name: kit-methode audit (routine)
+
+# Cloud routine for MAPPING-KIT-METHODE.md point 5: periodically run the
+# kit-methode external audit and surface the proposed diff as an ISSUE —
+# proposals only, NEVER auto-merged.
+#
+# SAFE-BY-DEFAULT — nothing fires or costs anything until you opt in:
+#   1. add the `ANTHROPIC_API_KEY` repository secret, AND
+#   2. uncomment the `schedule:` block below.
+# Without both, this only runs when you click "Run workflow" (and fails fast
+# without the secret).
+#
+# ACTIVATION: functional once PR #3 is merged to `main`. The job installs the
+# plugin by cloning this repo's DEFAULT branch (main); the plugin/marketplace
+# live on main only after that merge (this workflow lands on main with them).
+#
+# SECURITY: do NOT add `pull_request` or `pull_request_target` triggers — they
+# would expose ANTHROPIC_API_KEY to code from forks.
+
+on:
+  workflow_dispatch:
+  # schedule:
+  #   - cron: "0 9 * * 1"   # weekly, Mondays 09:00 UTC — opt-in switch
+
+# Least privilege: read the repo, write issues. NO `contents: write`, NO
+# `pull-requests` — so the routine physically CANNOT push a commit or open a PR.
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: kit-methode-audit
+  cancel-in-progress: false
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      # No `actions/checkout`: scope `external` scans the Anthropic docs only and
+      # does not read the repo filesystem. Add a checkout step here if you switch
+      # the prompt to scope `all` (local .claude/ audit + external).
+      - name: Run kit-methode external audit
+        uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          plugin_marketplaces: "https://github.com/TheMiryon/claude-code-handbook.git"
+          plugins: "kit-methode@kit-methode-marketplace"
+          prompt: |
+            Run the kit-methode command `/kit-methode:audit-claude-setup external`
+            (Part B only — the external scan of Anthropic sources).
+
+            Then open exactly ONE GitHub issue titled
+            "[kit-methode] audit proposals" containing the report: each proposal
+            with its fetched source URL and a quoted evidence snippet, plus the
+            🔵 questions. If the external scan produced nothing actionable, open
+            no issue and say so.
+
+            Strict: proposals only. Do NOT edit any file, do NOT commit, do NOT
+            open a pull request. Opening the single issue is the only write.
+          # --max-turns 15 is the main COST knob: raise for deeper scans, lower to cap spend.
+          claude_args: "--model claude-sonnet-4-6 --max-turns 15"

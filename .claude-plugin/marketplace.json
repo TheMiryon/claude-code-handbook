@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
+  "name": "kit-methode-marketplace",
+  "owner": {
+    "name": "TheMiryon"
+  },
+  "description": "Marketplace du Kit Méthode — discipline de travail réutilisable pour Claude Code, extraite du Claude Code Handbook.",
+  "plugins": [
+    {
+      "name": "kit-methode",
+      "source": "./plugins/kit-methode",
+      "description": "Agents de revue (plan, code, sécurité), commandes d'orchestration (ship, new-feature, audit-quick, coach, standup, extract-lesson) et hooks garde-fous."
+    }
+  ]
+}
