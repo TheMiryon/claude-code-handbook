@@ -34,8 +34,8 @@
 <section class="cover">
   <div class="cover-eyebrow">Claude Code · Handbook</div>
   <h1 class="cover-title">The handbook<br>you actually finish.</h1>
-  <p class="cover-subtitle">58 pages. Free. Works for developers and knowledge workers. Hooks, sub-agents, skills, plan-first development, the audit loop, plus testing discipline, third-party security, and a recovery playbook.</p>
-  <div class="cover-version">Version 3 · 2026 · MIT</div>
+  <p class="cover-subtitle">60 pages. Free. Works for developers and knowledge workers. Hooks, sub-agents, skills, plan-first development, the audit loop, testing, third-party security, a recovery playbook, and packaging it all as a plugin.</p>
+  <div class="cover-version">Version 3.1 · 2026 · MIT</div>
 </section>
 
 <!-- =================================================================
@@ -61,7 +61,7 @@
 
   <p>The whole setup takes about 30 minutes to bootstrap and a few hours to fully tune. The compound payoff is measured in days saved per quarter.</p>
 
-  <p class="muted small">This is V3 of the handbook. New in V3, Part VI "Discipline &amp; safety": a chapter on testing &amp; TDD, a chapter on third-party MCP and prompt-injection security, and a recovery playbook (Annex J) for when something breaks anyway. V2 added the skills chapters, the plan-first workflow inspired by Claude Code's creator Boris Cherny, the audit loop, parallel worktrees, and the four-locations memory matrix.</p>
+  <p class="muted small">This is V3.1 of the handbook. New in V3.1, Part VII "Packaging &amp; distribution": a chapter on packaging your whole setup as a plugin and sharing it via a marketplace (Chapter 16). V3 added Part VI "Discipline &amp; safety", testing &amp; TDD, third-party MCP and prompt-injection security, and a recovery playbook (Annex J). V2 added the skills chapters, the plan-first workflow inspired by Claude Code's creator Boris Cherny, the audit loop, parallel worktrees, and the four-locations memory matrix.</p>
 </article>
 
 <!-- =================================================================
@@ -192,7 +192,10 @@
     <li><span>14, Testing &amp; TDD</span><span class="toc-page">66</span></li>
     <li><span>15, Third-party MCP &amp; prompt injection</span><span class="toc-page">68</span></li>
 
-    <li class="toc-part"><span>Annexes</span><span class="toc-page">70</span></li>
+    <li class="toc-part"><span>Part VII, Packaging &amp; distribution</span><span class="toc-page">70</span></li>
+    <li><span>16, Plugins &amp; marketplaces</span><span class="toc-page">70</span></li>
+
+    <li class="toc-part"><span>Annexes</span><span class="toc-page">72</span></li>
     <li><span>A. Universal CLAUDE.md</span><span class="toc-page">68</span></li>
     <li><span>B. Complete .claude/settings.json</span><span class="toc-page">69</span></li>
     <li><span>C. The six hooks (condensed)</span><span class="toc-page">70</span></li>
@@ -2017,6 +2020,104 @@ graph TB
   <aside class="callout callout-info">
     <div class="callout-title">No system is immune</div>
     <p>The docs say it plainly: these protections "significantly reduce risk" but "no system is completely immune to all attacks". The goal isn't zero risk, it's making the easy attacks fail and the rest visible. Don't pipe untrusted content straight into Claude, and review before you approve.</p>
+  </aside>
+</article>
+
+<!-- =================================================================
+     PART VII COVER  ⭐ NEW in V3.1
+     ================================================================= -->
+<section class="part-cover">
+  <div class="part-number">Part VII</div>
+  <h1 class="part-title">Packaging &amp; distribution.</h1>
+  <p class="part-desc">Everything you configured in this book lives in one repo's <code>.claude/</code>. This part turns it into a single installable, versioned, shareable unit, and shows how to put Claude on a schedule.</p>
+</section>
+
+<!-- =================================================================
+     CHAPTER 16, Plugins & marketplaces  ⭐ NEW in V3.1
+     ================================================================= -->
+<article class="chapter">
+  <h1 class="chapter-title"><span class="chapter-number">Chapter 16 <span class="badge badge-advanced">ADVANCED</span></span>Plugins &amp; marketplaces</h1>
+
+  <p>You've built hooks (Ch. 03), sub-agents (Ch. 05), skills (Ch. 06), and slash commands (Ch. 04). So far it all lives in one repo's <code>.claude/</code>, copied by hand into the next project. A <strong>plugin</strong> packages the whole setup into one installable, versioned unit you can drop into any project and share with a team, no more copy-paste drift.</p>
+
+  <h2>When to graduate from .claude/ to a plugin</h2>
+
+  <p>Stay with a standalone <code>.claude/</code> while the setup is personal, single-project, or still being experimented on. Reach for a plugin when you want to <strong>reuse the same setup across projects</strong>, <strong>share it with teammates</strong>, or <strong>version and update it</strong> in one place. The one cost: plugin commands are <strong>namespaced</strong>, <code>/ship</code> becomes <code>/my-kit:ship</code>, which is what prevents two plugins from clashing.</p>
+
+  <h2>Anatomy of a plugin</h2>
+
+  <p>A plugin is a directory with a manifest at <code>.claude-plugin/plugin.json</code>, where <code>name</code> is the only required field (it's also the namespace):</p>
+
+  <pre data-lang="json">{
+  "name": "my-kit",
+  "version": "0.1.0",
+  "description": "My reusable Claude Code setup"
+}</pre>
+
+  <p>Everything else, <code>commands/</code>, <code>agents/</code>, <code>skills/</code>, <code>hooks/</code>, sits at the plugin <em>root</em>, never inside <code>.claude-plugin/</code>. Hooks are declared in <code>hooks/hooks.json</code> and reference their scripts through <code>${CLAUDE_PLUGIN_ROOT}</code>; to act on the project being worked in, a script uses <code>${CLAUDE_PROJECT_DIR}</code>.</p>
+
+  <aside class="callout callout-warning">
+    <div class="callout-title">Plugins run from a cache, not in place</div>
+    <p>When installed, a plugin is copied into <code>~/.claude/plugins/cache</code>. A hook script that did <code>cd ../..</code> to reach the repo would land in the cache, not your project. Always use <code>${CLAUDE_PLUGIN_ROOT}</code> for bundled files and <code>${CLAUDE_PROJECT_DIR}</code> for the project, never relative <code>../</code> paths.</p>
+  </aside>
+
+  <aside class="callout callout-tip">
+    <div class="callout-title">Keep your .sh scripts LF</div>
+    <p>A <code>.gitattributes</code> with <code>*.sh text eol=lf</code> is not optional. On Windows, a hook script checked out with CRLF line endings breaks its <code>#!/usr/bin/env bash</code> shebang the moment it's copied into the plugin cache, and the hook silently never runs.</p>
+  </aside>
+
+  <h2>Parametrize per project: userConfig</h2>
+
+  <p>Hooks that depend on the stack (a formatter, a test command) shouldn't be hard-coded. Declare them in the manifest's <code>userConfig</code>: Claude Code prompts for the values when the plugin is enabled and exports them to hook scripts as <code>$CLAUDE_PLUGIN_OPTION_&lt;KEY&gt;</code>.</p>
+
+  <pre data-lang="json">"userConfig": {
+  "test_cmd":   { "type": "string", "title": "Test command",   "default": "" },
+  "format_cmd": { "type": "string", "title": "Format command", "default": "" }
+}</pre>
+
+  <p>This beats a bespoke config file: it's native, prompted at enable time, and needs no parser of your own. A script just reads <code>$CLAUDE_PLUGIN_OPTION_TEST_CMD</code>.</p>
+
+  <h2>Distribute it: the marketplace</h2>
+
+  <p>A <strong>marketplace</strong> is a catalog that lets others install your plugin. It's a <code>.claude-plugin/marketplace.json</code> at a repo root listing your plugins and where to find them:</p>
+
+  <pre data-lang="json">{
+  "name": "my-marketplace",
+  "owner": { "name": "you" },
+  "plugins": [
+    { "name": "my-kit", "source": "./plugins/my-kit" }
+  ]
+}</pre>
+
+  <p>Push it to GitHub, and anyone installs with two commands:</p>
+
+  <pre data-lang="bash">/plugin marketplace add you/your-repo
+/plugin install my-kit@my-marketplace</pre>
+
+  <p>The relative <code>source</code> resolves because the marketplace is added from git. Validate the whole thing before publishing with <code>claude plugin validate .</code>.</p>
+
+  <h2>A worked example: the setup this book teaches, packaged</h2>
+
+  <p>The fastest way to understand plugins is to package what you already have. Take the hooks, agents, skills, and commands from the earlier chapters, drop them into <code>plugins/my-kit/</code> with a <code>plugin.json</code>, add a <code>marketplace.json</code> at the repo root, and run <code>claude plugin validate</code>. Install it once at user scope and the entire setup, the defensive guard, the audit agents, the <code>/ship</code> and <code>/new-feature</code> pipelines, follows you into every project, no copy-paste. A bootstrap command can then lay down the per-project overlay (the <code>OPERATING-CONTRACT</code>, a <code>rules/</code> skeleton, a project <code>CLAUDE.md</code>) on top of the generic plugin.</p>
+
+  <h2>Beyond plugins: put Claude on a schedule</h2>
+
+  <p>Once the setup travels, you may want it to run unattended. Claude Code offers three schedulers, pick by where it should run:</p>
+
+  <ul>
+    <li><strong><code>/loop</code></strong>, a bundled skill for in-session polling: <code>/loop 5m check the deploy</code>. Runs while the session is open and idle; it auto-expires seven days after creation. Good for babysitting a build or a PR during a work session.</li>
+    <li><strong>Routines</strong> (<code>/schedule</code>), scheduled agents on Anthropic's cloud: they run with your machine off and no open session, autonomously, minimum interval one hour. Good for a recurring audit or report.</li>
+    <li><strong>Desktop scheduled tasks</strong> and <strong>GitHub Actions</strong>, when the job needs your local files, or belongs in CI (a scheduled workflow).</li>
+  </ul>
+
+  <aside class="callout callout-danger">
+    <div class="callout-title">An unattended agent should propose, not merge</div>
+    <p>A cloud routine runs with no human at the keyboard, so the Chapter 15 rule hardens: give it least-privilege, and have it <em>open an issue or a draft</em> with its findings rather than commit or push. The safety isn't the prompt, it's the permissions the schedule runs under.</p>
+  </aside>
+
+  <aside class="callout callout-info">
+    <div class="callout-title">This is the book's endpoint</div>
+    <p>Everything from <code>CLAUDE.md</code> to hooks to the audit loop becomes a single artifact you install in one line and version like any dependency. The setup stops being something you rebuild per project and becomes something you <em>ship</em>.</p>
   </aside>
 </article>
 

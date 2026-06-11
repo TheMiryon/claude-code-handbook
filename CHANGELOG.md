@@ -7,6 +7,18 @@ Versioned with [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [V3.1] - 2026-06-11
+
+New **Part VII, "Packaging & distribution"**. Bilingual EN/FR.
+
+### Added
+- **Chapter 16, Plugins & marketplaces**: when to graduate from `.claude/` to a plugin, the `.claude-plugin/plugin.json` anatomy, `${CLAUDE_PLUGIN_ROOT}` / `${CLAUDE_PROJECT_DIR}` and the cache gotcha, `userConfig` parametrization, the `marketplace.json` + install flow, packaging the book's own setup as the worked example, and a `/loop` vs Routines vs Desktop-tasks scheduling section.
+
+### Verified against
+- Official Claude Code documentation at `code.claude.com/docs/en/` (plugins, plugin-marketplaces, plugins-reference, scheduled-tasks).
+
+---
+
 ## [V3.0] - 2026-06-11
 
 New **Part VI, "Discipline & safety"**, plus a recovery playbook. Bilingual EN/FR.
