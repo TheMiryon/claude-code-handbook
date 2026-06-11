@@ -177,7 +177,10 @@
     <li><span>12, MCP, connecter à l'extérieur</span><span class="toc-page">62</span></li>
     <li><span>13, Maintenance long-terme</span><span class="toc-page">65</span></li>
 
-    <li class="toc-part"><span>Annexes</span><span class="toc-page">67</span></li>
+    <li class="toc-part"><span>Partie VI, Discipline &amp; sûreté</span><span class="toc-page">66</span></li>
+    <li><span>14, Testing &amp; TDD</span><span class="toc-page">66</span></li>
+
+    <li class="toc-part"><span>Annexes</span><span class="toc-page">68</span></li>
     <li><span>A. CLAUDE.md universel</span><span class="toc-page">68</span></li>
     <li><span>B. .claude/settings.json complet</span><span class="toc-page">69</span></li>
     <li><span>C. Les six hooks (condensés)</span><span class="toc-page">70</span></li>
@@ -1736,6 +1739,87 @@ graph TB
     <li><strong>Skills orphelines.</strong> Une skill qu'aucun agent ne référence est du poids mort. Branche-la ou supprime-la. <span class="muted small">(nouveau en V2)</span></li>
     <li><strong>Duplication skill ↔ prompt d'agent.</strong> Si &gt; 50 % du contenu d'une skill est aussi dans le prompt d'un agent, consolide. La skill gagne. <span class="muted small">(nouveau en V2)</span></li>
   </ol>
+</article>
+
+<!-- =================================================================
+     PART VI COVER  ⭐ NOUVEAU en V3
+     ================================================================= -->
+<section class="part-cover">
+  <div class="part-number">Partie VI</div>
+  <h1 class="part-title">Discipline &amp; sûreté.</h1>
+  <p class="part-desc">Les deux réflexes qui gardent un agent rapide honnête : des tests qui rattrapent ses régressions, et une vision claire de ce que tu le laisses exécuter. Et quand tout casse quand même, le playbook de récupération en Annexe J.</p>
+</section>
+
+<!-- =================================================================
+     CHAPITRE 14, Testing & TDD  ⭐ NOUVEAU en V3
+     ================================================================= -->
+<article class="chapter">
+  <h1 class="chapter-title"><span class="chapter-number">Chapitre 14 <span class="badge badge-intermediate">INTERMÉDIAIRE</span></span>Testing &amp; TDD</h1>
+
+  <p>Ce livre a dit <code>verify</code> à presque chaque page, sans jamais t'apprendre à écrire un test. Réparons ça, parce qu'un <code>verify</code> vert ne vaut que les tests qu'il y a derrière. Sans eux, « ça passe » veut dire « ça compile », pas « ça marche ».</p>
+
+  <h2>Pourquoi Claude a plus besoin de tests que toi</h2>
+
+  <p>Un humain écrit une fonction, la lance une fois, passe à la suite. Claude écrit dix fonctions le temps que tu lises ce paragraphe, et peut régresser la troisième en silence pendant qu'il répare la septième. Les tests sont le seul garde-fou qui tient ce rythme : ils transforment « fais confiance à l'agent » en « vérifie l'agent », automatiquement, à chaque changement.</p>
+
+  <aside class="callout callout-warning">
+    <div class="callout-title">Un verify vert n'est pas « testé »</div>
+    <p>Si ta commande <code>verify</code> ne lance que le type-checker, un run vert te dit que le code <em>compile</em>, rien de plus. Toute la philosophie garde-fous de ce livre fuit par ce trou tant que <code>verify</code> ne lance pas vraiment les tests.</p>
+  </aside>
+
+  <h2>Test-first, adapté à un agent</h2>
+
+  <p>Red → green → refactor marche toujours, tu le pilotes juste par prompts. Demande le test avant l'implémentation :</p>
+
+  <pre data-lang="text">"Avant d'écrire la fonction, écris un test qui échoue :
+ - panier vide, total() renvoie 0
+ - deux articles, total() renvoie leur somme
+ - une quantité négative lève une erreur.
+ Lance-le, montre-moi qu'il est rouge, puis implémente jusqu'au vert."</pre>
+
+  <p>Ça fait trois choses d'un coup : ça t'oblige à spécifier le comportement, ça donne à Claude une cible concrète, et ça produit le filet anti-régression gratuitement. Le plan-first (chap. 07) et le test-first sont le même instinct : décider le contrat avant le code.</p>
+
+  <h2>Fais du test la spec</h2>
+
+  <p>Le moyen le plus rapide d'obtenir du code correct de Claude, c'est de lui tendre le test, pas une description. Compare :</p>
+
+  <pre data-lang="text">✗  "Écris une fonction qui formate joliment les prix."
+✓  "Fais passer ce test :
+    expect(formatPrice(1234.5)).toBe('1 234,50 €')
+    expect(formatPrice(0)).toBe('0,00 €')"</pre>
+
+  <p>Le premier est une devinette ; le second est un contrat. Le test fige la locale, les décimales, le symbole, le cas limite, tout ce qu'un prompt en prose laisse Claude inventer.</p>
+
+  <h2>Câble les tests dans le gate</h2>
+
+  <p>Une discipline qui dépend de la mémoire échoue. Mets les tests là où on ne peut pas les sauter :</p>
+
+  <ul>
+    <li><strong><code>verify</code> lance les tests</strong>, pas que le type-check : <code>"verify": "tsc --noEmit &amp;&amp; vitest run"</code>. Maintenant le pré-check de <code>/ship</code> (chap. 04) bloque tout push avec des tests rouges.</li>
+    <li><strong>Un test-gate sur hook Stop</strong>, dans l'esprit du chap. 03 : un hook Stop qui lance la suite en fin de tour sur les zones qui comptent, pour qu'une régression sorte en secondes, pas à la review.</li>
+    <li><strong>La CI en dernier rempart</strong> : le même <code>verify</code> dans une GitHub Action, pour qu'un run local oublié ne parte pas en prod.</li>
+  </ul>
+
+  <aside class="callout callout-danger">
+    <div class="callout-title">Ne laisse pas Claude supprimer le test qui échoue</div>
+    <p>Un vrai mode d'échec des agents : sommé de « rendre verify vert », un modèle va parfois <code>skip</code> ou supprimer le test qui échoue au lieu de réparer le code. Surveille le diff. Un fichier de test qui rétrécit à côté d'un <code>verify</code> qui passe est un drapeau rouge, pas une réussite.</p>
+  </aside>
+
+  <h2>Quoi tester, quoi sauter</h2>
+
+  <p>Vise l'effort là où les bugs coûtent cher, pas un chiffre de couverture :</p>
+
+  <ul>
+    <li><strong>Tester</strong> : logique métier, calculs, argent et dates, parsing, tout ce qui est dans une zone <code>core/</code> ou <code>calculations/</code>, les cas limites que tu aurais honte de livrer.</li>
+    <li><strong>Sauter</strong> : la glue du framework, les getters triviaux, le code généré, le comportement propre de la lib tierce.</li>
+  </ul>
+
+  <p>Un test bien placé sur la formule d'indicateur vaut vingt sur la couleur du bouton. Le pourcentage de couverture est une métrique de vanité ; « un résultat faux ici coûterait-il de l'argent ou de la confiance ? » est la vraie.</p>
+
+  <aside class="callout callout-tip">
+    <div class="callout-title">Transforme chaque bug en test</div>
+    <p>Quand Claude (ou toi) livre un bug, le fix n'est pas fini tant qu'un test ne le reproduit pas. Même réflexe que <code>/extract-lesson</code> (chap. 08) : capture l'échec pour qu'il ne revienne pas. La suite grossit exactement là où la réalité t'a mordu.</p>
+  </aside>
 </article>
 
 <!-- ===== ANNEXES ===== -->

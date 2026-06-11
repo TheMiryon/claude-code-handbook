@@ -188,7 +188,10 @@
     <li><span>12, MCP, connect to the outside</span><span class="toc-page">62</span></li>
     <li><span>13, Long-term maintenance</span><span class="toc-page">65</span></li>
 
-    <li class="toc-part"><span>Annexes</span><span class="toc-page">67</span></li>
+    <li class="toc-part"><span>Part VI, Discipline &amp; safety</span><span class="toc-page">66</span></li>
+    <li><span>14, Testing &amp; TDD</span><span class="toc-page">66</span></li>
+
+    <li class="toc-part"><span>Annexes</span><span class="toc-page">68</span></li>
     <li><span>A. Universal CLAUDE.md</span><span class="toc-page">68</span></li>
     <li><span>B. Complete .claude/settings.json</span><span class="toc-page">69</span></li>
     <li><span>C. The six hooks (condensed)</span><span class="toc-page">70</span></li>
@@ -1869,6 +1872,87 @@ graph TB
     <li><strong>Orphan skills.</strong> A skill no agent references is dead weight. Wire it or delete it. <span class="muted small">(new in V2)</span></li>
     <li><strong>Skill ↔ agent prompt duplication.</strong> If &gt;50&nbsp;% of a skill's content is also in an agent's prompt, consolidate. The skill wins. <span class="muted small">(new in V2)</span></li>
   </ol>
+</article>
+
+<!-- =================================================================
+     PART VI COVER  ⭐ NEW in V3
+     ================================================================= -->
+<section class="part-cover">
+  <div class="part-number">Part VI</div>
+  <h1 class="part-title">Discipline &amp; safety.</h1>
+  <p class="part-desc">The two reflexes that keep a fast agent honest: tests that catch its regressions, and a clear-eyed view of what you let it run. And when it all breaks anyway, the recovery playbook in Annex J.</p>
+</section>
+
+<!-- =================================================================
+     CHAPTER 14, Testing & TDD  ⭐ NEW in V3
+     ================================================================= -->
+<article class="chapter">
+  <h1 class="chapter-title"><span class="chapter-number">Chapter 14 <span class="badge badge-intermediate">INTERMEDIATE</span></span>Testing &amp; TDD</h1>
+
+  <p>This book has said <code>verify</code> on almost every page, and never once taught you to write a test. Time to fix that, because a green <code>verify</code> is only as honest as the tests behind it. Without them, "it passes" means "it compiles", not "it works".</p>
+
+  <h2>Why Claude needs tests more than you do</h2>
+
+  <p>A human writes a function, runs it once, moves on. Claude writes ten functions in the time you read this paragraph, and can silently regress the third while fixing the seventh. Tests are the only guardrail that scales with that speed: they turn "trust the agent" into "verify the agent", automatically, on every change.</p>
+
+  <aside class="callout callout-warning">
+    <div class="callout-title">A green verify is not "tested"</div>
+    <p>If your <code>verify</code> command only runs the type-checker, a passing run tells you the code <em>compiles</em>, nothing more. The whole guardrail philosophy of this book leaks through that gap until <code>verify</code> actually runs tests.</p>
+  </aside>
+
+  <h2>Test-first, adapted to an agent</h2>
+
+  <p>Red → green → refactor still works, you just drive it through prompts. Ask for the test before the implementation:</p>
+
+  <pre data-lang="text">"Before writing the function, write a failing test for it:
+ - given an empty cart, total() returns 0
+ - given two items, total() returns their sum
+ - a negative quantity throws.
+ Run it, show me it's red, then implement until green."</pre>
+
+  <p>This does three things at once: it forces you to specify the behavior, it gives Claude a concrete target, and it produces the regression net for free. Plan-first (Ch. 07) and test-first are the same instinct, decide the contract before the code.</p>
+
+  <h2>Make the test the spec</h2>
+
+  <p>The fastest way to get correct code from Claude is to hand it the test, not a description. Compare:</p>
+
+  <pre data-lang="text">✗  "Write a function that formats prices nicely."
+✓  "Make this test pass:
+    expect(formatPrice(1234.5)).toBe('1 234,50 €')
+    expect(formatPrice(0)).toBe('0,00 €')"</pre>
+
+  <p>The first is a guess; the second is a contract. The test pins the locale, the decimals, the symbol, the edge case, all the things a prose prompt leaves Claude to invent.</p>
+
+  <h2>Wire tests into the gate</h2>
+
+  <p>Discipline that depends on memory fails. Put tests where they can't be skipped:</p>
+
+  <ul>
+    <li><strong><code>verify</code> runs the tests</strong>, not just the type-check: <code>"verify": "tsc --noEmit &amp;&amp; vitest run"</code>. Now <code>/ship</code>'s pre-check (Ch. 04) blocks any push with red tests.</li>
+    <li><strong>A Stop-hook test-gate</strong>, in the spirit of Ch. 03: a Stop hook that runs the suite at end of turn on the zones you care about, so a regression surfaces in seconds, not at review.</li>
+    <li><strong>CI as the backstop</strong>: the same <code>verify</code> in a GitHub Action, so a forgotten local run can't ship.</li>
+  </ul>
+
+  <aside class="callout callout-danger">
+    <div class="callout-title">Don't let Claude delete the failing test</div>
+    <p>A real agentic failure mode: told to "make verify green", a model will sometimes <code>skip</code> or delete the failing test instead of fixing the code. Watch the diff. A shrinking test file next to a passing <code>verify</code> is a red flag, not a success.</p>
+  </aside>
+
+  <h2>What to test, what to skip</h2>
+
+  <p>Aim the effort where bugs are expensive, not at a coverage number:</p>
+
+  <ul>
+    <li><strong>Test</strong>: business logic, calculations, money and dates, parsing, anything in a <code>core/</code> or <code>calculations/</code> zone, the edge cases you'd be embarrassed to ship.</li>
+    <li><strong>Skip</strong>: framework glue, trivial getters, generated code, the third-party library's own behavior.</li>
+  </ul>
+
+  <p>One sharp test on the indicator formula beats twenty on the button colour. Coverage percentage is a vanity metric; "would a wrong result here cost money or trust?" is the real one.</p>
+
+  <aside class="callout callout-tip">
+    <div class="callout-title">Turn every bug into a test</div>
+    <p>When Claude (or you) ships a bug, the fix isn't done until a test reproduces it. Same reflex as <code>/extract-lesson</code> (Ch. 08): capture the failure so it can't come back. The suite grows exactly where reality bit you.</p>
+  </aside>
 </article>
 
 <!-- =================================================================
