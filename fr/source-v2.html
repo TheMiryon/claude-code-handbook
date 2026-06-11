@@ -186,6 +186,8 @@
     <li><span>F. Glossaire</span><span class="toc-page">73</span></li>
     <li><span>G. Quick start 30 minutes</span><span class="toc-page">74</span></li>
     <li><span>H. Étude de cas (anonymisée)</span><span class="toc-page">75</span></li>
+    <li><span>I. Cheat sheet</span><span class="toc-page">76</span></li>
+    <li><span>J. Playbook de récupération</span><span class="toc-page">77</span></li>
   </ul>
 </article>
 
@@ -2104,6 +2106,97 @@ Description en une phrase.
     <li>Skill > prompt d'agent. Si une règle vit dans les deux, l'agent perd ; la skill gagne.</li>
     <li>Lance <code>/audit-claude-setup</code> une fois par mois. Skills orphelines, agents dormants, refs cassées.</li>
   </ol>
+</article>
+
+<!-- =================================================================
+     ANNEXE J, Playbook de récupération (2 pages)  ⭐ NOUVEAU en V3
+     ================================================================= -->
+<article class="chapter">
+  <h1 class="chapter-title"><span class="chapter-number">Annexe J</span>Playbook de récupération</h1>
+
+  <p class="muted small">Tout le reste du livre parle d'éviter les dégâts. Cette annexe est pour le moment où c'est arrivé quand même : Claude a supprimé le mauvais fichier, un refactor a dérapé, un mauvais commit est passé. Quoi faire, dans l'ordre, une fois que ça casse.</p>
+
+  <h2>0. Stop. N'en rajoute pas.</h2>
+
+  <p>Le premier réflexe, « Claude, répare », est souvent le mauvais : un modèle qui débugge son propre bazar a tendance à l'aggraver. Fige la situation d'abord.</p>
+
+  <ol>
+    <li><strong>Arrête l'agent</strong> (<code>Esc</code>) avant qu'il fasse un edit de plus.</li>
+    <li><strong>Nomme le dernier point sain connu</strong> : le dernier commit, ou un checkpoint (ci-dessous). C'est là que tu vas revenir.</li>
+    <li><strong>Décide</strong> : revenir à ce point, ou réparer en avant. Dans le doute, reviens, réparer par-dessus la casse, c'est comme ça qu'un bug en devient trois.</li>
+  </ol>
+
+  <h2>1. Annuler en local, le rewind de Claude Code</h2>
+
+  <p>Claude Code crée un checkpoint de ton code <em>avant chaque edit qu'il fait</em>. Pour rembobiner, lance <code>/rewind</code>, ou appuie deux fois sur <code>Esc</code> quand le champ de saisie est vide. Choisis le prompt où revenir, puis :</p>
+
+  <ul>
+    <li><strong>Restore code and conversation</strong>, ramène les deux à ce point.</li>
+    <li><strong>Restore conversation</strong>, rembobine le chat mais garde le code actuel.</li>
+    <li><strong>Restore code</strong>, ramène les fichiers mais garde la conversation.</li>
+  </ul>
+
+  <p>Les checkpoints persistent entre sessions (nettoyés avec la session après ~30 jours, configurable). C'est ton « annuler les dix dernières minutes » le plus rapide.</p>
+
+  <aside class="callout callout-warning">
+    <div class="callout-title">Le rewind n'annule PAS les commandes bash</div>
+    <p>Le checkpointing ne suit que les edits faits via les outils d'édition de fichiers de Claude. Tout ce qui passe par une commande shell, <code>rm file.txt</code>, <code>mv old new</code>, <code>cp a b</code>, un script de migration, est invisible au rewind. Pour ça, il faut git (juste après). C'est exactement pourquoi le hook <code>pre-tool-guard</code> (chap. 03) bloque les commandes shell les plus destructrices <em>avant</em> qu'elles tournent.</p>
+  </aside>
+
+  <h2>2. Annuler pour de bon, git</h2>
+
+  <p>Le rewind, c'est l'annulation locale ; git, c'est l'historique permanent. Passe à git quand c'est bash qui a fait les dégâts, quand l'erreur est déjà commitée, ou quand tu as dépassé le checkpoint visé.</p>
+
+  <p><strong>Jeter les changements non commités</strong> du working tree (garde le dernier commit) :</p>
+  <pre data-lang="bash">git restore path/to/file        # un fichier
+git restore .                   # tout le suivi, prudence
+git clean -nd                   # aperçu des fichiers non suivis à supprimer
+git clean -fd                   # puis les supprimer pour de vrai</pre>
+
+  <p><strong>Récupérer un fichier</strong> supprimé ou abîmé, depuis le dernier commit ou n'importe quel passé :</p>
+  <pre data-lang="bash">git restore --source=HEAD path/to/file
+git restore --source=&lt;sha&gt; path/to/file   # depuis un commit précis</pre>
+
+  <p><strong>Annuler un mauvais commit.</strong> S'il n'est pas pushé, recule la branche mais garde le travail dans ton arbre :</p>
+  <pre data-lang="bash">git reset --soft HEAD~1    # annule le commit, garde les changements stagés
+git reset --mixed HEAD~1   # annule le commit, garde les changements non stagés
+git revert &lt;sha&gt;            # sûr si déjà pushé : ajoute un commit « d'annulation »</pre>
+
+  <aside class="callout callout-tip">
+    <div class="callout-title">reflog est ton filet</div>
+    <p>Les commits « perdus » après un <code>reset --hard</code> de travers ou un rebase raté ne sont pas partis, git les garde des semaines (90 jours par défaut). <code>git reflog</code> liste chaque position qu'a occupée HEAD ; trouve la bonne et reviens-y.</p>
+  </aside>
+
+  <pre data-lang="bash">git reflog                       # ex. "abc1234 HEAD@{2}: commit: le travail perdu"
+git reset --hard HEAD@{2}        # retour à cet état exact
+git checkout -b rescue HEAD@{2}  # ou l'inspecter sans rien casser d'abord</pre>
+
+  <h2>3. Quand le local ne suffit pas</h2>
+
+  <p>Si le dépôt local est vraiment emmêlé, le remote est ton dernier rempart, tu pushes petit et souvent exactement pour ça. Récupère le dernier état pushé dans une branche propre :</p>
+  <pre data-lang="bash">git fetch origin
+git checkout -b rescue origin/main   # une branche propre à l'état du remote</pre>
+
+  <p>Puis ré-applique seulement le bon travail. Un dépôt que tu peux toujours re-cloner est un dépôt que tu ne peux pas vraiment casser.</p>
+
+  <h2>Revenir ou réparer ? La règle des dix secondes</h2>
+
+  <table>
+    <thead><tr><th>Situation</th><th>Action</th></tr></thead>
+    <tbody>
+      <tr><td>Edits seuls, non commités, &lt; 10 min</td><td><code>/rewind</code> → Restore code</td></tr>
+      <tr><td>Bash a supprimé ou déplacé des fichiers</td><td>git restore / reflog (le rewind ne peut pas)</td></tr>
+      <tr><td>Mauvais commit, non pushé</td><td><code>git reset --soft HEAD~1</code></td></tr>
+      <tr><td>Mauvais commit, déjà pushé</td><td><code>git revert &lt;sha&gt;</code> (jamais de force-push sur une branche partagée)</td></tr>
+      <tr><td>Commits perdus après reset/rebase</td><td><code>git reflog</code> → reset sur le bon <code>HEAD@{n}</code></td></tr>
+      <tr><td>Dépôt local irrécupérable</td><td>re-clone, ou branche depuis <code>origin</code></td></tr>
+    </tbody>
+  </table>
+
+  <aside class="callout callout-info">
+    <div class="callout-title">La récupération la moins chère, c'est un petit commit</div>
+    <p>Chaque technique ici devient plus facile à mesure que tu commites souvent. <code>/ship</code> après chaque chantier vert n'est pas que de l'hygiène, c'est ce qui fait de « revenir au dernier point sain » une opération de cinq secondes au lieu d'un après-midi.</p>
+  </aside>
 </article>
 
 </body>

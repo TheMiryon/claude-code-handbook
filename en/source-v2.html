@@ -197,6 +197,8 @@
     <li><span>F. Glossary</span><span class="toc-page">73</span></li>
     <li><span>G. 30-minute quick start</span><span class="toc-page">74</span></li>
     <li><span>H. Case study (anonymized)</span><span class="toc-page">75</span></li>
+    <li><span>I. Cheat sheet</span><span class="toc-page">76</span></li>
+    <li><span>J. Recovery playbook</span><span class="toc-page">77</span></li>
   </ul>
 </article>
 
@@ -2248,6 +2250,97 @@ One-sentence description.
     <li>Skill > agent prompt. If a rule lives in both, the agent loses; the skill wins.</li>
     <li>Run <code>/audit-claude-setup</code> once a month. Orphan skills, dormant agents, broken refs.</li>
   </ol>
+</article>
+
+<!-- =================================================================
+     ANNEX J, Recovery playbook (2 pages)  ⭐ NEW in V3
+     ================================================================= -->
+<article class="chapter">
+  <h1 class="chapter-title"><span class="chapter-number">Annex J</span>Recovery playbook</h1>
+
+  <p class="muted small">The rest of this book is about preventing damage. This annex is for the moment it happened anyway: Claude deleted the wrong file, a refactor went sideways, a bad commit landed. What to do, in order, after things break.</p>
+
+  <h2>0. Stop. Don't pile on.</h2>
+
+  <p>The first instinct, "Claude, fix it", is usually the wrong one: a model debugging its own mess tends to compound it. Freeze the situation instead.</p>
+
+  <ol>
+    <li><strong>Stop the agent</strong> (<code>Esc</code>) before it makes another edit.</li>
+    <li><strong>Name the last known-good point</strong>: the last commit, or a checkpoint (below). You're going to return to it.</li>
+    <li><strong>Decide</strong>: revert to that point, or repair forward. When in doubt, revert, repairing on top of breakage is how one bug becomes three.</li>
+  </ol>
+
+  <h2>1. Local undo, Claude Code's rewind</h2>
+
+  <p>Claude Code checkpoints your code <em>before each edit it makes</em>. To rewind, run <code>/rewind</code>, or press <code>Esc</code> twice when the input is empty. Pick the prompt to roll back to, then choose:</p>
+
+  <ul>
+    <li><strong>Restore code and conversation</strong>, revert both to that point.</li>
+    <li><strong>Restore conversation</strong>, rewind the chat but keep the current code.</li>
+    <li><strong>Restore code</strong>, revert the files but keep the conversation.</li>
+  </ul>
+
+  <p>Checkpoints persist across sessions (cleaned up with the session after ~30 days, configurable). This is your fastest "undo the last ten minutes".</p>
+
+  <aside class="callout callout-warning">
+    <div class="callout-title">Rewind does NOT undo bash commands</div>
+    <p>Checkpointing only tracks edits made through Claude's file-editing tools. Anything done via a shell command, <code>rm file.txt</code>, <code>mv old new</code>, <code>cp a b</code>, a migration script, is invisible to rewind. For those you need git (next). This is exactly why the <code>pre-tool-guard</code> hook (Ch. 03) blocks the most destructive shell commands <em>before</em> they run.</p>
+  </aside>
+
+  <h2>2. Permanent undo, git</h2>
+
+  <p>Rewind is local undo; git is permanent history. Reach for git when bash did the damage, when the mistake is already committed, or when you've moved past the checkpoint you want.</p>
+
+  <p><strong>Discard uncommitted changes</strong> in the working tree (keeps the last commit):</p>
+  <pre data-lang="bash">git restore path/to/file        # one file
+git restore .                   # everything tracked, careful
+git clean -nd                   # preview untracked files to delete
+git clean -fd                   # then actually delete them</pre>
+
+  <p><strong>Bring back a file</strong> that was deleted or mangled, from the last commit or any past one:</p>
+  <pre data-lang="bash">git restore --source=HEAD path/to/file
+git restore --source=&lt;sha&gt; path/to/file   # from a specific commit</pre>
+
+  <p><strong>Undo a bad commit.</strong> If it isn't pushed, move the branch back but keep the work in your tree:</p>
+  <pre data-lang="bash">git reset --soft HEAD~1    # undo the commit, keep changes staged
+git reset --mixed HEAD~1   # undo the commit, keep changes unstaged
+git revert &lt;sha&gt;            # safe if already pushed: adds a new "undo" commit</pre>
+
+  <aside class="callout callout-tip">
+    <div class="callout-title">reflog is your safety net</div>
+    <p>Commits "lost" after a wrong <code>reset --hard</code> or a botched rebase aren't gone, git keeps them for weeks (90 days by default). <code>git reflog</code> lists every position HEAD has held; find the good one and return to it.</p>
+  </aside>
+
+  <pre data-lang="bash">git reflog                       # e.g. "abc1234 HEAD@{2}: commit: the work you lost"
+git reset --hard HEAD@{2}        # back to that exact state
+git checkout -b rescue HEAD@{2}  # or inspect it non-destructively first</pre>
+
+  <h2>3. When local won't help</h2>
+
+  <p>If the local repo is truly tangled, the remote is your backstop, you push small and often precisely for this. Recover the last pushed state into a clean branch:</p>
+  <pre data-lang="bash">git fetch origin
+git checkout -b rescue origin/main   # a clean branch at the remote's state</pre>
+
+  <p>Then re-apply only the good work. A repo you can always re-clone is a repo you can't truly break.</p>
+
+  <h2>Revert or repair? A ten-second rule</h2>
+
+  <table>
+    <thead><tr><th>Situation</th><th>Do</th></tr></thead>
+    <tbody>
+      <tr><td>Edits only, not committed, &lt; 10 min old</td><td><code>/rewind</code> → Restore code</td></tr>
+      <tr><td>Bash deleted or moved files</td><td>git restore / reflog (rewind can't)</td></tr>
+      <tr><td>Bad commit, not pushed</td><td><code>git reset --soft HEAD~1</code></td></tr>
+      <tr><td>Bad commit, already pushed</td><td><code>git revert &lt;sha&gt;</code> (never force-push a shared branch)</td></tr>
+      <tr><td>Lost commits after reset/rebase</td><td><code>git reflog</code> → reset to the good <code>HEAD@{n}</code></td></tr>
+      <tr><td>Local repo unrecoverable</td><td>re-clone, or branch from <code>origin</code></td></tr>
+    </tbody>
+  </table>
+
+  <aside class="callout callout-info">
+    <div class="callout-title">The cheapest recovery is a small commit</div>
+    <p>Every technique here gets easier the more often you commit. <code>/ship</code> after each green chantier isn't just hygiene, it's what makes "go back to the last good point" a five-second operation instead of an afternoon.</p>
+  </aside>
 </article>
 
 </body>
