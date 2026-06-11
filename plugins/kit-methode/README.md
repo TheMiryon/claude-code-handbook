@@ -101,6 +101,16 @@ La commande demande le nom du projet + le domaine, montre un **aperçu** des fic
 
 Tu remplis ensuite les `<TODO>`.
 
+## Automatiser l'audit (routine)
+
+Le repo embarque un workflow GitHub Actions — `.github/workflows/kit-methode-audit.yml` — qui lance `/kit-methode:audit-claude-setup external` et **ouvre une issue** avec le diff proposé. **Jamais d'auto-merge** : le workflow n'a que les permissions `contents: read` + `issues: write` (il ne *peut pas* push ni ouvrir de PR).
+
+**Safe-by-default** — rien ne se déclenche ni ne coûte tant que tu n'as pas, explicitement :
+1. ajouté le secret `ANTHROPIC_API_KEY` (Settings → Secrets → Actions),
+2. décommenté le bloc `schedule:` du workflow.
+
+Sans ça, il ne tourne qu'au clic « Run workflow ». Fonctionnel une fois ce plugin mergé sur `main`. Le levier de coût est `--max-turns` dans le workflow.
+
 ## Prérequis
 
 - **bash** + **jq** disponibles dans le PATH (les hooks sont des scripts `.sh`).
