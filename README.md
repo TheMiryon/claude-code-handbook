@@ -3,18 +3,25 @@
 > The Claude Code handbook you actually finish. Bilingual (EN/FR), free. Hooks, sub-agents, skills, plan-first dev, audit loop. For developers and knowledge workers.
 > Le manuel Claude Code que tu finis vraiment. Bilingue (EN/FR), gratuit.
 
-**Latest version**: V2 (May 2026), 52 pages, 14 chapters in 5 parts.
+**Latest version**: V3 (June 2026), 58 pages, 16 chapters in 6 parts.
 
 ## 📖 Read the guide / Lire le guide
 
 | | English | Français |
 |---|---|---|
 | **Read online** | [themiryon.github.io/claude-code-handbook/en/](https://themiryon.github.io/claude-code-handbook/en/) | [themiryon.github.io/claude-code-handbook/fr/](https://themiryon.github.io/claude-code-handbook/fr/) |
-| **EPUB (V2)** | [`en/claude-code-handbook-v2.epub`](en/claude-code-handbook-v2.epub) | [`fr/le-code-du-claudeur-v2.epub`](fr/le-code-du-claudeur-v2.epub) |
+| **EPUB (V3)** | [`en/claude-code-handbook-v3.epub`](en/claude-code-handbook-v3.epub) | [`fr/le-code-du-claudeur-v3.epub`](fr/le-code-du-claudeur-v3.epub) |
 
 ---
 
-## ✨ What's new in V2
+## ✨ What's new in V3
+
+- **Testing & TDD** (Chapter 14): how to actually get tests out of Claude, test-first prompting, the test-as-spec pattern, and wiring tests into the `verify` gate
+- **Third-party MCP & prompt-injection security** (Chapter 15): the `npx -y` arbitrary-code risk, treating MCP/web/file content as untrusted, and the built-in safeguards (sandbox, isolated web-fetch context, `--dangerously-skip-permissions`)
+- **Recovery playbook** (Annex J): what to do *after* something breaks, `/rewind` checkpoints, `git restore` / `reflog`, and the revert-or-repair rule
+- All three live in the new **Part VI, "Discipline & safety"**
+
+### Previously in V2
 
 - Full chapter on **skills**: the third primitive of Claude Code, alongside hooks and sub-agents (Chapter 06)
 - **Plan-first development** with a `plan-reviewer` sub-agent acting as staff engineer (Chapter 07)
@@ -32,7 +39,7 @@ See [`CHANGELOG.md`](CHANGELOG.md) for the full change log.
 
 ## 🚀 Quick start: 30 minutes
 
-The guide covers 14 chapters in 5 parts. If you want to jump straight in, Annex G has a **"30-minute quick start"** checklist.
+The guide covers 16 chapters in 6 parts. If you want to jump straight in, Annex G has a **"30-minute quick start"** checklist.
 
 Or skip ahead and just copy the templates below.
 
