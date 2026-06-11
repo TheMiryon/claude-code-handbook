@@ -10,6 +10,10 @@ Forward-looking scope for the handbook. Ranks #1–#3 **shipped as V3.0** (June 
 
 (All three live in the new Part VI, "Discipline & safety".)
 
+## Shipped in V3.1
+
+- ✅ **Plugins & marketplaces** (+ `/loop` & Routines) → Chapter 16, new Part VII "Packaging & distribution". Off the original ranked list, but the biggest missing primitive.
+
 ## V3.1+: Tentative scope
 
 | Rank | Topic | Why it's prioritized |

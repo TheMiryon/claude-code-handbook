@@ -3,7 +3,7 @@
 > The Claude Code handbook you actually finish. Bilingual (EN/FR), free. Hooks, sub-agents, skills, plan-first dev, audit loop. For developers and knowledge workers.
 > Le manuel Claude Code que tu finis vraiment. Bilingue (EN/FR), gratuit.
 
-**Latest version**: V3 (June 2026), 58 pages, 16 chapters in 6 parts.
+**Latest version**: V3.1 (June 2026), 60 pages, 17 chapters in 7 parts.
 
 ## 📖 Read the guide / Lire le guide
 
@@ -14,7 +14,11 @@
 
 ---
 
-## ✨ What's new in V3
+## ✨ What's new in V3.1
+
+- **Plugins & marketplaces** (Chapter 16, new Part VII): package your whole `.claude/` setup as one installable, versioned, shareable plugin; `userConfig`, marketplaces, the `${CLAUDE_PLUGIN_ROOT}` cache gotcha, and a `/loop` vs Routines scheduling section
+
+### What's new in V3
 
 - **Testing & TDD** (Chapter 14): how to actually get tests out of Claude, test-first prompting, the test-as-spec pattern, and wiring tests into the `verify` gate
 - **Third-party MCP & prompt-injection security** (Chapter 15): the `npx -y` arbitrary-code risk, treating MCP/web/file content as untrusted, and the built-in safeguards (sandbox, isolated web-fetch context, `--dangerously-skip-permissions`)
@@ -39,7 +43,7 @@ See [`CHANGELOG.md`](CHANGELOG.md) for the full change log.
 
 ## 🚀 Quick start: 30 minutes
 
-The guide covers 16 chapters in 6 parts. If you want to jump straight in, Annex G has a **"30-minute quick start"** checklist.
+The guide covers 17 chapters in 7 parts. If you want to jump straight in, Annex G has a **"30-minute quick start"** checklist.
 
 Or skip ahead and just copy the templates below.
 

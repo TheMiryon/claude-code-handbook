@@ -12,7 +12,7 @@ Write-Host "`n→ Step 2/2 : Building EPUBs via Pandoc..." -ForegroundColor Cyan
 
 pandoc en/source-v2-rendered.html `
   -o en/claude-code-handbook-v3.epub `
-  --metadata title="The Claude Code Handbook V3" `
+  --metadata title="The Claude Code Handbook V3.1" `
   --metadata subtitle="The handbook you actually finish." `
   --metadata author="TheMiryon" `
   --metadata lang=en `
@@ -25,7 +25,7 @@ Write-Host "  ✓ en/claude-code-handbook-v3.epub" -ForegroundColor Green
 
 pandoc fr/source-v2-rendered.html `
   -o fr/le-code-du-claudeur-v3.epub `
-  --metadata title="Le Code du Claudeur V3" `
+  --metadata title="Le Code du Claudeur V3.1" `
   --metadata subtitle="Le manuel que tu finis vraiment." `
   --metadata author="TheMiryon" `
   --metadata lang=fr `
