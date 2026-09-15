@@ -34,7 +34,7 @@
 <section class="cover">
   <div class="cover-eyebrow">Claude Code · Handbook</div>
   <h1 class="cover-title">The handbook<br>you actually finish.</h1>
-  <p class="cover-subtitle">80 pages. Free. Works for developers and knowledge workers. Hooks, sub-agents, skills, plan-first development, the audit loop, testing, auto mode and the sandbox, dynamic workflows, context management, CI, and packaging it all as a plugin.</p>
+  <p class="cover-subtitle">120 pages. Free. Works for developers and knowledge workers. Hooks, sub-agents, skills, plan-first development, the audit loop, testing, auto mode and the sandbox, dynamic workflows, context management, CI, and packaging it all as a plugin.</p>
   <div class="cover-version">Version 4.0 · 2026 · MIT</div>
 </section>
 
@@ -84,7 +84,7 @@
 
   <ul>
     <li><strong>You've never opened a terminal.</strong> Start with the official Anthropic docs first, <code>code.claude.com/docs</code>. Come back when you've installed Claude Code and had your first session.</li>
-    <li><strong>You want a 500-page reference.</strong> This is a focused 52-page book you can finish in two hours. If you want encyclopedic coverage with 181 skill templates and 271 quiz questions, the Ultimate Guide by Florian Bruniaux is excellent.</li>
+    <li><strong>You want a 500-page reference.</strong> This is a focused 120-page book you can finish in an afternoon, and the three reading paths below let you take less. If you want encyclopedic coverage with 181 skill templates and 271 quiz questions, the Ultimate Guide by Florian Bruniaux is excellent.</li>
     <li><strong>You expect this to write code <em>for</em> you.</strong> This book is about <em>configuring Claude Code</em>, not replacing yourself with it. You will still write code, plans, decisions. Claude will be more useful, faster, and safer.</li>
   </ul>
 
@@ -114,7 +114,8 @@
     <tbody>
       <tr><td>New to Claude Code</td><td>Foreword → Part I → Part II → Annex G (checklist)</td><td>Part III, IV, V for now</td></tr>
       <tr><td>Comfortable but ad-hoc</td><td>Part I (skim) → Part II → Part III in full</td><td>-</td></tr>
-      <tr><td>Power user upgrading from V1</td><td>What's new (Foreword) → Chap. 06 → Chap. 07 → Chap. 08 → Chap. 10 → Chap. 11 → Case study</td><td>-</td></tr>
+      <tr><td>Upgrading from V3</td><td>What's new (Foreword) → Chap. 00 → Chap. 15 → Chap. 11 → Part VIII → Part IX</td><td>Parts I–V, unchanged</td></tr>
+      <tr><td>Already running many agents</td><td>Chap. 18 → Chap. 19 → Chap. 20 → Chap. 22</td><td>-</td></tr>
     </tbody>
   </table>
 
@@ -166,7 +167,7 @@
   <ul class="toc-list">
     <li class="toc-part"><span>Part I, Foundations</span><span class="toc-page">9</span></li>
     <li><span>00, Choose your interface</span><span class="toc-page">10</span></li>
-    <li><span>01, Philosophy &amp; ROI</span><span class="toc-page">12</span></li>
+    <li><span>01, Philosophy &amp; ROI</span><span class="toc-page">13</span></li>
 
     <li class="toc-part"><span>Part II, Baseline setup</span><span class="toc-page">17</span></li>
     <li><span>02, The minimum viable setup (30 min)</span><span class="toc-page">18</span></li>
@@ -174,38 +175,51 @@
 
     <li class="toc-part"><span>Part III, Specialized configuration</span><span class="toc-page">30</span></li>
     <li><span>04, Slash commands</span><span class="toc-page">31</span></li>
-    <li><span>05, Sub-agents</span><span class="toc-page">34</span></li>
-    <li><span>06, Skills (the right way)</span><span class="toc-page">40</span></li>
+    <li><span>05, Sub-agents (and effort levels)</span><span class="toc-page">34</span></li>
+    <li><span>06, Skills (the right way)</span><span class="toc-page">41</span></li>
 
-    <li class="toc-part"><span>Part IV, Advanced workflow</span><span class="toc-page">46</span></li>
-    <li><span>07, Plan-first development</span><span class="toc-page">47</span></li>
-    <li><span>08, The audit loop</span><span class="toc-page">50</span></li>
-    <li><span>09, Coach mode</span><span class="toc-page">53</span></li>
+    <li class="toc-part"><span>Part IV, Advanced workflow</span><span class="toc-page">47</span></li>
+    <li><span>07, Plan-first development</span><span class="toc-page">48</span></li>
+    <li><span>08, The audit loop</span><span class="toc-page">51</span></li>
+    <li><span>09, Coach mode</span><span class="toc-page">54</span></li>
 
-    <li class="toc-part"><span>Part V, Going further</span><span class="toc-page">56</span></li>
-    <li><span>10, Parallel worktrees</span><span class="toc-page">57</span></li>
-    <li><span>11, The memory matrix</span><span class="toc-page">59</span></li>
-    <li><span>12, MCP, connect to the outside</span><span class="toc-page">62</span></li>
-    <li><span>13, Long-term maintenance</span><span class="toc-page">65</span></li>
+    <li class="toc-part"><span>Part V, Going further</span><span class="toc-page">57</span></li>
+    <li><span>10, Parallel worktrees</span><span class="toc-page">58</span></li>
+    <li><span>11, The memory matrix</span><span class="toc-page">60</span></li>
+    <li><span>12, MCP, connect to the outside</span><span class="toc-page">64</span></li>
+    <li><span>13, Long-term maintenance</span><span class="toc-page">67</span></li>
 
-    <li class="toc-part"><span>Part VI, Discipline &amp; safety</span><span class="toc-page">66</span></li>
-    <li><span>14, Testing &amp; TDD</span><span class="toc-page">66</span></li>
-    <li><span>15, Third-party MCP &amp; prompt injection</span><span class="toc-page">68</span></li>
+    <li class="toc-part"><span>Part VI, Discipline &amp; safety</span><span class="toc-page">69</span></li>
+    <li><span>14, Testing &amp; TDD</span><span class="toc-page">69</span></li>
+    <li><span>15, Permissions, auto mode &amp; the sandbox <strong>· new</strong></span><span class="toc-page">72</span></li>
+    <li><span>16, Third-party MCP &amp; prompt injection</span><span class="toc-page">76</span></li>
 
-    <li class="toc-part"><span>Part VII, Packaging &amp; distribution</span><span class="toc-page">70</span></li>
-    <li><span>16, Plugins &amp; marketplaces</span><span class="toc-page">70</span></li>
+    <li class="toc-part"><span>Part VII, Packaging &amp; distribution</span><span class="toc-page">79</span></li>
+    <li><span>17, Plugins &amp; marketplaces</span><span class="toc-page">79</span></li>
 
-    <li class="toc-part"><span>Annexes</span><span class="toc-page">72</span></li>
-    <li><span>A. Universal CLAUDE.md</span><span class="toc-page">68</span></li>
-    <li><span>B. Complete .claude/settings.json</span><span class="toc-page">69</span></li>
-    <li><span>C. The six hooks (condensed)</span><span class="toc-page">70</span></li>
-    <li><span>D. Four agent templates</span><span class="toc-page">71</span></li>
-    <li><span>E. Six slash commands</span><span class="toc-page">72</span></li>
-    <li><span>F. Glossary</span><span class="toc-page">73</span></li>
-    <li><span>G. 30-minute quick start</span><span class="toc-page">74</span></li>
-    <li><span>H. Case study (anonymized)</span><span class="toc-page">75</span></li>
-    <li><span>I. Cheat sheet</span><span class="toc-page">76</span></li>
-    <li><span>J. Recovery playbook</span><span class="toc-page">77</span></li>
+    <li class="toc-part"><span>Part VIII, Orchestration &amp; scale <strong>· new</strong></span><span class="toc-page">84</span></li>
+    <li><span>18, Working in parallel</span><span class="toc-page">84</span></li>
+    <li><span>19, Dynamic workflows</span><span class="toc-page">87</span></li>
+    <li><span>20, The context window</span><span class="toc-page">91</span></li>
+
+    <li class="toc-part"><span>Part IX, Automation &amp; quality gates <strong>· new</strong></span><span class="toc-page">95</span></li>
+    <li><span>21, Headless &amp; CI</span><span class="toc-page">95</span></li>
+    <li><span>22, Auditing your own setup</span><span class="toc-page">98</span></li>
+    <li><span>23, Artifacts</span><span class="toc-page">101</span></li>
+
+    <li class="toc-part"><span>Annexes</span><span class="toc-page">104</span></li>
+    <li><span>A. Universal CLAUDE.md</span><span class="toc-page">104</span></li>
+    <li><span>B. Complete .claude/settings.json</span><span class="toc-page">105</span></li>
+    <li><span>C. The six hooks (condensed)</span><span class="toc-page">106</span></li>
+    <li><span>D. Four agent templates</span><span class="toc-page">107</span></li>
+    <li><span>E. Six slash commands</span><span class="toc-page">108</span></li>
+    <li><span>F. Glossary</span><span class="toc-page">109</span></li>
+    <li><span>G. 30-minute quick start</span><span class="toc-page">110</span></li>
+    <li><span>H. Case studies (anonymized)</span><span class="toc-page">111</span></li>
+    <li><span>I. Cheat sheet</span><span class="toc-page">113</span></li>
+    <li><span>J. Recovery playbook</span><span class="toc-page">115</span></li>
+    <li><span>K. Onboarding an existing codebase <strong>· new</strong></span><span class="toc-page">117</span></li>
+    <li><span>L. Cross-platform hooks <strong>· new</strong></span><span class="toc-page">119</span></li>
   </ul>
 </article>
 
@@ -2324,6 +2338,29 @@ paths:
 
   <p>The relative <code>source</code> resolves because the marketplace is added from git. Validate the whole thing before publishing with <code>claude plugin validate .</code>.</p>
 
+  <h2>The two official catalogs <small class="muted">(new in V4)</small></h2>
+
+  <p>You don't have to run your own marketplace to find plugins, and you shouldn't install from an unvetted one. Two Anthropic-run catalogs exist:</p>
+
+  <table>
+    <thead><tr><th>Catalog</th><th>What it is</th></tr></thead>
+    <tbody>
+      <tr><td><code>anthropics/claude-plugins-official</code></td><td>The curated, Anthropic-managed directory. Auto-installed on startup, so its plugins are discoverable without adding anything</td></tr>
+      <tr><td><code>anthropics/claude-plugins-community</code></td><td>Community submissions, each security-scanned and approved before listing. A read-only mirror of the review pipeline</td></tr>
+    </tbody>
+  </table>
+
+  <p>The same judgement from Chapter 16 applies to a plugin as to an MCP server: a plugin can ship hooks, which are shell commands that run on your machine. "It's on a marketplace" is not the same as "I read it". Pin what matters, and prefer <code>plugin-dependencies</code> to constrain versions rather than tracking a moving target.</p>
+
+  <h2>Prove the plugin helps: evals</h2>
+
+  <p>Once you're shipping configuration to other people, "it feels better" stops being good enough. <code>claude plugin eval</code> runs your plugin against a suite of test cases and scores the results <strong>against a no-plugin baseline</strong>, which is the only comparison that answers whether the plugin is making Claude better or merely different.</p>
+
+  <pre data-lang="bash">claude plugin eval init   # drafts the cases and graders
+claude plugin eval        # scored, reproducible, JSON + HTML report</pre>
+
+  <p>Because it's reproducible and machine-readable, wire it into CI and treat a score drop as a regression. Chapter 22 covers this as part of auditing your own setup.</p>
+
   <h2>A worked example: the setup this book teaches, packaged</h2>
 
   <p>The fastest way to understand plugins is to package what you already have. Take the hooks, agents, skills, and commands from the earlier chapters, drop them into <code>plugins/my-kit/</code> with a <code>plugin.json</code>, add a <code>marketplace.json</code> at the repo root, and run <code>claude plugin validate</code>. Install it once at user scope and the entire setup, the defensive guard, the audit agents, the <code>/ship</code> and <code>/new-feature</code> pipelines, follows you into every project, no copy-paste. A bootstrap command can then lay down the per-project overlay (the <code>OPERATING-CONTRACT</code>, a <code>rules/</code> skeleton, a project <code>CLAUDE.md</code>) on top of the generic plugin.</p>
@@ -2994,11 +3031,32 @@ One-sentence description.
     <dt>Agent (sub-agent)</dt>
     <dd>A specialized prompt + tool set + model selection, defined in <code>.claude/agents/&lt;name&gt;.md</code>, that Claude can delegate a task to. Runs in its own context window.</dd>
 
+    <dt>Agent view</dt>
+    <dd>The <code>claude agents</code> screen listing every background session, its state, and which ones are waiting on you. Research preview. See Chapter 18.</dd>
+
     <dt>$ARGUMENTS</dt>
     <dd>The placeholder for arguments passed to a slash command. Example: <code>/ship "fix: typo"</code> sets <code>$ARGUMENTS</code> to <code>"fix: typo"</code>.</dd>
 
+    <dt>Artifact</dt>
+    <dd>A live page published to claude.ai from a session, private by default, that updates in place as the session works. See Chapter 23.</dd>
+
+    <dt>Auto memory</dt>
+    <dd>Notes Claude writes for itself between sessions, stored per repository in <code>~/.claude/projects/&lt;project&gt;/memory/</code> with a <code>MEMORY.md</code> index. Machine-local, never versioned. See Chapter 11.</dd>
+
+    <dt>Auto mode</dt>
+    <dd>The permission mode where a second model, the classifier, reviews actions instead of prompting you. The built-in default on Pro, Max, and Team since August 2026. Not the same as <code>--dangerously-skip-permissions</code>. See Chapter 15.</dd>
+
+    <dt>Classifier</dt>
+    <dd>The second model that reviews tool calls in auto mode and approves or blocks them without interrupting the session.</dd>
+
     <dt>Coach mode</dt>
     <dd>The three-layer system (rules in CLAUDE.md, Stop hook with suggestions, manual <code>/coach</code>) that nudges you toward the right command or agent at the right time.</dd>
+
+    <dt>Context window</dt>
+    <dd>Everything Claude can see at once: system prompt, tool definitions, memory files, loaded skills, and the conversation. Inspect it with <code>/context</code>. See Chapter 20.</dd>
+
+    <dt>Effort level</dt>
+    <dd>How much reasoning the model spends before answering (<code>low</code> to <code>xhigh</code>, plus <code>ultracode</code>). Set with <code>/effort</code>. Separate from the model choice. See Chapter 05.</dd>
 
     <dt>Frontmatter</dt>
     <dd>The YAML block at the top of a markdown file (between two <code>---</code> lines) that holds metadata. Used in agents, slash commands, and skill references.</dd>
@@ -3024,11 +3082,20 @@ One-sentence description.
     <dt>Plan-first development</dt>
     <dd>Workflow pattern where the user writes a <code>PLAN_&lt;slug&gt;.md</code> document before any code is touched. Reviewed by a second Claude instance (plan-reviewer) before implementation begins. See Chapter 07.</dd>
 
+    <dt>Rule (path-scoped)</dt>
+    <dd>A markdown file in <code>.claude/rules/</code> whose <code>paths:</code> frontmatter limits it to matching files, so it only enters the context window when Claude reads one. See Chapter 11.</dd>
+
+    <dt>Sandbox</dt>
+    <dd>Filesystem and network isolation for Bash commands, enabled with <code>/sandbox</code> or <code>sandbox.enabled</code>. Independent of permission modes. macOS, Linux, and WSL2 only. See Chapter 15.</dd>
+
     <dt>Skill</dt>
     <dd>A versioned folder of domain knowledge under <code>.agents/skills/&lt;name&gt;/</code> with a <code>SKILL.md</code> entry point and rule files in <code>references/</code>. Loaded on demand. See Chapter 06.</dd>
 
     <dt>Slash command</dt>
     <dd>A reusable prompt template defined in <code>.claude/commands/&lt;name&gt;.md</code>, invoked by typing <code>/name</code> in Claude Code.</dd>
+
+    <dt>Workflow (dynamic)</dt>
+    <dd>A JavaScript script Claude writes that orchestrates many sub-agents, executed by a runtime in the background. Intermediate results stay in script variables, not in your context. See Chapter 19.</dd>
 
     <dt>Worktree</dt>
     <dd>A second working directory for the same git repository, on a different branch. Lets you run multiple Claude Code sessions in parallel. See Chapter 10.</dd>
@@ -3203,16 +3270,58 @@ One-sentence description.
   <table>
     <thead><tr><th>Location</th><th>Versioned?</th><th>Use for</th></tr></thead>
     <tbody>
-      <tr><td><code>CLAUDE.md</code> § Lessons</td><td>✅</td><td>≥ 2 agents need it · cross-cutting</td></tr>
+      <tr><td><code>CLAUDE.md</code> § Lessons</td><td>✅</td><td>≥ 2 agents need it · repo-wide · keep under 200 lines</td></tr>
+      <tr><td><code>.claude/rules/*.md</code></td><td>✅</td><td>Repo-wide rule scoped to a subtree via <code>paths:</code></td></tr>
       <tr><td><code>.agents/skills/&lt;domain&gt;/</code></td><td>✅</td><td>Domain rules · structured (Incorrect → Correct)</td></tr>
       <tr><td><code>.claude/agent-memory/&lt;agent&gt;/</code></td><td>✅</td><td>"Don't flag this again" · per-agent</td></tr>
-      <tr><td><code>~/.claude/projects/.../memory/</code></td><td>❌</td><td>Personal · this machine only · ephemeral</td></tr>
+      <tr><td><code>~/.claude/projects/.../memory/</code></td><td>❌</td><td><strong>Auto memory, written by Claude</strong> · this machine only</td></tr>
+      <tr><td><code>CLAUDE.local.md</code></td><td>❌</td><td>Personal · this checkout only · gitignored</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Permission modes · pick one</h2>
+
+  <table>
+    <thead><tr><th>Mode</th><th>Runs without asking</th></tr></thead>
+    <tbody>
+      <tr><td><code>default</code> (Manual)</td><td>Reads only</td></tr>
+      <tr><td><code>acceptEdits</code></td><td>Reads, edits, common filesystem commands</td></tr>
+      <tr><td><code>plan</code></td><td>Reads, no edits until you approve a plan</td></tr>
+      <tr><td><code>auto</code></td><td>Everything, classifier-reviewed. <strong>Default on Pro/Max/Team</strong></td></tr>
+      <tr><td><code>dontAsk</code></td><td>Pre-approved tools only; the rest is denied. CI posture</td></tr>
+      <tr><td><code>bypassPermissions</code></td><td>Everything. Containers and VMs only</td></tr>
+    </tbody>
+  </table>
+
+  <p class="muted small">Deny rules and <code>PreToolUse</code> hooks apply in <em>every</em> mode, including bypass. <code>Shift+Tab</code> cycles modes.</p>
+
+  <h2>Commands worth knowing</h2>
+
+  <table>
+    <thead><tr><th>Command</th><th>What it gives you</th></tr></thead>
+    <tbody>
+      <tr><td><code>/context</code></td><td>What's in the context window right now</td></tr>
+      <tr><td><code>/compact</code> · <code>/clear</code></td><td>Summarize and continue · start fresh</td></tr>
+      <tr><td><code>/doctor</code></td><td>Setup checkup, proposes CLAUDE.md trims</td></tr>
+      <tr><td><code>/skill-doctor</code></td><td>Context cost and usage rate of each skill</td></tr>
+      <tr><td><code>/usage</code> · <code>/cost</code></td><td>What drives your limits · spend and cache misses</td></tr>
+      <tr><td><code>/memory</code></td><td>Browse and edit every memory file, toggle auto memory</td></tr>
+      <tr><td><code>/permissions</code></td><td>Review what's granted</td></tr>
+      <tr><td><code>/sandbox</code></td><td>Filesystem and network isolation for Bash</td></tr>
+      <tr><td><code>/effort</code> · <code>/model</code> · <code>/fast</code></td><td>Reasoning depth · model · faster output</td></tr>
+      <tr><td><code>/workflows</code></td><td>Running and completed dynamic workflows</td></tr>
+      <tr><td><code>/deep-research &lt;q&gt;</code></td><td>Bundled multi-agent research workflow, cited and cross-checked</td></tr>
+      <tr><td><code>claude agents</code> · <code>/tasks</code></td><td>Background sessions · everything running in this session</td></tr>
+      <tr><td><code>/subtask</code> · <code>/fork</code> · <code>/batch</code></td><td>Forked sub-agent · forked session · split a change into PRs</td></tr>
+      <tr><td><code>/rewind</code></td><td>Roll back code and/or conversation. See Annex J</td></tr>
+      <tr><td><code>/diff</code></td><td>Live panel of uncommitted changes as Claude edits</td></tr>
+      <tr><td><code>claude plugin eval</code></td><td>Score your plugin against a no-plugin baseline</td></tr>
     </tbody>
   </table>
 
   <h2>The decision rule, in one sentence</h2>
 
-  <p><strong>Slash command</strong> if it's a verb. <strong>Sub-agent</strong> if it's a noun with a job. <strong>Skill</strong> if it's a body of rules. <strong>Hook</strong> if it's a reflex.</p>
+  <p><strong>Slash command</strong> if it's a verb. <strong>Sub-agent</strong> if it's a noun with a job. <strong>Skill</strong> if it's a body of rules. <strong>Hook</strong> if it's a reflex. <strong>Workflow</strong> if it's a plan you want to rerun.</p>
 
   <h2>Golden rules</h2>
 
@@ -3220,9 +3329,11 @@ One-sentence description.
     <li><code>pnpm verify</code> (or equivalent) must be green before every push. Husky pre-push if you're forgetful.</li>
     <li>Plan-first when the chantier touches ≥ 3 files OR a critical module OR a database migration.</li>
     <li>After a significant commit, decide: capture a lesson, or let the hook be silent.</li>
-    <li>Each piece of memory lives in exactly one of the four locations. No duplicates.</li>
-    <li>Skill > agent prompt. If a rule lives in both, the agent loses; the skill wins.</li>
-    <li>Run <code>/audit-claude-setup</code> once a month. Orphan skills, dormant agents, broken refs.</li>
+    <li>Each piece of memory lives in exactly one of the six locations. No duplicates.</li>
+    <li>Skill &gt; agent prompt. If a rule lives in both, the agent loses; the skill wins.</li>
+    <li>If you'd never want it to happen, it goes in <code>permissions.deny</code> or a hook, not in a CLAUDE.md sentence.</li>
+    <li>An unattended agent proposes; it never merges.</li>
+    <li>Run <code>/audit-claude-setup</code>, <code>/doctor</code> and <code>/skill-doctor</code> once a month.</li>
   </ol>
 </article>
 
@@ -3314,6 +3425,194 @@ git checkout -b rescue origin/main   # a clean branch at the remote's state</pre
   <aside class="callout callout-info">
     <div class="callout-title">The cheapest recovery is a small commit</div>
     <p>Every technique here gets easier the more often you commit. <code>/ship</code> after each green chantier isn't just hygiene, it's what makes "go back to the last good point" a five-second operation instead of an afternoon.</p>
+  </aside>
+</article>
+
+<!-- =================================================================
+     ANNEX K, Onboarding an existing codebase  ⭐ NEW in V4
+     ================================================================= -->
+<article class="chapter">
+  <h1 class="chapter-title"><span class="chapter-number">Annex K</span>Onboarding an existing codebase</h1>
+
+  <p class="muted small">Chapter 02 sets up a project you control from the start. Most readers don't have that. This annex is the version for 50,000 lines you inherited, where nobody remembers why half of it is the way it is.</p>
+
+  <h2>Don't write CLAUDE.md first</h2>
+
+  <p>The instinct is to sit down and document the project. It produces a long, confident, partly wrong file, and wrong context is worse than no context: Claude will act on it. Explore first, write second.</p>
+
+  <ol>
+    <li><strong>Run <code>/init</code>.</strong> Claude analyses the codebase and drafts a CLAUDE.md with the build commands, test instructions, and conventions it can actually observe. If one already exists, it suggests improvements instead of overwriting. Set <code>CLAUDE_CODE_NEW_INIT=1</code> for the interactive multi-phase version: it explores with a sub-agent, asks follow-up questions, and shows you a reviewable proposal before writing anything.</li>
+    <li><strong>Bring over what already exists.</strong> <code>/init</code> reads Cursor rules (<code>.cursor/rules/</code>, <code>.cursorrules</code>) and Copilot instructions. <code>/import</code> goes further and carries over another agent's configuration, including MCP servers, commands, sub-agents and skills. If the repo has an <code>AGENTS.md</code>, don't duplicate it, create a <code>CLAUDE.md</code> that starts with <code>@AGENTS.md</code> and add Claude-specific rules underneath.</li>
+    <li><strong>Delegate the archaeology.</strong> "Trace how a request reaches the database" burns a lot of context in search results you'll read once. That's a sub-agent's job (Chapter 20). You want the answer, not the forty files it read.</li>
+  </ol>
+
+  <h2>Start with a subtree, not the repo</h2>
+
+  <p>A first CLAUDE.md that tries to describe everything describes nothing usefully. Pick the area you're actually about to work in and get that right. Two mechanisms make this practical:</p>
+
+  <ul>
+    <li><strong>Nested <code>CLAUDE.md</code> files.</strong> A CLAUDE.md in a subdirectory loads on demand, when Claude reads files in it, and costs nothing the rest of the time.</li>
+    <li><strong>Path-scoped rules.</strong> <code>.claude/rules/&lt;topic&gt;.md</code> with <code>paths:</code> frontmatter (Chapter 11) is the right home for "in this part of the codebase, we do X".</li>
+  </ul>
+
+  <p>In a monorepo where other teams' CLAUDE.md files get picked up from ancestor directories, <code>claudeMdExcludes</code> in <code>.claude/settings.local.json</code> skips them by glob. Keep it local, it's your machine's problem, not the repo's.</p>
+
+  <h2>What belongs in the first version</h2>
+
+  <table>
+    <thead><tr><th>Include</th><th>Leave out</th></tr></thead>
+    <tbody>
+      <tr><td>Build, test, lint, and run commands</td><td>Directory layouts (Claude can see them)</td></tr>
+      <tr><td>The three conventions that surprise newcomers</td><td>Dependency lists (they're in the manifest)</td></tr>
+      <tr><td>Traps: "migrations must run before seeds"</td><td>Architecture overviews Claude can derive</td></tr>
+      <tr><td>What's deprecated and what replaced it</td><td>Anything you're not sure is still true</td></tr>
+    </tbody>
+  </table>
+
+  <p>That list is short on purpose. It's the same rule <code>/doctor</code> applies when it proposes trims: keep the pitfalls, the rationale, and the conventions that differ from tool defaults; cut what's derivable.</p>
+
+  <aside class="callout callout-tip">
+    <div class="callout-title">Let the audit loop write the rest</div>
+    <p>You do not need a complete CLAUDE.md on day one, and you can't produce an accurate one anyway. Ship twenty lines, then let Chapter 08 do its job: every time Claude gets something wrong about this codebase in a way that surprises you, that's a lesson worth capturing. After a month of real work the file describes the project as it <em>actually</em> behaves, which is something no upfront documentation pass produces.</p>
+  </aside>
+
+  <aside class="callout callout-danger">
+    <div class="callout-title">Don't do this</div>
+    <ul>
+      <li><strong>Generating 400 lines of CLAUDE.md on day one.</strong> Past 200 lines adherence drops, and an inherited codebase is exactly where your guesses are least reliable.</li>
+      <li><strong>Turning on every hook before you understand the build.</strong> A format-on-write hook pointed at the wrong formatter will rewrite files across a repo you don't know yet.</li>
+      <li><strong>Letting Claude "clean up" broadly.</strong> On unfamiliar code, scope every change to something you can review in one sitting. Plan-first (Chapter 07) exists for exactly this.</li>
+    </ul>
+  </aside>
+</article>
+
+<!-- =================================================================
+     ANNEX L, Cross-platform hooks  ⭐ NEW in V4
+     ================================================================= -->
+<article class="chapter">
+  <h1 class="chapter-title"><span class="chapter-number">Annex L</span>Cross-platform hooks</h1>
+
+  <p class="muted small">Every hook in this book is bash + <code>jq</code>. That's a fine default on macOS and Linux and a papercut on Windows. This annex gives the same guard hook in three portable forms, and lists what genuinely differs per platform.</p>
+
+  <h2>What changed on Windows</h2>
+
+  <p>Git for Windows is no longer required. Claude Code installs natively (<code>winget install Anthropic.ClaudeCode</code>, or <code>irm https://claude.ai/install.ps1 | iex</code>), and when Bash isn't present it uses <strong>PowerShell as its shell tool</strong>. That's good news for installation and bad news for a <code>.claude/hooks/*.sh</code> you copied from this book, there's no bash to run it.</p>
+
+  <p>Three ways out, in order of preference:</p>
+
+  <table>
+    <thead><tr><th>Option</th><th>Good when</th><th>Cost</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Install Git for Windows</strong></td><td>You want the book's hooks to work unchanged</td><td>One install; watch the line endings (below)</td></tr>
+      <tr><td><strong>Write hooks in Python</strong></td><td>Your team is mixed macOS/Linux/Windows</td><td>Python must be on PATH everywhere</td></tr>
+      <tr><td><strong>Write hooks in PowerShell</strong></td><td>Windows-only team, no extra dependency</td><td>Doesn't run on your colleagues' Macs</td></tr>
+    </tbody>
+  </table>
+
+  <h2>The guard hook, in Python</h2>
+
+  <p>Python is the best answer for a mixed team: one file, no <code>jq</code> dependency, identical behaviour everywhere. The contract is the same as the bash version, read JSON on stdin, write a reason to stderr, <strong>exit 2 to block</strong>.</p>
+
+  <pre data-lang="python">#!/usr/bin/env python3
+"""PreToolUse guard: block destructive actions before execution."""
+import json, re, sys
+
+data = json.load(sys.stdin)
+tool = data.get("tool_name", "")
+ti = data.get("tool_input", {})
+
+def block(msg):
+    print(f"BLOCKED: {msg}", file=sys.stderr)
+    sys.exit(2)
+
+if tool in ("Edit", "Write"):
+    path = ti.get("file_path", "")
+    if re.search(r"(^|[\\/])\.env(\.|$)", path):
+        block(".env file protected. Use provider env vars.")
+
+if tool == "Bash":
+    cmd = ti.get("command", "")
+    if re.search(r"rm\s+-[a-zA-Z]*[rf][a-zA-Z]*\s+(/|~|\.\./|\$HOME)", cmd):
+        block("rm -rf on a dangerous path.")
+    if re.search(r"git\s+push.*(--force|--force-with-lease|\s-f(\s|$))", cmd):
+        block("git push --force. Ask the user for explicit confirmation.")
+    if re.search(r"git\s+commit.*--no-verify", cmd):
+        block("--no-verify skips checks. Fix the errors first.")
+
+sys.exit(0)</pre>
+
+  <p>Register it the same way, with the interpreter in the command so it works regardless of the file's executable bit:</p>
+
+  <pre data-lang="json">{
+  "hooks": {
+    "PreToolUse": [
+      { "hooks": [
+          { "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/.claude/hooks/pre_tool_guard.py\"" }
+        ] }
+    ]
+  }
+}</pre>
+
+  <h2>The same hook, in PowerShell</h2>
+
+  <pre data-lang="powershell"># PreToolUse guard: block destructive actions before execution.
+$raw   = [Console]::In.ReadToEnd()
+$data  = $raw | ConvertFrom-Json
+$tool  = $data.tool_name
+$input = $data.tool_input
+
+function Block($msg) {
+  [Console]::Error.WriteLine("BLOCKED: $msg")
+  exit 2
+}
+
+if ($tool -in @('Edit','Write')) {
+  if ($input.file_path -match '(^|[\\/])\.env(\.|$)') {
+    Block '.env file protected. Use provider env vars.'
+  }
+}
+
+if ($tool -eq 'Bash' -or $tool -eq 'PowerShell') {
+  $cmd = $input.command
+  if ($cmd -match 'rm\s+-[a-zA-Z]*[rf][a-zA-Z]*\s+(/|~|\.\./|\$HOME)') {
+    Block 'rm -rf on a dangerous path.'
+  }
+  if ($cmd -match 'Remove-Item.*-Recurse.*-Force') {
+    Block 'Remove-Item -Recurse -Force. Confirm explicitly.'
+  }
+  if ($cmd -match 'git\s+push.*(--force|-f(\s|$))') {
+    Block 'git push --force. Ask the user for explicit confirmation.'
+  }
+}
+
+exit 0</pre>
+
+  <p class="muted small">Note the extra <code>PowerShell</code> tool name and the <code>Remove-Item</code> pattern: on Windows the destructive command you actually need to block often isn't spelled <code>rm</code>.</p>
+
+  <aside class="callout callout-danger">
+    <div class="callout-title">The CRLF trap</div>
+    <p>A <code>.sh</code> hook checked out with Windows line endings has <code>#!/usr/bin/env bash\r</code> as its shebang, and the <code>\r</code> makes the interpreter lookup fail. The hook then <strong>silently never runs</strong>, which is the worst possible failure mode for a security guard. Commit a <code>.gitattributes</code> with <code>*.sh text eol=lf</code> before you commit a single hook. This bites hardest inside a plugin, where scripts are copied into <code>~/.claude/plugins/cache</code> (Chapter 17).</p>
+  </aside>
+
+  <h2>What else differs by platform</h2>
+
+  <table>
+    <thead><tr><th>Feature</th><th>macOS / Linux</th><th>WSL2</th><th>Native Windows</th></tr></thead>
+    <tbody>
+      <tr><td>Bash sandbox (<code>/sandbox</code>)</td><td>✅</td><td>✅</td><td>❌ Use a dev container</td></tr>
+      <tr><td>Bash hooks</td><td>✅</td><td>✅</td><td>Needs Git for Windows</td></tr>
+      <tr><td>PowerShell tool</td><td>❌</td><td>❌</td><td>✅ Used when Bash is absent</td></tr>
+      <tr><td>Cross-session messaging</td><td>✅</td><td>✅</td><td>Check your version</td></tr>
+      <tr><td><code>CLAUDE.md</code> symlink to <code>AGENTS.md</code></td><td>✅</td><td>✅</td><td>Needs admin or Developer Mode; use <code>@AGENTS.md</code> instead</td></tr>
+    </tbody>
+  </table>
+
+  <aside class="callout callout-tip">
+    <div class="callout-title">Test a hook before you trust it</div>
+    <p>A hook that never fires looks exactly like a hook with nothing to block. Pipe a fake payload into it directly and check the exit code, on every platform your team uses:</p>
+    <pre data-lang="bash">echo '{"tool_name":"Bash","tool_input":{"command":"git push --force"}}' \
+  | python3 .claude/hooks/pre_tool_guard.py ; echo "exit=$?"   # expect exit=2</pre>
   </aside>
 </article>
 
