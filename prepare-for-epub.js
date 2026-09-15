@@ -44,9 +44,7 @@ async function renderForEpub(sourceHtml, outputHtml) {
     await renderForEpub('en/source-v2.html', 'en/source-v2-rendered.html');
     await renderForEpub('fr/source-v2.html', 'fr/source-v2-rendered.html');
     console.log('\n✅ HTML files prepared for EPUB.');
-    console.log('   Now run:');
-    console.log('   pandoc en/source-v2-rendered.html -o en/claude-code-handbook-v2.epub --metadata title="The Claude Code Handbook V2" --metadata author="TheMiryon" --metadata lang=en --toc --toc-depth=2');
-    console.log('   pandoc fr/source-v2-rendered.html -o fr/le-code-du-claudeur-v2.epub --metadata title="Le Code du Claudeur V2" --metadata author="TheMiryon" --metadata lang=fr --toc --toc-depth=2');
+    console.log('   Now run: powershell ./build-epub.ps1  (it calls this script, then pandoc for both languages)');
   } catch (e) {
     console.error('\n❌ Failed:', e.message);
     process.exit(1);
