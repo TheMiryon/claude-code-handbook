@@ -3,25 +3,41 @@
 > The Claude Code handbook you actually finish. Bilingual (EN/FR), free. Hooks, sub-agents, skills, plan-first dev, audit loop. For developers and knowledge workers.
 > Le manuel Claude Code que tu finis vraiment. Bilingue (EN/FR), gratuit.
 
-**Latest version**: V3.1 (June 2026), 60 pages, 17 chapters in 7 parts.
+**Latest version**: V4.0 (September 2026), ~125 pages, 24 chapters in 9 parts, 12 annexes.
 
 ## 📖 Read the guide / Lire le guide
 
 | | English | Français |
 |---|---|---|
 | **Read online** | [themiryon.github.io/claude-code-handbook/en/](https://themiryon.github.io/claude-code-handbook/en/) | [themiryon.github.io/claude-code-handbook/fr/](https://themiryon.github.io/claude-code-handbook/fr/) |
-| **EPUB (V3)** | [`en/claude-code-handbook-v3.epub`](en/claude-code-handbook-v3.epub) | [`fr/le-code-du-claudeur-v3.epub`](fr/le-code-du-claudeur-v3.epub) |
+| **EPUB (V4)** | [`en/claude-code-handbook-v4.epub`](en/claude-code-handbook-v4.epub) | [`fr/le-code-du-claudeur-v4.epub`](fr/le-code-du-claudeur-v4.epub) |
 
 ---
 
-## ✨ What's new in V3.1
+## ✨ What's new in V4.0
 
-- **Plugins & marketplaces** (Chapter 16, new Part VII): package your whole `.claude/` setup as one installable, versioned, shareable plugin; `userConfig`, marketplaces, the `${CLAUDE_PLUGIN_ROOT}` cache gotcha, and a `/loop` vs Routines scheduling section
+V4 is the largest revision since V1, because Claude Code changed underneath the book during 2026. Two chapters had become factually wrong and are rewritten; two parts are new.
+
+**Corrected**
+- **Auto mode is now the default** permission mode on Pro/Max/Team. The book was written for a world where you approved every action.
+- **The memory matrix grew from 4 locations to 6**: `.claude/rules/` (path-scoped instructions) and **auto memory**, which Claude writes itself.
+- **The surfaces chapter** now covers mobile (iOS *and* Android), Slack, Chrome, and the mobility layer: Remote Control, `--teleport`, `/desktop`, Channels.
+- **Model selection** is no longer the whole cost decision: effort levels (`/effort`, `xhigh`, `ultracode`) and fast mode are covered in Chapter 05.
+
+**New**
+- **Chapter 15, Permissions, auto mode & the sandbox**: the six modes, what the classifier will never wave through, the Bash sandbox as a second axis, and why your `PreToolUse` guard hook now matters *more*.
+- **Part VIII, Orchestration & scale**: working in parallel (Ch. 18), dynamic workflows (Ch. 19), the context window (Ch. 20).
+- **Part IX, Automation & quality gates**: headless & CI (Ch. 21), auditing your own setup (Ch. 22), artifacts (Ch. 23).
+- **Annex K**, onboarding an existing codebase; **Annex L**, cross-platform hooks (Python + PowerShell versions of the guard hook, and the CRLF trap).
+
+### What's new in V3.1
+
+- **Plugins & marketplaces** (Chapter 17, was 16; new Part VII): package your whole `.claude/` setup as one installable, versioned, shareable plugin; `userConfig`, marketplaces, the `${CLAUDE_PLUGIN_ROOT}` cache gotcha, and a `/loop` vs Routines scheduling section
 
 ### What's new in V3
 
 - **Testing & TDD** (Chapter 14): how to actually get tests out of Claude, test-first prompting, the test-as-spec pattern, and wiring tests into the `verify` gate
-- **Third-party MCP & prompt-injection security** (Chapter 15): the `npx -y` arbitrary-code risk, treating MCP/web/file content as untrusted, and the built-in safeguards (sandbox, isolated web-fetch context, `--dangerously-skip-permissions`)
+- **Third-party MCP & prompt-injection security** (Chapter 16, was 15): the `npx -y` arbitrary-code risk, treating MCP/web/file content as untrusted, and the built-in safeguards (sandbox, isolated web-fetch context, `--dangerously-skip-permissions`)
 - **Recovery playbook** (Annex J): what to do *after* something breaks, `/rewind` checkpoints, `git restore` / `reflog`, and the revert-or-repair rule
 - All three live in the new **Part VI, "Discipline & safety"**
 
@@ -31,7 +47,7 @@
 - **Plan-first development** with a `plan-reviewer` sub-agent acting as staff engineer (Chapter 07)
 - **The audit loop**: capture lessons in Git-versioned files instead of local-only memory (Chapter 08)
 - **Parallel worktrees** for running multiple Claude sessions side by side (Chapter 10)
-- **The memory matrix**: clear rules for the 4 memory locations (Chapter 11)
+- **The memory matrix**: clear rules for the 4 memory locations (Chapter 11; now 6, see V4)
 - **Two anonymized case studies**: a 6-month solo developer + a 3-month knowledge worker (Annex H)
 - **Glossary** for newcomers (Annex F)
 - Reading paths and difficulty badges so you can read the book in the order that fits you
@@ -43,7 +59,7 @@ See [`CHANGELOG.md`](CHANGELOG.md) for the full change log.
 
 ## 🚀 Quick start: 30 minutes
 
-The guide covers 17 chapters in 7 parts. If you want to jump straight in, Annex G has a **"30-minute quick start"** checklist.
+The guide covers 24 chapters in 9 parts. If you want to jump straight in, Annex G has a **"30-minute quick start"** checklist.
 
 Or skip ahead and just copy the templates below.
 
@@ -64,8 +80,11 @@ templates/
     ├── settings.json               ← permissions + hooks
     ├── COMMANDS.md                 ← optional: index of your slash commands
     ├── PATTERNS.md                 ← optional: copy-paste recipes
+    ├── rules/
+    │   └── api.md                  ← path-scoped rule example (paths: frontmatter), NEW in V4
     ├── hooks/
     │   ├── pre-tool-guard.sh       ← defensive: block rm -rf, .env writes, --force pushes
+    │   ├── pre_tool_guard.py       ← same guard, cross-platform (no jq, works on Windows), NEW in V4
     │   ├── post-edit-format.sh     ← auto-format after Write/Edit
     │   ├── session-start.sh        ← project recap at session open
     │   ├── activity-log.sh         ← zero-token activity log

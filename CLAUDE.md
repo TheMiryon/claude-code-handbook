@@ -1,6 +1,6 @@
 # The Claude Code Handbook
 
-Bilingual (EN / FR) Claude Code guide published as a static site (GitHub Pages) plus EPUB downloads.
+Bilingual (EN / FR) Claude Code guide published as a static site (GitHub Pages) plus EPUB downloads. Currently V4.0: 24 chapters in 9 parts, annexes A-L.
 
 ## Tech stack
 - Sources: HTML5 + CSS in `en/source-v2.html` and `fr/source-v2.html`
@@ -23,7 +23,8 @@ Bilingual (EN / FR) Claude Code guide published as a static site (GitHub Pages) 
 
 ## Gotchas
 - `en/source-v2-rendered.html` and `fr/source-v2-rendered.html` are EPUB build artifacts: gitignored, never commit.
-- `build-epub.ps1` has a known bug: PowerShell 5.1 backtick line-continuation breaks the FR `pandoc` invocation. Workaround: run the FR pandoc command as a one-liner manually.
+- `en/index.html` and `fr/index.html` drift silently. They are plain copies of `source-v2.html` and nothing regenerates them, so a release that forgets the copy ships an outdated site while the EPUBs are current. This happened in V3 and V3.1. Copy them as part of every release.
+- `build-epub.ps1` passes pandoc arguments as splatted arrays, not backtick line-continuations. Do not reintroduce backticks: PowerShell 5.1 mis-parses a backtick followed by a trailing space and silently truncated the FR invocation.
 
 ## Git workflow
 - Target branch: `main`
@@ -49,5 +50,6 @@ Bilingual (EN / FR) Claude Code guide published as a static site (GitHub Pages) 
 1. Both EPUBs rebuild without errors (Pandoc validates, Mermaid renders)
 2. EN / FR content is in sync (no untranslated section)
 3. `CHANGELOG.md` has the version section with date
-4. Release tag matches version in `CHANGELOG.md` and `README.md`
-5. GitHub Release has both EPUBs attached and is marked "Latest"
+4. `en/index.html` and `fr/index.html` re-copied from `source-v2.html` (they do not regenerate themselves)
+5. Release tag matches version in `CHANGELOG.md` and `README.md`
+6. GitHub Release has both EPUBs attached and is marked "Latest"

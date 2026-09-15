@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Claude Code Handbook V3, A pro setup, step by step</title>
+  <title>Claude Code Handbook V4, A pro setup, step by step</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/css/print.css">
   <!-- Mermaid for diagrams. For static rendering in EPUB, see prepare-for-epub.js. -->
@@ -34,8 +34,8 @@
 <section class="cover">
   <div class="cover-eyebrow">Claude Code · Handbook</div>
   <h1 class="cover-title">The handbook<br>you actually finish.</h1>
-  <p class="cover-subtitle">60 pages. Free. Works for developers and knowledge workers. Hooks, sub-agents, skills, plan-first development, the audit loop, testing, third-party security, a recovery playbook, and packaging it all as a plugin.</p>
-  <div class="cover-version">Version 3.1 · 2026 · MIT</div>
+  <p class="cover-subtitle">125 pages. Free. Works for developers and knowledge workers. Hooks, sub-agents, skills, plan-first development, the audit loop, testing, auto mode and the sandbox, dynamic workflows, context management, CI, and packaging it all as a plugin.</p>
+  <div class="cover-version">Version 4.0 · 2026 · MIT</div>
 </section>
 
 <!-- =================================================================
@@ -61,7 +61,7 @@
 
   <p>The whole setup takes about 30 minutes to bootstrap and a few hours to fully tune. The compound payoff is measured in days saved per quarter.</p>
 
-  <p class="muted small">This is V3.1 of the handbook. New in V3.1, Part VII "Packaging &amp; distribution": a chapter on packaging your whole setup as a plugin and sharing it via a marketplace (Chapter 16). V3 added Part VI "Discipline &amp; safety", testing &amp; TDD, third-party MCP and prompt-injection security, and a recovery playbook (Annex J). V2 added the skills chapters, the plan-first workflow inspired by Claude Code's creator Boris Cherny, the audit loop, parallel worktrees, and the four-locations memory matrix.</p>
+  <p class="muted small">This is V4.0 of the handbook, the largest revision since V1. Claude Code changed underneath the book during 2026: <strong>auto mode became the default permission mode</strong>, Claude started writing its own memory, and a new orchestration primitive (dynamic workflows) landed above sub-agents. V4 rewrites the chapters those changes made obsolete and adds two parts. New in V4: Chapter 15 "Permissions, auto mode &amp; the sandbox"; Part VIII "Orchestration &amp; scale" (working in parallel, dynamic workflows, the context window); Part IX "Automation &amp; quality gates" (headless &amp; CI, auditing your own setup, artifacts); and two annexes, onboarding an existing codebase (K) and cross-platform hooks (L). V3.1 added Part VII on plugins and marketplaces. V3 added Part VI "Discipline &amp; safety" and the recovery playbook (Annex J). V2 added the skills chapters, the plan-first workflow inspired by Claude Code's creator Boris Cherny, the audit loop, parallel worktrees, and the memory matrix.</p>
 </article>
 
 <!-- =================================================================
@@ -84,7 +84,7 @@
 
   <ul>
     <li><strong>You've never opened a terminal.</strong> Start with the official Anthropic docs first, <code>code.claude.com/docs</code>. Come back when you've installed Claude Code and had your first session.</li>
-    <li><strong>You want a 500-page reference.</strong> This is a focused 52-page book you can finish in two hours. If you want encyclopedic coverage with 181 skill templates and 271 quiz questions, the Ultimate Guide by Florian Bruniaux is excellent.</li>
+    <li><strong>You want a 500-page reference.</strong> This is a focused 125-page book you can finish in an afternoon, and the three reading paths below let you take less. If you want encyclopedic coverage with 181 skill templates and 271 quiz questions, the Ultimate Guide by Florian Bruniaux is excellent.</li>
     <li><strong>You expect this to write code <em>for</em> you.</strong> This book is about <em>configuring Claude Code</em>, not replacing yourself with it. You will still write code, plans, decisions. Claude will be more useful, faster, and safer.</li>
   </ul>
 
@@ -114,7 +114,8 @@
     <tbody>
       <tr><td>New to Claude Code</td><td>Foreword → Part I → Part II → Annex G (checklist)</td><td>Part III, IV, V for now</td></tr>
       <tr><td>Comfortable but ad-hoc</td><td>Part I (skim) → Part II → Part III in full</td><td>-</td></tr>
-      <tr><td>Power user upgrading from V1</td><td>What's new (Foreword) → Chap. 06 → Chap. 07 → Chap. 08 → Chap. 10 → Chap. 11 → Case study</td><td>-</td></tr>
+      <tr><td>Upgrading from V3</td><td>What's new (Foreword) → Chap. 00 → Chap. 05 → Chap. 11 → Chap. 15 → Chap. 17 → Parts VIII &amp; IX</td><td>Parts II and IV, unchanged</td></tr>
+      <tr><td>Already running many agents</td><td>Chap. 18 → Chap. 19 → Chap. 20 → Chap. 22</td><td>-</td></tr>
     </tbody>
   </table>
 
@@ -166,7 +167,7 @@
   <ul class="toc-list">
     <li class="toc-part"><span>Part I, Foundations</span><span class="toc-page">9</span></li>
     <li><span>00, Choose your interface</span><span class="toc-page">10</span></li>
-    <li><span>01, Philosophy &amp; ROI</span><span class="toc-page">12</span></li>
+    <li><span>01, Philosophy &amp; ROI</span><span class="toc-page">13</span></li>
 
     <li class="toc-part"><span>Part II, Baseline setup</span><span class="toc-page">17</span></li>
     <li><span>02, The minimum viable setup (30 min)</span><span class="toc-page">18</span></li>
@@ -174,38 +175,51 @@
 
     <li class="toc-part"><span>Part III, Specialized configuration</span><span class="toc-page">30</span></li>
     <li><span>04, Slash commands</span><span class="toc-page">31</span></li>
-    <li><span>05, Sub-agents</span><span class="toc-page">34</span></li>
-    <li><span>06, Skills (the right way)</span><span class="toc-page">40</span></li>
+    <li><span>05, Sub-agents (and effort levels)</span><span class="toc-page">34</span></li>
+    <li><span>06, Skills (the right way)</span><span class="toc-page">41</span></li>
 
-    <li class="toc-part"><span>Part IV, Advanced workflow</span><span class="toc-page">46</span></li>
-    <li><span>07, Plan-first development</span><span class="toc-page">47</span></li>
-    <li><span>08, The audit loop</span><span class="toc-page">50</span></li>
-    <li><span>09, Coach mode</span><span class="toc-page">53</span></li>
+    <li class="toc-part"><span>Part IV, Advanced workflow</span><span class="toc-page">47</span></li>
+    <li><span>07, Plan-first development</span><span class="toc-page">48</span></li>
+    <li><span>08, The audit loop</span><span class="toc-page">51</span></li>
+    <li><span>09, Coach mode</span><span class="toc-page">54</span></li>
 
-    <li class="toc-part"><span>Part V, Going further</span><span class="toc-page">56</span></li>
-    <li><span>10, Parallel worktrees</span><span class="toc-page">57</span></li>
-    <li><span>11, The memory matrix</span><span class="toc-page">59</span></li>
-    <li><span>12, MCP, connect to the outside</span><span class="toc-page">62</span></li>
-    <li><span>13, Long-term maintenance</span><span class="toc-page">65</span></li>
+    <li class="toc-part"><span>Part V, Going further</span><span class="toc-page">57</span></li>
+    <li><span>10, Parallel worktrees</span><span class="toc-page">58</span></li>
+    <li><span>11, The memory matrix</span><span class="toc-page">60</span></li>
+    <li><span>12, MCP, connect to the outside</span><span class="toc-page">64</span></li>
+    <li><span>13, Long-term maintenance</span><span class="toc-page">67</span></li>
 
-    <li class="toc-part"><span>Part VI, Discipline &amp; safety</span><span class="toc-page">66</span></li>
-    <li><span>14, Testing &amp; TDD</span><span class="toc-page">66</span></li>
-    <li><span>15, Third-party MCP &amp; prompt injection</span><span class="toc-page">68</span></li>
+    <li class="toc-part"><span>Part VI, Discipline &amp; safety</span><span class="toc-page">69</span></li>
+    <li><span>14, Testing &amp; TDD</span><span class="toc-page">70</span></li>
+    <li><span>15, Permissions, auto mode &amp; the sandbox <strong>· new</strong></span><span class="toc-page">73</span></li>
+    <li><span>16, Third-party MCP &amp; prompt injection</span><span class="toc-page">77</span></li>
 
-    <li class="toc-part"><span>Part VII, Packaging &amp; distribution</span><span class="toc-page">70</span></li>
-    <li><span>16, Plugins &amp; marketplaces</span><span class="toc-page">70</span></li>
+    <li class="toc-part"><span>Part VII, Packaging &amp; distribution</span><span class="toc-page">80</span></li>
+    <li><span>17, Plugins &amp; marketplaces</span><span class="toc-page">81</span></li>
 
-    <li class="toc-part"><span>Annexes</span><span class="toc-page">72</span></li>
-    <li><span>A. Universal CLAUDE.md</span><span class="toc-page">68</span></li>
-    <li><span>B. Complete .claude/settings.json</span><span class="toc-page">69</span></li>
-    <li><span>C. The six hooks (condensed)</span><span class="toc-page">70</span></li>
-    <li><span>D. Four agent templates</span><span class="toc-page">71</span></li>
-    <li><span>E. Six slash commands</span><span class="toc-page">72</span></li>
-    <li><span>F. Glossary</span><span class="toc-page">73</span></li>
-    <li><span>G. 30-minute quick start</span><span class="toc-page">74</span></li>
-    <li><span>H. Case study (anonymized)</span><span class="toc-page">75</span></li>
-    <li><span>I. Cheat sheet</span><span class="toc-page">76</span></li>
-    <li><span>J. Recovery playbook</span><span class="toc-page">77</span></li>
+    <li class="toc-part"><span>Part VIII, Orchestration &amp; scale <strong>· new</strong></span><span class="toc-page">86</span></li>
+    <li><span>18, Working in parallel</span><span class="toc-page">87</span></li>
+    <li><span>19, Dynamic workflows</span><span class="toc-page">90</span></li>
+    <li><span>20, The context window</span><span class="toc-page">94</span></li>
+
+    <li class="toc-part"><span>Part IX, Automation &amp; quality gates <strong>· new</strong></span><span class="toc-page">98</span></li>
+    <li><span>21, Headless &amp; CI</span><span class="toc-page">99</span></li>
+    <li><span>22, Auditing your own setup</span><span class="toc-page">102</span></li>
+    <li><span>23, Artifacts</span><span class="toc-page">105</span></li>
+
+    <li class="toc-part"><span>Annexes</span><span class="toc-page">108</span></li>
+    <li><span>A. Universal CLAUDE.md</span><span class="toc-page">109</span></li>
+    <li><span>B. Complete .claude/settings.json</span><span class="toc-page">110</span></li>
+    <li><span>C. The six hooks (condensed)</span><span class="toc-page">111</span></li>
+    <li><span>D. Four agent templates</span><span class="toc-page">112</span></li>
+    <li><span>E. Eight slash commands</span><span class="toc-page">113</span></li>
+    <li><span>F. Glossary</span><span class="toc-page">114</span></li>
+    <li><span>G. 30-minute quick start</span><span class="toc-page">115</span></li>
+    <li><span>H. Case studies (anonymized)</span><span class="toc-page">116</span></li>
+    <li><span>I. Cheat sheet</span><span class="toc-page">118</span></li>
+    <li><span>J. Recovery playbook</span><span class="toc-page">120</span></li>
+    <li><span>K. Onboarding an existing codebase <strong>· new</strong></span><span class="toc-page">122</span></li>
+    <li><span>L. Cross-platform hooks <strong>· new</strong></span><span class="toc-page">124</span></li>
   </ul>
 </article>
 
@@ -219,33 +233,54 @@
 </section>
 
 <!-- =================================================================
-     CHAPTER 00, Choose your interface  (~2 pages)
-     ADAPTED FROM V1. Copy the body content from en/source.html ch 00.
+     CHAPTER 00, Choose your interface  (~3 pages)
+     REWRITTEN in V4: surfaces table + mobility layer.
      ================================================================= -->
 <article class="chapter">
   <h1 class="chapter-title"><span class="chapter-number">Chapter 00 <span class="badge badge-beginner">BEGINNER</span></span>Choose your interface</h1>
 
   <p>Before configuring anything, know where you're installing it. All Claude Code surfaces support the same mechanisms, but Claude Code is distinct from the Claude.ai chat product.</p>
 
-  <h2>The 6 official Claude Code surfaces</h2>
+  <h2>The surfaces</h2>
 
-  <p>All read the same <code>.claude/</code> config in your repo. You can switch between them without re-configuring anything.</p>
+  <p>All of them read the same <code>.claude/</code> config in your repo. You switch between them without re-configuring anything.</p>
 
   <table>
     <thead><tr><th>Surface</th><th>What's special</th></tr></thead>
     <tbody>
-      <tr><td><strong>Terminal CLI</strong></td><td>The most complete. Run <code>claude</code> in any project folder. Ideal for scripting, pipes, CI.</td></tr>
-      <tr><td><strong>VS Code extension</strong></td><td>Inline diffs, @-mentions, plan review. <strong>Also works in Cursor</strong> (official Anthropic extension, not <code>.cursorrules</code>).</td></tr>
-      <tr><td><strong>JetBrains plugin</strong></td><td>IntelliJ, PyCharm, WebStorm, etc. Available on the official JetBrains Marketplace.</td></tr>
-      <tr><td><strong>Desktop app</strong></td><td>Standalone macOS/Windows app. Visual diff, parallel sessions, scheduled tasks, cloud sessions.</td></tr>
-      <tr><td><strong>Web</strong></td><td><code>claude.ai/code</code> in your browser. Ideal for long-running tasks, repos you don't have locally, mobile.</td></tr>
-      <tr><td><strong>iOS app</strong></td><td>Claude app for iPhone. Continue a session from your phone.</td></tr>
+      <tr><td><strong>Terminal CLI</strong></td><td>The most complete. Run <code>claude</code> in any project folder. Ideal for scripting, pipes, CI. Native installers on macOS, Linux, and Windows (<code>winget</code>, <code>install.ps1</code>).</td></tr>
+      <tr><td><strong>VS Code extension</strong></td><td>Inline diffs, @-mentions, plan review, and dialogs for hooks and permission rules. <strong>Also works in Cursor</strong> (official Anthropic extension, not <code>.cursorrules</code>).</td></tr>
+      <tr><td><strong>JetBrains plugin</strong></td><td>IntelliJ, PyCharm, WebStorm, etc. Requires the CLI installed separately.</td></tr>
+      <tr><td><strong>Desktop app</strong></td><td>macOS, Windows, and Linux (beta on Ubuntu/Debian). Visual diff, parallel sessions, scheduled tasks, cloud sessions, a built-in browser, an iOS Simulator pane.</td></tr>
+      <tr><td><strong>Web</strong></td><td><code>claude.ai/code</code> in your browser. Ideal for long-running tasks and repos you don't have locally.</td></tr>
+      <tr><td><strong>Mobile</strong></td><td>The Claude app on <strong>iOS and Android</strong>. Start a task, get a push notification when it needs you.</td></tr>
+      <tr><td><strong>Slack</strong></td><td>Mention <code>@Claude</code> with a bug report, get a pull request back. The team-chat entry point.</td></tr>
+      <tr><td><strong>Chrome</strong></td><td>Claude drives your browser to debug a live web app. GA since July 2026.</td></tr>
     </tbody>
   </table>
 
   <aside class="callout callout-tip">
     <div class="callout-title">Shared engine</div>
-    <p>Every surface connects to the same Claude Code engine. Your <code>CLAUDE.md</code>, hooks, sub-agents, and <code>.mcp.json</code> work everywhere. Start a task in the terminal, resume it on your phone.</p>
+    <p>Every surface connects to the same Claude Code engine. Your <code>CLAUDE.md</code>, hooks, sub-agents, and <code>.mcp.json</code> work everywhere. Configure once, in the repo, and the config follows you.</p>
+  </aside>
+
+  <h2>The mobility layer <small class="muted">(new in V4)</small></h2>
+
+  <p>The surfaces above are where a session <em>starts</em>. What changed in 2026 is that a session is no longer tied to the surface that started it. Four mechanisms move work around, and they're easy to confuse:</p>
+
+  <table>
+    <thead><tr><th>You want to…</th><th>Use</th><th>What actually happens</th></tr></thead>
+    <tbody>
+      <tr><td>Keep driving your <em>local</em> session from your phone</td><td><strong>Remote Control</strong></td><td>The session stays on your machine, with your files and your tools. Your phone becomes the keyboard. Your machine must stay on.</td></tr>
+      <tr><td>Pull a cloud/web session down to your terminal</td><td><code>claude --teleport</code></td><td>The conversation moves to your machine. Requires a claude.ai subscription.</td></tr>
+      <tr><td>Continue the current terminal session in the desktop app</td><td><code>/desktop</code></td><td>Hand-off to review diffs visually. macOS and x64 Windows.</td></tr>
+      <tr><td>Push external events into a <em>running</em> session</td><td><strong>Channels</strong></td><td>Telegram, Discord, iMessage, or your own webhooks deliver into a live session. The session reacts without you typing.</td></tr>
+    </tbody>
+  </table>
+
+  <aside class="callout callout-warning">
+    <div class="callout-title">Remote Control is not a cloud session</div>
+    <p>The distinction matters for your setup. <strong>Remote Control</strong> runs on your machine: your <code>.claude/</code>, your hooks, your git remote, your secrets. A <strong>cloud session</strong> (<code>claude --cloud</code>, the web, Routines) runs on Anthropic's infrastructure: it clones the repo, and anything machine-local, your auto memory, your <code>CLAUDE.local.md</code>, your unpushed work, <em>isn't there</em>. If a workflow behaves differently on the web than on your laptop, this is almost always why.</p>
   </aside>
 
   <h2>Recommendations by profile</h2>
@@ -254,21 +289,22 @@
     <thead><tr><th>Profile</th><th>Recommendation</th></tr></thead>
     <tbody>
       <tr><td>Solo dev working in an IDE</td><td><strong>VS Code or JetBrains extension</strong> for everyday work, <strong>CLI</strong> in the terminal for scripted workflows. Full setup possible.</td></tr>
-      <tr><td>Team</td><td>Any surface, with a <code>.claude/</code> setup versioned in git. Everyone inherits the config.</td></tr>
-      <tr><td>Mobile / away from desk</td><td><strong>Web</strong> on phone or <strong>iOS app</strong>. Kick off a long task, resume it on your machine.</td></tr>
+      <tr><td>Team</td><td>Any surface, with a <code>.claude/</code> setup versioned in git. Everyone inherits the config. Add <strong>Slack</strong> so bug reports become PRs without a context switch.</td></tr>
+      <tr><td>Away from desk</td><td><strong>Remote Control</strong> if your machine is on and you want your real environment. <strong>Web or mobile</strong> if it isn't.</td></tr>
+      <tr><td>Long unattended jobs</td><td><strong>Web / cloud sessions</strong> or <strong>Routines</strong>. See Chapter 17.</td></tr>
       <tr><td>Cursor user</td><td>Install the official Claude Code extension in Cursor (<code>cursor:extension/anthropic.claude-code</code>). All <code>.claude/</code> config works.</td></tr>
+      <tr><td>Windows user</td><td>Native install works without Git Bash; Claude Code falls back to PowerShell as its shell tool. Installing <a href="https://git-scm.com/downloads/win">Git for Windows</a> is still recommended so bash hooks run. See Annex L.</td></tr>
     </tbody>
   </table>
 
   <aside class="callout callout-warning">
     <div class="callout-title">Claude.ai (chat) ≠ Claude Code</div>
-    <p>Claude.ai (the chat product) supports "Projects" with custom instructions (a lightweight CLAUDE.md equivalent), but <strong>not</strong> hooks, sub-agents, or MCP servers. This handbook covers Claude Code (the 6 surfaces above). For chat alone, only chapters 1–2 (principles + CLAUDE.md) apply.</p>
+    <p>Claude.ai (the chat product) supports "Projects" with custom instructions (a lightweight CLAUDE.md equivalent), but <strong>not</strong> hooks, sub-agents, or MCP servers. This handbook covers Claude Code. For chat alone, only chapters 00–02 (principles + CLAUDE.md) apply.</p>
   </aside>
 </article>
 
 <!-- =================================================================
      CHAPTER 01, Philosophy & ROI  (~4 pages)
-     ADAPTED FROM V1, extended with "what this does NOT do".
      ================================================================= -->
 <article class="chapter">
   <h1 class="chapter-title"><span class="chapter-number">Chapter 01 <span class="badge badge-beginner">BEGINNER</span></span>Philosophy &amp; ROI</h1>
@@ -356,7 +392,6 @@
 
 <!-- =================================================================
      CHAPTER 02, Minimum viable setup  (~5 pages)
-     ADAPTED FROM V1.
      ================================================================= -->
 <article class="chapter">
   <h1 class="chapter-title"><span class="chapter-number">Chapter 02 <span class="badge badge-beginner">BEGINNER</span></span>The minimum viable setup</h1>
@@ -515,7 +550,6 @@ One-sentence description of what the project does.
 
 <!-- =================================================================
      CHAPTER 03, Hooks  (~6 pages)
-     ADAPTED FROM V1.
      ================================================================= -->
 <article class="chapter">
   <h1 class="chapter-title"><span class="chapter-number">Chapter 03 <span class="badge badge-beginner">BEGINNER</span></span>Hooks</h1>
@@ -547,7 +581,7 @@ set -e
 
 INPUT="$(cat 2>/dev/null || echo '{}')"
 FILE=$(echo "$INPUT" | jq -r '.tool_input.file_path // empty' 2>/dev/null)
-[ -z "$FILE" ] || [ ! -f "$FILE" ] && exit 0
+[ -z "$FILE" ] || [ ! -f "$FILE" ] &amp;&amp; exit 0
 
 case "$FILE" in
   *.ts|*.tsx|*.js|*.jsx|*.mjs) ;;
@@ -700,7 +734,6 @@ echo "Exit code: $?"
 
 <!-- =================================================================
      CHAPTER 04, Slash commands  (~3 pages)
-     ADAPTED FROM V1.
      ================================================================= -->
 <article class="chapter">
   <h1 class="chapter-title"><span class="chapter-number">Chapter 04 <span class="badge badge-intermediate">INTERMEDIATE</span></span>Slash commands</h1>
@@ -844,7 +877,6 @@ End with a question: "Tackling focus #1 or something else?"</pre>
 
 <!-- =================================================================
      CHAPTER 05, Sub-agents  (~5 pages)
-     ADAPTED FROM V1.
      ================================================================= -->
 <article class="chapter">
   <h1 class="chapter-title"><span class="chapter-number">Chapter 05 <span class="badge badge-intermediate">INTERMEDIATE</span></span>Sub-agents</h1>
@@ -915,6 +947,34 @@ End with: Overall score /10 + Top 3 priority actions.
   </table>
 
   <p><strong>Rule of thumb</strong>: any audit that could lose data or compromise production → <code>opus</code>. Everything else → <code>sonnet</code> by default. <code>haiku</code> when speed beats depth.</p>
+
+  <p class="muted small">The aliases always resolve to the current generation, so you never pin a version by accident. As of this edition that means Opus 5, Sonnet 5 and Haiku 4.5, alongside Fable 5.1 where your plan offers it.</p>
+
+  <h2>The other dial: effort <small class="muted">(new in V4)</small></h2>
+
+  <p>Picking a model used to be the whole cost decision. It isn't anymore. Since the Claude 5 generation, the <strong>effort level</strong> controls how much reasoning the model spends before answering, and it moves cost and latency more than the model alias does on many tasks.</p>
+
+  <table>
+    <thead><tr><th>Level</th><th>Use for</th></tr></thead>
+    <tbody>
+      <tr><td><code>low</code> / <code>medium</code></td><td>Mechanical edits, renames, formatting, triage. Cheap and fast.</td></tr>
+      <tr><td><code>high</code></td><td>The sane default for coding work.</td></tr>
+      <tr><td><code>xhigh</code></td><td>Hard debugging, architecture, a plan you'll commit to. Recommended for the genuinely difficult.</td></tr>
+      <tr><td><code>ultracode</code></td><td><code>xhigh</code> plus automatic workflow orchestration. Claude plans a multi-agent workflow for every substantive task. Expensive by design. See Chapter 19.</td></tr>
+    </tbody>
+  </table>
+
+  <p>Set it for a session with <code>/effort</code> (or <code>/effort s</code> for this session only), start one with <code>claude --effort xhigh</code>, or cap it organization-wide with the <code>maxEffortLevel</code> setting. <strong>Fast mode</strong> is the orthogonal dial: same model, faster output, toggled with <code>/fast</code>.</p>
+
+  <aside class="callout callout-tip">
+    <div class="callout-title">Model for capability, effort for difficulty</div>
+    <p>Treat the two as separate questions. The <em>model</em> answers "what class of work is this?" (a haiku agent will never do deep architecture, whatever effort you give it). The <em>effort</em> answers "how hard is this instance?" A <code>sonnet</code> agent at <code>xhigh</code> often beats an <code>opus</code> agent at <code>low</code>, for less money. Your read-only auditors are the place to be generous; your classification agents are the place to be stingy.</p>
+  </aside>
+
+  <aside class="callout callout-warning">
+    <div class="callout-title">1M context is not a licence to stop pruning</div>
+    <p>Opus 5, Sonnet 5, and Fable 5.1 all carry a 1M-token context window. It's tempting to read that as "context management is solved". It isn't: a full window is slower, more expensive, and measurably less precise than a focused one. The window got bigger; the discipline didn't get optional. See Chapter 20.</p>
+  </aside>
 
   <h2>Restrict tools (least privilege)</h2>
 
@@ -1414,7 +1474,6 @@ graph LR
 
 <!-- =================================================================
      CHAPTER 09, Coach mode  (~2 pages)
-     ADAPTED FROM V1.
      ================================================================= -->
 <article class="chapter">
   <h1 class="chapter-title"><span class="chapter-number">Chapter 09 <span class="badge badge-intermediate">INTERMEDIATE</span></span>Coach mode</h1>
@@ -1631,103 +1690,174 @@ git branch -d chantier/marketing-launch</pre>
   <aside class="callout callout-info">
     <div class="callout-title">TL;DR</div>
     <ul>
-      <li>Four places where memory can live. Use the wrong one and the same fact ends up in two places, drifting.</li>
-      <li>The decision rule fits on one line: <em>≥2 agents need it? → CLAUDE.md. Else domain? → skill. Else "don't flag"? → agent-memory. Else? → local only.</em></li>
-      <li>Anything you want to survive a reclone has to land in versioned files. Not in <code>~/.claude/projects/</code>.</li>
+      <li><strong>Six</strong> places where memory can live, up from four in V3. Use the wrong one and the same fact ends up in two places, drifting.</li>
+      <li>One of the six is now written by <em>Claude</em>, not by you. Knowing which is which is the whole chapter.</li>
+      <li>The decision rule still fits on one line: <em>≥2 agents need it? → CLAUDE.md. Scoped to a subtree? → rules. Else domain? → skill. Else "don't flag"? → agent-memory. Else? → auto memory.</em></li>
+      <li>Anything you want to survive a reclone has to land in versioned files. Auto memory will not.</li>
     </ul>
   </aside>
 
   <p>You'll quickly accumulate things Claude needs to remember: user preferences, project decisions, external references, domain rules, audit feedback. Each of these belongs in a <em>different</em> place. Getting this wrong means duplicating information across files, and the duplicate inevitably drifts.</p>
 
-  <p>There are four locations where memory can live. Use this matrix to decide which.</p>
+  <p>V3 of this book described four locations. Claude Code has since added two mechanisms that change the picture: <strong><code>.claude/rules/</code></strong>, which lets an instruction load only when Claude touches matching files, and <strong>auto memory</strong>, where Claude writes its own notes between sessions. Both are on by default. Ignoring them doesn't make them go away, it just means you have memory you didn't plan.</p>
 
   <figure>
     <pre class="mermaid">
 graph TB
-    Q[New thing to remember] --> Q1{Would ≥ 2 agents<br/>benefit from this?}
-    Q1 -->|Yes| L1[CLAUDE.md<br/>§ Lessons learned<br/>versioned · cross-cutting]
+    Q[New thing to remember] --> Q0{Who writes it?}
+    Q0 -->|Claude, on its own| L5[~/.claude/projects/.../memory/<br/>AUTO MEMORY · local only]
+    Q0 -->|You| Q1{Would 2+ agents<br/>benefit from this?}
+    Q1 -->|Yes| Q1b{Does it apply to<br/>the whole repo?}
+    Q1b -->|Yes| L1[CLAUDE.md<br/>Lessons learned<br/>versioned · always loaded]
+    Q1b -->|One subtree| L2[.claude/rules/*.md<br/>paths: frontmatter<br/>versioned · loads on demand]
     Q1 -->|No| Q2{Is it a domain<br/>e.g. SQL, dates, commits?}
-    Q2 -->|Yes| L2[.agents/skills/domain/<br/>versioned · structured rules]
-    Q2 -->|No| Q3{One agent ·<br/>'don't flag this again'?}
-    Q3 -->|Yes| L3[.claude/agent-memory/agent/<br/>versioned · agent-scoped]
-    Q3 -->|No| L4[~/.claude/projects/.../memory/<br/>LOCAL ONLY · will be lost]
+    Q2 -->|Yes| L3[.agents/skills/domain/<br/>versioned · structured rules]
+    Q2 -->|No| Q3{One agent ·<br/>do not flag this again?}
+    Q3 -->|Yes| L4[.claude/agent-memory/agent/<br/>versioned · agent-scoped]
+    Q3 -->|No| L6[CLAUDE.local.md<br/>gitignored · this checkout]
     style L1 fill:#dcfce7,stroke:#15803d,stroke-width:2px
-    style L2 fill:#dbeafe,stroke:#1d4ed8,stroke-width:2px
-    style L3 fill:#fef3c7,stroke:#d97706,stroke-width:2px
-    style L4 fill:#fee2e2,stroke:#b91c1c,stroke-width:2px
+    style L2 fill:#dcfce7,stroke:#15803d,stroke-width:2px
+    style L3 fill:#dbeafe,stroke:#1d4ed8,stroke-width:2px
+    style L4 fill:#fef3c7,stroke:#d97706,stroke-width:2px
+    style L5 fill:#fee2e2,stroke:#b91c1c,stroke-width:2px
+    style L6 fill:#fee2e2,stroke:#b91c1c,stroke-width:2px
     </pre>
-    <figcaption>The decision tree. Three of the four leaves are versioned in Git; only one is local and ephemeral.</figcaption>
+    <figcaption>The decision tree. Four leaves are versioned in Git; two are local and will not survive a reclone.</figcaption>
   </figure>
 
-  <h2>The four locations</h2>
+  <h2>The six locations</h2>
 
   <table>
     <thead>
-      <tr><th>Location</th><th>Git-versioned?</th><th>Scope</th><th>Use case</th></tr>
+      <tr><th>Location</th><th>Written by</th><th>Versioned?</th><th>Loaded</th><th>Use case</th></tr>
     </thead>
     <tbody>
       <tr>
         <td><code>CLAUDE.md</code> §&nbsp;Lessons learned</td>
+        <td>You</td>
         <td>✅ Yes</td>
-        <td>Cross-cutting, project-wide</td>
-        <td>Non-obvious traps, implicit conventions, architectural decisions, library-version workarounds. See Chapter 08.</td>
+        <td>Every session</td>
+        <td>Non-obvious traps, implicit conventions, architectural decisions. Keep it under 200 lines. See Chapter 08.</td>
+      </tr>
+      <tr>
+        <td><code>.claude/rules/*.md</code></td>
+        <td>You</td>
+        <td>✅ Yes</td>
+        <td>On demand, via <code>paths:</code></td>
+        <td>An instruction that only matters for part of the repo. The pressure valve for an overgrown CLAUDE.md.</td>
       </tr>
       <tr>
         <td><code>.agents/skills/&lt;domain&gt;/</code></td>
+        <td>You</td>
         <td>✅ Yes</td>
-        <td>Domain-specific knowledge</td>
-        <td>Canonical rules with Incorrect → Correct examples. Loaded by the agents that need them. See Chapter 06.</td>
+        <td>When invoked or relevant</td>
+        <td>Canonical rules with Incorrect → Correct examples. See Chapter 06.</td>
       </tr>
       <tr>
         <td><code>.claude/agent-memory/&lt;agent&gt;/</code></td>
+        <td>You</td>
         <td>✅ Yes</td>
-        <td>Per-agent feedback &amp; project state</td>
-        <td>"Don't re-flag this", validated exceptions, references the agent specifically needs. Four sub-types: <code>user_*</code>, <code>feedback_*</code>, <code>project_*</code>, <code>reference_*</code>.</td>
+        <td>By that agent</td>
+        <td>"Don't re-flag this", validated exceptions, references one agent needs.</td>
       </tr>
       <tr>
         <td><code>~/.claude/projects/&lt;project&gt;/memory/</code></td>
-        <td>❌ No (local only)</td>
-        <td>This machine, volatile</td>
-        <td>Personal preferences, session-level context, shortcuts. <strong>Anything that should survive a reclone goes elsewhere.</strong></td>
+        <td><strong>Claude</strong></td>
+        <td>❌ No (machine-local)</td>
+        <td><code>MEMORY.md</code> index, every session</td>
+        <td>Auto memory. Your preferences, corrections you gave, project context Claude can't derive from the code.</td>
+      </tr>
+      <tr>
+        <td><code>CLAUDE.local.md</code></td>
+        <td>You</td>
+        <td>❌ No (gitignored)</td>
+        <td>Every session</td>
+        <td>Your sandbox URLs, your test data, personal project preferences. Exists only in the worktree you created it in.</td>
       </tr>
     </tbody>
   </table>
 
+  <h2>Path-scoped rules, the CLAUDE.md pressure valve</h2>
+
+  <p>Chapter 13 tells you to split a bloated <code>CLAUDE.md</code> into imports. That helps organization but <em>not</em> context: an <code>@import</code> still loads at launch. A rule with <code>paths:</code> frontmatter is different, it only enters the context window when Claude reads a matching file:</p>
+
+  <pre data-lang="markdown">---
+paths:
+  - "src/api/**/*.ts"
+---
+
+# API rules
+
+- Every endpoint validates its input with the shared zod schema.
+- Errors use the standard envelope, never a bare throw.</pre>
+
+  <p>Put it in <code>.claude/rules/api.md</code> and it costs nothing until Claude opens an API file. Rules without a <code>paths:</code> field load unconditionally, at the same priority as <code>.claude/CLAUDE.md</code>. Personal, cross-project rules go in <code>~/.claude/rules/</code>.</p>
+
+  <h2>Auto memory, the one Claude writes</h2>
+
+  <p>Claude now keeps its own notes per repository, at <code>~/.claude/projects/&lt;project&gt;/memory/</code>. It records four types, tagged in each file's frontmatter:</p>
+
+  <table>
+    <thead><tr><th>Type</th><th>What lands there</th></tr></thead>
+    <tbody>
+      <tr><td><code>user</code></td><td>Your role, expertise, working preferences</td></tr>
+      <tr><td><code>feedback</code></td><td>Corrections you gave, approaches you confirmed</td></tr>
+      <tr><td><code>project</code></td><td>Ongoing work and decisions not derivable from the code or git history</td></tr>
+      <tr><td><code>reference</code></td><td>Where to find things outside the project: a dashboard, a tracker</td></tr>
+    </tbody>
+  </table>
+
+  <p>The directory holds one file per memory plus a <code>MEMORY.md</code> index. Only the index is loaded at session start, and only its <strong>first 200 lines or 25&nbsp;KB</strong>, whichever comes first. Topic files are read on demand. Inspect and edit all of it with <code>/memory</code>; disable it per project with <code>"autoMemoryEnabled": false</code> in <code>.claude/settings.json</code>.</p>
+
+  <aside class="callout callout-warning">
+    <div class="callout-title">Auto memory is machine-local, and that is the trap</div>
+    <p>It's shared across worktrees of the same repo, but it does <strong>not</strong> travel: not to a teammate, not to a cloud session, not to your other laptop. A convention that only exists in auto memory is a convention your team doesn't have. When Claude says "Saved 2 memories" about something project-critical, that's your cue to promote it into <code>CLAUDE.md</code> or a rule.</p>
+  </aside>
+
+  <aside class="callout callout-info">
+    <div class="callout-title">Does auto memory replace the audit loop?</div>
+    <p>No, and the difference is worth naming. Auto memory is <em>Claude's</em> notebook: automatic, private, machine-local, and Claude decides what goes in. The audit loop of Chapter 08 is <em>yours</em>: deliberate, reviewed in a PR, versioned, shared with everyone who clones the repo. Use auto memory for "he prefers terse commit messages". Use <code>/extract-lesson</code> for "this migration breaks if you don't drop the index first". The test is simple: <strong>would a new teammate need to know this?</strong> If yes, it does not belong in auto memory.</p>
+  </aside>
+
   <h2>Decision rules</h2>
 
   <ol>
-    <li><strong>Two or more agents would benefit from this info</strong> → <code>CLAUDE.md</code> §&nbsp;Lessons learned.</li>
+    <li><strong>Two or more agents benefit, and it applies repo-wide</strong> → <code>CLAUDE.md</code> §&nbsp;Lessons learned.</li>
+    <li><strong>Same, but it only applies to one subtree</strong> → <code>.claude/rules/&lt;topic&gt;.md</code> with <code>paths:</code>.</li>
     <li><strong>One agent, and the topic is a domain (Postgres, React, dates, commits)</strong> → skill under <code>.agents/skills/</code>.</li>
     <li><strong>One agent, and the info is purely "don't flag this again"</strong> → <code>.claude/agent-memory/&lt;agent&gt;/</code>.</li>
-    <li><strong>None of the above (purely my preference, this machine)</strong> → <code>~/.claude/projects/</code>.</li>
+    <li><strong>Personal, this checkout, and you want it in a file you control</strong> → <code>CLAUDE.local.md</code>.</li>
+    <li><strong>Anything else</strong> → leave it to auto memory, and don't rely on it surviving.</li>
   </ol>
 
   <h2>Worked examples</h2>
 
-  <p><strong>Example 1.</strong> You decided to use <code>date-fns</code> over <code>moment.js</code> across the project. Multiple future commits will refer to this choice. Multiple agents (code-auditor, qa-tester) need to know. → <code>CLAUDE.md</code> §&nbsp;Lessons learned, with the commit SHA.</p>
+  <p><strong>Example 1.</strong> You decided to use <code>date-fns</code> over <code>moment.js</code> across the project. Multiple agents need to know. → <code>CLAUDE.md</code> §&nbsp;Lessons learned, with the commit SHA.</p>
 
-  <p><strong>Example 2.</strong> Your code-auditor keeps flagging <code>any</code> in Recharts formatters, which is a documented project convention. → <code>.claude/agent-memory/code-auditor/feedback_recharts_any_ok.md</code>. The agent loads its memory and stops re-flagging.</p>
+  <p><strong>Example 2.</strong> Your API handlers must validate with zod, but nothing else in the repo does. → <code>.claude/rules/api.md</code> with <code>paths: ["src/api/**"]</code>. It costs zero context on a frontend session.</p>
 
-  <p><strong>Example 3.</strong> You want a versioned catalog of REST API versioning rules with examples. → <code>.agents/skills/api-versioning/</code> with one rule per file under <code>references/</code>.</p>
+  <p><strong>Example 3.</strong> Your code-auditor keeps flagging <code>any</code> in Recharts formatters, a documented convention. → <code>.claude/agent-memory/code-auditor/feedback_recharts_any_ok.md</code>.</p>
 
-  <p><strong>Example 4.</strong> You prefer terse responses from Claude. This is a personal taste, this machine only. → <code>~/.claude/projects/&lt;project&gt;/memory/user_communication.md</code>.</p>
+  <p><strong>Example 4.</strong> You want a versioned catalog of REST API versioning rules with examples. → <code>.agents/skills/api-versioning/</code>, one rule per file under <code>references/</code>.</p>
+
+  <p><strong>Example 5.</strong> You prefer terse responses. Personal, no team value. → let auto memory keep it, or write it once in <code>~/.claude/CLAUDE.md</code> if you want it in every project.</p>
 
   <h2>Anti-patterns</h2>
 
   <aside class="callout callout-danger">
     <div class="callout-title">Don't do this</div>
     <ul>
-      <li><strong>Duplicate the same info in two locations.</strong> At the next update, one drifts. Pick one location and let the other point to it.</li>
-      <li><strong>Put a project-critical convention in <code>~/.claude/projects/</code></strong>. It's local. It'll be lost. You'll re-discover it the hard way after a reclone.</li>
-      <li><strong>Put a formula in a skill <em>and</em> in an agent's system prompt.</strong> The skill wins. Always. The agent prompt should reference the skill, not duplicate it.</li>
-      <li><strong>Treat <code>CLAUDE.md</code> as a dumping ground.</strong> If it crosses 300 lines, split it into thematic imports (<code>@.claude/CONVENTIONS.md</code>, <code>@.claude/STACK.md</code>, etc.). See Chapter 13.</li>
+      <li><strong>Duplicate the same info in two locations.</strong> At the next update, one drifts. Pick one and let the other point to it.</li>
+      <li><strong>Treat auto memory as documentation.</strong> It's a notebook, not a contract. It doesn't reach your team and it doesn't reach the cloud.</li>
+      <li><strong>Let <code>MEMORY.md</code> grow past 200 lines.</strong> Everything past the limit is silently dropped at the next load. Claude Code warns; act on the warning.</li>
+      <li><strong>Put a formula in a skill <em>and</em> in an agent's system prompt.</strong> The skill wins. Always.</li>
+      <li><strong>Treat <code>CLAUDE.md</code> as a dumping ground.</strong> Past 200 lines, adherence drops. Move what's path-specific into <code>.claude/rules/</code>, not into an import. See Chapter 13.</li>
     </ul>
   </aside>
 </article>
 
 <!-- =================================================================
      CHAPTER 12, MCP  (~3 pages)
-     ADAPTED FROM V1.
      ================================================================= -->
 <article class="chapter">
   <h1 class="chapter-title"><span class="chapter-number">Chapter 12 <span class="badge badge-advanced">ADVANCED</span></span>MCP, Connect to the outside</h1>
@@ -1812,7 +1942,6 @@ graph TB
 
 <!-- =================================================================
      CHAPTER 13, Long-term maintenance  (~2 pages)
-     ADAPTED FROM V1, with audit-claude-setup extended.
      ================================================================= -->
 <article class="chapter">
   <h1 class="chapter-title"><span class="chapter-number">Chapter 13 <span class="badge badge-advanced">ADVANCED</span></span>Long-term maintenance</h1>
@@ -1960,10 +2089,117 @@ graph TB
 </article>
 
 <!-- =================================================================
-     CHAPTER 15, Third-party MCP & prompt injection  ⭐ NEW in V3
+     CHAPTER 15, Permissions, auto mode & the sandbox  ⭐ NEW in V4
      ================================================================= -->
 <article class="chapter">
-  <h1 class="chapter-title"><span class="chapter-number">Chapter 15 <span class="badge badge-advanced">ADVANCED</span></span>Third-party MCP &amp; prompt injection</h1>
+  <h1 class="chapter-title"><span class="chapter-number">Chapter 15 <span class="badge badge-intermediate">INTERMEDIATE</span></span>Permissions, auto mode &amp; the sandbox</h1>
+
+  <aside class="callout callout-info">
+    <div class="callout-title">TL;DR</div>
+    <ul>
+      <li>Since August 2026, <strong>auto mode is the default</strong> on Pro, Max, and Team. A classifier reviews actions instead of you. If you last read this book in V3, your mental model is out of date.</li>
+      <li>Permission <em>modes</em> decide whether Claude asks. The <em>sandbox</em> decides what an action can reach once it runs. Two independent axes; configure both.</li>
+      <li><strong>Deny rules and <code>PreToolUse</code> hooks still win in every mode.</strong> Your guard hook from Chapter 03 did not become decorative, it became the layer that matters most.</li>
+    </ul>
+  </aside>
+
+  <p>Earlier chapters of this book were written against a simple model: Claude proposes, you approve, a hook blocks the worst. That model described Claude Code accurately for two years. It no longer describes the default.</p>
+
+  <p>The permission prompt hasn't disappeared, it's been delegated. In <strong>auto mode</strong>, a second model, the classifier, reviews each action against a safety policy and approves or blocks it without stopping the session. This is genuinely useful, it removes the prompt fatigue that pushed people toward <code>--dangerously-skip-permissions</code>, and it is <em>not</em> the same thing as that flag. Understanding the difference is this chapter's job.</p>
+
+  <h2>The six modes</h2>
+
+  <p>A mode sets the baseline for what runs without asking you. Note that "Manual" is the display name; its config value is <code>default</code>.</p>
+
+  <table>
+    <thead><tr><th>Mode</th><th>Runs without asking</th><th>Best for</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Manual</strong> (<code>default</code>)</td><td>Reads only</td><td>Sensitive work, unfamiliar code, reviewing every action yourself</td></tr>
+      <tr><td><code>acceptEdits</code></td><td>Reads, file edits, common filesystem commands</td><td>Iterating on code you're actively reviewing</td></tr>
+      <tr><td><code>plan</code></td><td>Reads, plus classifier-approved commands where auto mode is available</td><td>Exploring before changing anything. See Chapter 07</td></tr>
+      <tr><td><code>auto</code></td><td>Everything, with background safety checks</td><td>Long tasks. <strong>The built-in default on Pro, Max, Team</strong></td></tr>
+      <tr><td><code>dontAsk</code></td><td>Reads and pre-approved tools; anything that would prompt is <em>denied</em></td><td>Locked-down CI and scripts. See Chapter 21</td></tr>
+      <tr><td><code>bypassPermissions</code></td><td>Everything, no checks</td><td>Isolated containers and VMs <em>only</em></td></tr>
+    </tbody>
+  </table>
+
+  <p>Your session starts in auto mode if you're on Pro, Max, or Team in a terminal or VS Code. It starts in Manual on an Enterprise plan, with a Console API key, on Bedrock / Google Cloud / Foundry, and in every <code>claude -p</code> or Agent SDK run. Switch at any time with <code>Shift+Tab</code>. To pin a different default for a machine or a project, set <code>permissions.defaultMode</code> in a settings file.</p>
+
+  <aside class="callout callout-warning">
+    <div class="callout-title">Two values don't take effect from project settings</div>
+    <p>Setting <code>"auto"</code> or <code>"bypassPermissions"</code> as <code>permissions.defaultMode</code> in a project's <code>.claude/settings.json</code> is silently ignored, a repo you clone can't escalate its own privileges. Pin them in <code>~/.claude/settings.json</code> or managed settings, or switch in-session.</p>
+  </aside>
+
+  <h2>What the classifier will never wave through</h2>
+
+  <p>Auto mode is not "approve everything quietly". A fixed set of actions is never auto-approved <em>in any mode</em>, including <code>bypassPermissions</code>:</p>
+
+  <ul>
+    <li>Anything matched by an explicit <strong>ask rule</strong> you wrote.</li>
+    <li><code>rm</code> and <code>rmdir</code> targeting a <strong>critical path</strong>, which no allow rule and no hook <code>"allow"</code> can approve.</li>
+    <li>Tools that need a human by definition, like <code>AskUserQuestion</code>.</li>
+    <li>Reads outside your working directories, when <code>permissions.blockReadsOutsideWorkingDirectories</code> is on.</li>
+  </ul>
+
+  <p>On top of that, auto mode blocks specific categories outright: destructive git commands when you didn't ask to discard work, transcript tampering, <code>rm -rf</code> on an unresolved variable, and a "containment escape" family, fetching cloud metadata credentials, evading egress controls, reaching across tenants.</p>
+
+  <aside class="callout callout-danger">
+    <div class="callout-title">Auto mode ≠ --dangerously-skip-permissions</div>
+    <p>They feel similar from the keyboard: no prompts. They are opposites in design. Auto mode <em>adds</em> a reviewer; bypass mode <em>removes</em> one. In auto mode your deny rules, your ask rules, your hooks, and the critical-path protections all still fire. In <code>bypassPermissions</code>, allow rules become meaningless and only deny rules and the short "never" list survive. Everything Chapter 16 says about prompt injection applies with full force to bypass mode, and only partially to auto mode.</p>
+  </aside>
+
+  <h2>The second axis: the sandbox</h2>
+
+  <p>Modes answer "does Claude ask first?". The <strong>sandbox</strong> answers a different question: "when the command runs, what can it touch?" A sandboxed Bash command gets filesystem and network isolation, so a command that gets through the permission layer still can't read your SSH keys or phone home.</p>
+
+  <p>Turn it on for a session with <code>/sandbox</code>, or permanently with <code>sandbox.enabled</code> in settings. Two details are worth knowing:</p>
+
+  <ul>
+    <li><strong>Auto-allow mode</strong> is the sweet spot for the cautious: keep <em>Manual</em> permission mode, turn the sandbox on in auto-allow. You get far fewer prompts without ever handing approval to a classifier. Deny rules still apply, and ask rules that name a command (<code>Bash(git push *)</code>) still stop the session.</li>
+    <li><strong>Per-command <code>allowed_domains</code></strong> lets a single command reach a named host and refuses every other. The right default for a build step that needs exactly one registry.</li>
+  </ul>
+
+  <aside class="callout callout-warning">
+    <div class="callout-title">The Bash sandbox is macOS, Linux, and WSL2</div>
+    <p>It relies on OS-level isolation primitives that native Windows doesn't provide. If you work in PowerShell on Windows, the sandbox is not your layer, your <code>PreToolUse</code> guard hook and your deny rules are. Run Claude Code under WSL2, or in a dev container, if you want the isolation. See Annex L.</p>
+  </aside>
+
+  <h2>Choosing your posture</h2>
+
+  <table>
+    <thead><tr><th>You want to…</th><th>Mode</th><th>Isolation</th></tr></thead>
+    <tbody>
+      <tr><td>Review every action yourself</td><td>Manual</td><td>None needed</td></tr>
+      <tr><td>Fewer prompts, but no classifier deciding for you</td><td>Manual</td><td>Sandbox in auto-allow</td></tr>
+      <tr><td>Explore an unfamiliar repo</td><td><code>plan</code></td><td>None needed</td></tr>
+      <tr><td>Work hands-off on a long task</td><td><code>auto</code></td><td>Sandbox as defence in depth</td></tr>
+      <tr><td>Run in CI with an exact allowlist</td><td><code>dontAsk</code> + <code>--allowedTools</code></td><td>Whatever your runner gives you</td></tr>
+      <tr><td>Run fully unattended</td><td><code>bypassPermissions</code></td><td><strong>Required</strong>: container or VM, non-root</td></tr>
+    </tbody>
+  </table>
+
+  <h2>What this means for the setup in this book</h2>
+
+  <p>Nothing you built in Chapters 02 and 03 becomes obsolete. The weights shift:</p>
+
+  <ol>
+    <li><strong>The guard hook matters more, not less.</strong> A <code>PreToolUse</code> hook is <em>enforcement</em>, it runs as code regardless of what any model decides. The classifier is judgement. When you care about a specific outcome, write the hook.</li>
+    <li><strong>Deny rules are your hard floor.</strong> They block in every mode, including bypass. Anything you would genuinely never want, put it in <code>permissions.deny</code>, not in a CLAUDE.md sentence.</li>
+    <li><strong>CLAUDE.md is context, not configuration.</strong> "Never push to main" in prose is a suggestion. In <code>permissions.deny</code> it's a wall. The official docs are explicit about this split; so should your setup be.</li>
+    <li><strong>Re-read your permissions after upgrading.</strong> <code>/permissions</code> shows what's granted. A default that changed underneath you is exactly the kind of drift the audit loop (Chapter 08) exists to catch.</li>
+  </ol>
+
+  <aside class="callout callout-tip">
+    <div class="callout-title">A reasonable default for this book's reader</div>
+    <p>If you want one recommendation: <strong>auto mode on, sandbox on, deny rules written, guard hook installed.</strong> That combination gives you an uninterrupted session, a second reviewer, an isolation boundary, and a hard floor that no model can talk its way past. If you'd rather not have a classifier approving on your behalf at all, use Manual plus sandbox auto-allow instead, you'll trade some prompts for full control.</p>
+  </aside>
+</article>
+
+<!-- =================================================================
+     CHAPTER 16, Third-party MCP & prompt injection  (was 15 in V3)
+     ================================================================= -->
+<article class="chapter">
+  <h1 class="chapter-title"><span class="chapter-number">Chapter 16 <span class="badge badge-advanced">ADVANCED</span></span>Third-party MCP &amp; prompt injection</h1>
 
   <p>Chapter 12 connected Claude to the outside world and locked the obvious door, read-only MCP scopes. This chapter is about the doors you didn't know were open. Every MCP server you add, and every file, issue, or web page Claude reads, is a place where someone else's text meets your privileges.</p>
 
@@ -2033,10 +2269,10 @@ graph TB
 </section>
 
 <!-- =================================================================
-     CHAPTER 16, Plugins & marketplaces  ⭐ NEW in V3.1
+     CHAPTER 17, Plugins & marketplaces  (was 16 in V3.1)
      ================================================================= -->
 <article class="chapter">
-  <h1 class="chapter-title"><span class="chapter-number">Chapter 16 <span class="badge badge-advanced">ADVANCED</span></span>Plugins &amp; marketplaces</h1>
+  <h1 class="chapter-title"><span class="chapter-number">Chapter 17 <span class="badge badge-advanced">ADVANCED</span></span>Plugins &amp; marketplaces</h1>
 
   <p>You've built hooks (Ch. 03), sub-agents (Ch. 05), skills (Ch. 06), and slash commands (Ch. 04). So far it all lives in one repo's <code>.claude/</code>, copied by hand into the next project. A <strong>plugin</strong> packages the whole setup into one installable, versioned unit you can drop into any project and share with a team, no more copy-paste drift.</p>
 
@@ -2096,6 +2332,29 @@ graph TB
 
   <p>The relative <code>source</code> resolves because the marketplace is added from git. Validate the whole thing before publishing with <code>claude plugin validate .</code>.</p>
 
+  <h2>The two official catalogs <small class="muted">(new in V4)</small></h2>
+
+  <p>You don't have to run your own marketplace to find plugins, and you shouldn't install from an unvetted one. Two Anthropic-run catalogs exist:</p>
+
+  <table>
+    <thead><tr><th>Catalog</th><th>What it is</th></tr></thead>
+    <tbody>
+      <tr><td><code>anthropics/claude-plugins-official</code></td><td>The curated, Anthropic-managed directory. Auto-installed on startup, so its plugins are discoverable without adding anything</td></tr>
+      <tr><td><code>anthropics/claude-plugins-community</code></td><td>Community submissions, each security-scanned and approved before listing. A read-only mirror of the review pipeline</td></tr>
+    </tbody>
+  </table>
+
+  <p>The same judgement from Chapter 16 applies to a plugin as to an MCP server: a plugin can ship hooks, which are shell commands that run on your machine. "It's on a marketplace" is not the same as "I read it". Pin what matters, and prefer <code>plugin-dependencies</code> to constrain versions rather than tracking a moving target.</p>
+
+  <h2>Prove the plugin helps: evals</h2>
+
+  <p>Once you're shipping configuration to other people, "it feels better" stops being good enough. <code>claude plugin eval</code> runs your plugin against a suite of test cases and scores the results <strong>against a no-plugin baseline</strong>, which is the only comparison that answers whether the plugin is making Claude better or merely different.</p>
+
+  <pre data-lang="bash">claude plugin eval init   # drafts the cases and graders
+claude plugin eval        # scored, reproducible, JSON + HTML report</pre>
+
+  <p>Because it's reproducible and machine-readable, wire it into CI and treat a score drop as a regression. Chapter 22 covers this as part of auditing your own setup.</p>
+
   <h2>A worked example: the setup this book teaches, packaged</h2>
 
   <p>The fastest way to understand plugins is to package what you already have. Take the hooks, agents, skills, and commands from the earlier chapters, drop them into <code>plugins/my-kit/</code> with a <code>plugin.json</code>, add a <code>marketplace.json</code> at the repo root, and run <code>claude plugin validate</code>. Install it once at user scope and the entire setup, the defensive guard, the audit agents, the <code>/ship</code> and <code>/new-feature</code> pipelines, follows you into every project, no copy-paste. A bootstrap command can then lay down the per-project overlay (the <code>OPERATING-CONTRACT</code>, a <code>rules/</code> skeleton, a project <code>CLAUDE.md</code>) on top of the generic plugin.</p>
@@ -2107,18 +2366,515 @@ graph TB
   <ul>
     <li><strong><code>/loop</code></strong>, a bundled skill for in-session polling: <code>/loop 5m check the deploy</code>. Runs while the session is open and idle; it auto-expires seven days after creation. Good for babysitting a build or a PR during a work session.</li>
     <li><strong>Routines</strong> (<code>/schedule</code>), scheduled agents on Anthropic's cloud: they run with your machine off and no open session, autonomously, minimum interval one hour. Good for a recurring audit or report.</li>
-    <li><strong>Desktop scheduled tasks</strong> and <strong>GitHub Actions</strong>, when the job needs your local files, or belongs in CI (a scheduled workflow).</li>
+    <li><strong>Desktop scheduled tasks</strong>, when the job needs your local files.</li>
+    <li><strong>GitHub Actions</strong> or <strong>GitLab CI</strong>, when it belongs in your pipeline. Chapter 21 covers that case in full, including the permission posture an unattended run needs.</li>
   </ul>
 
   <aside class="callout callout-danger">
     <div class="callout-title">An unattended agent should propose, not merge</div>
-    <p>A cloud routine runs with no human at the keyboard, so the Chapter 15 rule hardens: give it least-privilege, and have it <em>open an issue or a draft</em> with its findings rather than commit or push. The safety isn't the prompt, it's the permissions the schedule runs under.</p>
+    <p>A cloud routine runs with no human at the keyboard, so the Chapter 16 rule hardens: give it least-privilege, and have it <em>open an issue or a draft</em> with its findings rather than commit or push. The safety isn't the prompt, it's the permissions the schedule runs under.</p>
   </aside>
 
   <aside class="callout callout-info">
-    <div class="callout-title">This is the book's endpoint</div>
+    <div class="callout-title">This is where the setup stops being yours alone</div>
     <p>Everything from <code>CLAUDE.md</code> to hooks to the audit loop becomes a single artifact you install in one line and version like any dependency. The setup stops being something you rebuild per project and becomes something you <em>ship</em>.</p>
   </aside>
+</article>
+
+<!-- =================================================================
+     PART VIII COVER  ⭐ NEW in V4
+     ================================================================= -->
+<section class="part-cover">
+  <div class="part-number">Part VIII</div>
+  <h1 class="part-title">Orchestration &amp; scale.</h1>
+  <p class="part-desc">One session, one context window, one agent at a time, that was the whole model until 2026. This part is about what happens when the work outgrows it: how to run many agents, when a script should hold the plan instead of Claude, and how to keep the context window honest.</p>
+</section>
+
+<!-- =================================================================
+     CHAPTER 18, Working in parallel  ⭐ NEW in V4
+     ================================================================= -->
+<article class="chapter">
+  <h1 class="chapter-title"><span class="chapter-number">Chapter 18 <span class="badge badge-advanced">ADVANCED</span></span>Working in parallel</h1>
+
+  <aside class="callout callout-info">
+    <div class="callout-title">TL;DR</div>
+    <ul>
+      <li>There are now <strong>four</strong> ways to run work in parallel, plus two supporting mechanisms. They are not interchangeable.</li>
+      <li>The question that picks one: <em>who holds the plan?</em> Claude turn by turn, you, a lead agent, or a script.</li>
+      <li>Worktrees (Chapter 10) are not a fifth option. They're the <em>isolation layer</em> the others use so agents don't overwrite each other.</li>
+      <li>Every one of them multiplies token usage. Parallelism buys wall-clock time, never tokens.</li>
+    </ul>
+  </aside>
+
+  <p>Chapter 05 gave you sub-agents and Chapter 10 gave you worktrees. Between them, that was the whole parallelism story in V3. It isn't anymore, and the new options are easy to confuse because they all look like "run more agents". They differ in one specific way: <strong>who decides what runs next.</strong></p>
+
+  <h2>The four approaches</h2>
+
+  <table>
+    <thead><tr><th>Approach</th><th>Who holds the plan</th><th>Where results live</th><th>Scale</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Sub-agents</strong></td><td>Claude, turn by turn</td><td>Claude's context window</td><td>A few per turn</td></tr>
+      <tr><td><strong>Agent view</strong> (<code>claude agents</code>)</td><td><strong>You</strong>, by dispatching</td><td>Each session, reported to you</td><td>Several independent tasks</td></tr>
+      <tr><td><strong>Agent teams</strong></td><td>A lead agent supervising peers</td><td>A shared task list</td><td>A handful of long-running peers</td></tr>
+      <tr><td><strong>Dynamic workflows</strong></td><td><strong>A script</strong></td><td>Script variables</td><td>Dozens to hundreds per run</td></tr>
+    </tbody>
+  </table>
+
+  <p>Two more mechanisms support all of them without being a way to run agents themselves. <strong>Worktrees</strong> give each session its own git checkout so parallel work never collides, that's Chapter 10, and it's a prerequisite for the others, not a competitor. <strong>Cross-session messaging</strong> lets your sessions talk to each other: type <code>@</code> to mention another session by name, and Claude passes a finding across instead of you re-explaining it.</p>
+
+  <h2>Three questions that decide it</h2>
+
+  <ol>
+    <li><strong>Who coordinates?</strong> If Claude should delegate and collect inside one conversation → sub-agents. If <em>you</em> want to hand off independent tasks and check back → agent view. If Claude should split, assign, and supervise → agent teams. If you want the orchestration itself to be repeatable → a workflow.</li>
+    <li><strong>Do the workers need to talk?</strong> Sub-agents report only to their caller. Agent-view sessions report only to you. Teammates message each other and share a task list. Sessions you run yourself can pass findings with cross-session messaging.</li>
+    <li><strong>Do the tasks touch the same files?</strong> If yes, isolate them in worktrees. Agent teams <em>don't</em> isolate teammates, so you have to partition the work by file ownership yourself.</li>
+  </ol>
+
+  <aside class="callout callout-warning">
+    <div class="callout-title">Agent teams are experimental and off by default</div>
+    <p>Of the four, agent teams is the least settled: it's disabled unless you turn it on, teammates aren't worktree-isolated, and two teammates editing the same file will happily clobber each other. Reach for it last, and only after you've partitioned the work so each teammate owns a disjoint set of files.</p>
+  </aside>
+
+  <h2>Where to look when something is running</h2>
+
+  <table>
+    <thead><tr><th>You started…</th><th>Check it with</th></tr></thead>
+    <tbody>
+      <tr><td>Background sessions</td><td><code>claude agents</code>, one screen per session with its state</td></tr>
+      <tr><td>Anything in the current session</td><td><code>/tasks</code>, attach, check on, or stop each item</td></tr>
+      <tr><td>A dynamic workflow</td><td><code>/workflows</code>, phases, agent counts, token totals</td></tr>
+      <tr><td>Sub-agents in this session</td><td>The <code>@</code> typeahead lists named background sub-agents with status</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Two shortcuts worth knowing</h2>
+
+  <ul>
+    <li><strong><code>/subtask</code> (a forked sub-agent)</strong> spawns a worker that <em>inherits your full conversation</em> instead of starting cold. Use it when the side task needs everything you've already established, and you don't want to re-explain it. <code>/fork</code> copies the whole session into a new background session running alongside this one.</li>
+    <li><strong><code>/batch</code></strong> is a bundled skill that splits one large change into 5–30 worktree-isolated sub-agents, each opening its own pull request. It's a packaged use of sub-agents plus worktrees, not a new primitive, but it's the fastest path from "this rename touches 200 files" to reviewable PRs.</li>
+  </ul>
+
+  <aside class="callout callout-danger">
+    <div class="callout-title">Parallelism is a wall-clock optimization, not a cost one</div>
+    <p>Ten agents doing a job is roughly ten agents' worth of tokens, plus the orchestration overhead. It finishes sooner; it does not finish cheaper. Before fanning out over a whole repo, run the same thing over one directory and read the token count. The <code>/usage</code> command breaks down what's actually driving your limits, by skill, sub-agent, plugin, and MCP server.</p>
+  </aside>
+</article>
+
+<!-- =================================================================
+     CHAPTER 19, Dynamic workflows  ⭐ NEW in V4
+     ================================================================= -->
+<article class="chapter">
+  <h1 class="chapter-title"><span class="chapter-number">Chapter 19 <span class="badge badge-advanced">ADVANCED</span></span>Dynamic workflows</h1>
+
+  <aside class="callout callout-info">
+    <div class="callout-title">TL;DR</div>
+    <ul>
+      <li>A workflow is a <strong>JavaScript script Claude writes</strong> that orchestrates many sub-agents. A runtime executes it in the background; your session stays responsive.</li>
+      <li>The point isn't "more agents". It's that the plan moves <em>into code</em>, so it's readable, rerunnable, and intermediate results never touch your context window.</li>
+      <li>Trigger one with "use a workflow", or the keyword <code>ultracode</code>. Watch it with <code>/workflows</code>. Save a good run as a slash command with <code>s</code>.</li>
+      <li>It costs real money. Size it on one directory before you point it at the repo.</li>
+    </ul>
+  </aside>
+
+  <p>Every other pattern in this book keeps Claude as the orchestrator: it decides, turn by turn, what to do next, and every intermediate result lands in its context window. That works up to a few delegated tasks. Past that it breaks down in a predictable way, the context fills with search results and logs you'll never reference again, and the plan drifts because it only ever existed in a conversation.</p>
+
+  <p>A <strong>dynamic workflow</strong> moves the plan into a script. Claude writes the JavaScript, a separate runtime executes it, and only the final answer comes back to you.</p>
+
+  <h2>Start with the bundled one</h2>
+
+  <p>The fastest way to see the shape is <code>/deep-research</code>, which ships with Claude Code:</p>
+
+  <pre data-lang="text">/deep-research What changed in the Node.js permission model between v20 and v22?</pre>
+
+  <p>It fans searches across several angles, fetches and cross-checks the sources, votes on each claim, and returns a cited report with the claims that failed cross-checking already removed. That last part is the real feature, and it's the part a single agent cannot do for itself.</p>
+
+  <h2>Asking for your own</h2>
+
+  <p>Three routes, in increasing order of commitment:</p>
+
+  <ul>
+    <li><strong>Ask in words.</strong> "use a workflow to…" is a direct opt-in. So is the keyword <code>ultracode</code> in your prompt.</li>
+    <li><strong><code>/effort ultracode</code></strong> turns on <code>xhigh</code> reasoning <em>plus</em> automatic workflow orchestration, Claude then plans a workflow for every substantive task in the session. Expensive by design; drop back with <code>/effort high</code>.</li>
+    <li><strong>A saved workflow</strong>, which runs as <code>/&lt;name&gt;</code> like any other command.</li>
+  </ul>
+
+  <aside class="callout callout-tip">
+    <div class="callout-title">The keyword only works when <em>you</em> type it</div>
+    <p><code>ultracode</code> is an opt-in from a human keyboard: the interactive prompt, an IDE panel, a Remote Control client. It deliberately does <strong>not</strong> trigger from a <code>-p</code> prompt, a scheduled task, a webhook payload, or a pull-request comment relayed into the session. That's a safety property, not an oversight, it means untrusted text can't talk your session into spawning a hundred agents.</p>
+  </aside>
+
+  <h2>What the script looks like</h2>
+
+  <p>You rarely write one by hand, but you should be able to read what Claude generated before approving it:</p>
+
+  <pre data-lang="javascript">export const meta = {
+  name: 'audit-routes',
+  description: 'Audit every route handler for missing auth checks',
+}
+
+const found = await agent('List every .ts file under src/routes/.', {
+  schema: { type: 'object', required: ['files'],
+            properties: { files: { type: 'array', items: { type: 'string' } } } },
+})
+
+const audits = await pipeline(found.files, file =&gt;
+  agent(`Audit ${file} for missing authentication checks.`, { label: file }),
+)
+
+return audits.filter(Boolean)</pre>
+
+  <p>Four calls are the whole vocabulary: <code>agent()</code> spawns one sub-agent, <code>pipeline()</code> runs one per item in a list, <code>parallel()</code> runs a set at once and waits, and <code>phase()</code> groups them under a title in the progress view. A <code>schema</code> makes an agent return validated JSON instead of prose. An <code>agent()</code> call resolves to <code>null</code> if you stop it or the classifier blocks it, hence the <code>.filter(Boolean)</code>.</p>
+
+  <h2>The pattern that actually earns the cost</h2>
+
+  <aside class="callout callout-tip">
+    <div class="callout-title">Adversarial verification</div>
+    <p>Running fifty agents in parallel gets you fifty opinions, which is not obviously better than one. What makes a workflow more trustworthy than a single pass is that <strong>independent agents can check each other's findings before anything is reported</strong>. Ask for it explicitly: <em>"…and adversarially verify each finding before reporting it"</em>. The verification stage is where the false positives die, and it's the reason <code>/deep-research</code> returns a shorter, better report than a naive fan-out would.</p>
+  </aside>
+
+  <h2>Watching, saving, sharing</h2>
+
+  <p>Run <code>/workflows</code> to list runs and open a progress view: each phase with its agent count, token total, and elapsed time. In that view, <code>p</code> pauses or resumes, <code>x</code> stops an agent or the whole run, <code>r</code> restarts a running agent, and <code>s</code> <strong>saves the run's script as a command</strong>, either to <code>.claude/workflows/</code> (shared with the repo) or <code>~/.claude/workflows/</code> (just you). A saved workflow accepts input through an <code>args</code> global, and ships inside a plugin from a <code>workflows/</code> directory, namespaced as <code>/my-kit:release-audit</code>.</p>
+
+  <p>This is the natural next step for the pipelines of Chapter 07. A <code>/new-feature</code> that today runs plan → review → code → verify as a sequence of turns can become a script where each stage's fan-out is explicit and rerunnable.</p>
+
+  <h2>Limits worth knowing before you're surprised</h2>
+
+  <table>
+    <thead><tr><th>Constraint</th><th>Value</th></tr></thead>
+    <tbody>
+      <tr><td>Concurrent agents</td><td>Up to 16, fewer on a CPU-limited machine</td></tr>
+      <tr><td>Total agents per run</td><td>1,000</td></tr>
+      <tr><td>Items in one <code>parallel()</code> / <code>pipeline()</code></td><td>4,096</td></tr>
+      <tr><td>Module loading</td><td>None. A script containing <code>import()</code> fails before it starts</td></tr>
+      <tr><td>Filesystem and shell</td><td>Not from the script. Agents do that work; the script coordinates</td></tr>
+      <tr><td>Mid-run input</td><td>None. For a sign-off between stages, run each stage as its own workflow</td></tr>
+    </tbody>
+  </table>
+
+  <p><code>Date.now()</code>, <code>Math.random()</code>, and a bare <code>new Date()</code> all throw inside a script, deliberately, so that a relaunched run makes the same calls and can reuse its cached results. Pass a timestamp in through <code>args</code> if you need one.</p>
+
+  <h2>Cost control</h2>
+
+  <p>A run that schedules more than 25 agents, or projects past 1.5M tokens, shows a <strong>Large workflow</strong> warning in the task panel. The warning is advisory, it doesn't stop anything. Three habits keep this sane:</p>
+
+  <ol>
+    <li><strong>Size on a slice first.</strong> One directory, not the repo. One narrow question, not a broad one.</li>
+    <li><strong>Set a size guideline.</strong> <code>/config workflowSizeGuideline=small</code> tells Claude to aim under 5 agents. The default is <code>medium</code> (under 10).</li>
+    <li><strong>Check <code>/model</code> before a large run.</strong> Workflow agents inherit your session's model unless the script names one.</li>
+  </ol>
+
+  <aside class="callout callout-warning">
+    <div class="callout-title">When not to use a workflow</div>
+    <p>A workflow is the wrong tool for anything needing your judgement mid-flight, anything that fits comfortably in one conversation, and anything you'd have to babysit anyway. It's the right tool when the same step repeats across many items, when the job is too big for one context window, or when you want findings cross-checked. If you can't say which of those three applies, you probably want a sub-agent.</p>
+  </aside>
+</article>
+
+<!-- =================================================================
+     CHAPTER 20, The context window  ⭐ NEW in V4
+     ================================================================= -->
+<article class="chapter">
+  <h1 class="chapter-title"><span class="chapter-number">Chapter 20 <span class="badge badge-intermediate">INTERMEDIATE</span></span>The context window</h1>
+
+  <aside class="callout callout-info">
+    <div class="callout-title">TL;DR</div>
+    <ul>
+      <li><code>/context</code> shows what's actually loaded. Run it once today; most people are surprised.</li>
+      <li>A 1M-token window didn't make this chapter obsolete. A full window is slower, pricier, and less precise than a focused one.</li>
+      <li><code>/compact</code> summarizes and continues. <code>/clear</code> starts over. Knowing what survives each is the difference between a clean handoff and a lost instruction.</li>
+      <li>Everything this book told you to add, CLAUDE.md, skills, agents, MCP servers, costs context. <code>/skill-doctor</code> and <code>/doctor</code> tell you how much.</li>
+    </ul>
+  </aside>
+
+  <p>This book has spent twenty chapters telling you to add context: a CLAUDE.md, rules, skills, sub-agent prompts, MCP servers. That advice is sound and it has a bill attached. This chapter is the bill.</p>
+
+  <h2>See what's loaded</h2>
+
+  <p>Run <code>/context</code>. It lists what's in the window right now: the system prompt, tool definitions, your memory files, loaded skills, MCP tool schemas, and the conversation itself. It's also the only reliable way to answer "did my CLAUDE.md actually load?", if it isn't under <strong>Memory files</strong>, Claude can't see it, and no amount of rewording will help.</p>
+
+  <aside class="callout callout-warning">
+    <div class="callout-title">1M tokens is a ceiling, not a target</div>
+    <p>Opus 5, Sonnet 5, and Fable 5.1 all carry a 1M-token window, and Claude Code auto-compacts before hitting it. That removes the hard failure, not the soft one: precision degrades well before the limit, and every token in the window is paid for on every single turn. A session that has drifted into 400K tokens of stale search results is expensive and worse at its job than a fresh one. Treat the window like disk space on a laptop, not like the cloud.</p>
+  </aside>
+
+  <h2>/compact, /clear, /rewind</h2>
+
+  <table>
+    <thead><tr><th>Command</th><th>What it does</th><th>Reach for it when</th></tr></thead>
+    <tbody>
+      <tr><td><code>/compact</code></td><td>Summarizes the conversation so far and continues with the summary</td><td>The task is still going but the history is mostly noise</td></tr>
+      <tr><td><code>/clear</code></td><td>Starts a fresh conversation in the same directory</td><td>You're switching to an unrelated task. Cheaper and sharper than compacting</td></tr>
+      <tr><td><code>/rewind</code></td><td>Rolls code and/or conversation back to an earlier point</td><td>Something went wrong. See Annex J</td></tr>
+    </tbody>
+  </table>
+
+  <p>What survives a <code>/compact</code> matters more than people expect. Your <strong>project-root CLAUDE.md is re-read from disk and re-injected</strong>, so it survives. Nested CLAUDE.md files and path-scoped rules reload only when Claude next reads a file they apply to. Anything you said <em>only in conversation</em> is now a summary of itself, and may be gone.</p>
+
+  <aside class="callout callout-tip">
+    <div class="callout-title">If it disappeared after /compact, it was never written down</div>
+    <p>This is the cleanest argument for the discipline in Chapters 02 and 08. An instruction you typed into chat is a one-session instruction. The same instruction in <code>CLAUDE.md</code> survives compaction, reclones, and teammates. When you catch yourself re-explaining something after a compact, that's the signal to write it down, not to repeat it.</p>
+  </aside>
+
+  <h2>The prompt cache, and why a session gets slow</h2>
+
+  <p>Claude Code caches the stable prefix of your conversation, the system prompt, tool definitions, memory files, so it isn't reprocessed every turn. When that prefix changes, the cache misses and the turn costs full price. <code>/cost</code> and the <code>prompt_cache</code> status-line field now report the <em>likely cause</em> of a miss: tool definitions changed, the session idled past the TTL, and so on.</p>
+
+  <p>Practical consequences:</p>
+
+  <ul>
+    <li><strong>Adding or removing an MCP server mid-session invalidates the cache.</strong> Do it at the start, not in the middle of a long task.</li>
+    <li><strong>A long idle gap costs you the cache.</strong> Coming back to a session after lunch is not free.</li>
+    <li><strong>Sub-agents in a fan-out share a cache prefix</strong> when they match on model, effort, tools, and working directory, which is why a homogeneous fan-out is cheaper than a heterogeneous one.</li>
+  </ul>
+
+  <h2>Audit what your setup costs</h2>
+
+  <p>Three commands turn this from vibes into numbers:</p>
+
+  <table>
+    <thead><tr><th>Command</th><th>Tells you</th></tr></thead>
+    <tbody>
+      <tr><td><code>/context</code></td><td>What's in the window right now, and what it's made of</td></tr>
+      <tr><td><code>/skill-doctor</code></td><td>Which skills load, what each costs in context, and which never get used</td></tr>
+      <tr><td><code>/usage</code></td><td>What's driving your plan limits, broken down by skill, sub-agent, plugin, MCP server</td></tr>
+    </tbody>
+  </table>
+
+  <p><code>/doctor</code> goes one step further and proposes trims to a checked-in <code>CLAUDE.md</code>: it cuts what Claude can derive from the codebase anyway, directory layouts, dependency lists, architecture overviews, and keeps the pitfalls, the rationale, and the conventions that differ from tool defaults. That's a useful editing rule even if you never run the command.</p>
+
+  <h2>Sub-agents are a context strategy</h2>
+
+  <p>Chapter 05 framed sub-agents as specialization. There's a second reason that matters more at scale: <strong>a sub-agent's context is not your context.</strong> When an agent greps forty files and reads six of them, all of that lives and dies in its own window; you get the summary. Delegating an exploration isn't only about getting a better answer, it's about not paying for the search results on every subsequent turn. The same logic, one level up, is the entire argument for Chapter 19.</p>
+
+  <h2>Working rules</h2>
+
+  <ol>
+    <li><strong>One task, one session.</strong> <code>/clear</code> between unrelated chantiers is the cheapest optimization available.</li>
+    <li><strong>Keep <code>CLAUDE.md</code> under 200 lines.</strong> Past that, adherence measurably drops. Move path-specific content into <code>.claude/rules/</code> (Chapter 11), not into an <code>@import</code>, imports still load at launch.</li>
+    <li><strong>Configure MCP servers at session start.</strong> Their tool schemas are permanent window residents.</li>
+    <li><strong>Delegate exploration.</strong> Anything that produces output you'll read once belongs in a sub-agent.</li>
+    <li><strong>Run <code>/skill-doctor</code> monthly.</strong> Skills you added and forgot are pure overhead. This is the audit loop (Chapter 08) applied to context.</li>
+  </ol>
+</article>
+
+<!-- =================================================================
+     PART IX COVER  ⭐ NEW in V4
+     ================================================================= -->
+<section class="part-cover">
+  <div class="part-number">Part IX</div>
+  <h1 class="part-title">Automation &amp; quality gates.</h1>
+  <p class="part-desc">Running Claude without a human at the keyboard, and then checking that the setup you built is still worth its weight. The last part is the book turning its own audit loop on itself.</p>
+</section>
+
+<!-- =================================================================
+     CHAPTER 21, Headless & CI  ⭐ NEW in V4
+     ================================================================= -->
+<article class="chapter">
+  <h1 class="chapter-title"><span class="chapter-number">Chapter 21 <span class="badge badge-advanced">ADVANCED</span></span>Headless &amp; CI</h1>
+
+  <aside class="callout callout-info">
+    <div class="callout-title">TL;DR</div>
+    <ul>
+      <li><code>claude -p "…"</code> is Claude Code as a Unix tool: it reads stdin, writes stdout, and composes with everything else.</li>
+      <li>Headless runs start in <strong>Manual</strong> mode, not auto. Nothing prompts, so nothing gets approved, your run stalls or fails unless you say what's allowed.</li>
+      <li><code>--permission-mode dontAsk</code> plus an explicit <code>--allowedTools</code> is the correct CI posture. Not <code>--dangerously-skip-permissions</code>.</li>
+      <li>An unattended agent should <em>propose</em>: open an issue, a draft PR, a comment. Never merge.</li>
+    </ul>
+  </aside>
+
+  <p>Everything so far assumed a session with you in it. Headless mode is the same engine with the conversation removed, and it's what turns your setup from a personal tool into infrastructure.</p>
+
+  <h2>The Unix-tool shape</h2>
+
+  <pre data-lang="bash"># Analyze log output
+tail -200 app.log | claude -p "summarize any anomalies"
+
+# Review only what changed
+git diff main --name-only | claude -p "review these files for security issues"
+
+# Bulk work in CI
+claude -p "translate new strings into French and raise a PR for review"</pre>
+
+  <p>Your <code>CLAUDE.md</code>, hooks, sub-agents, and skills all load exactly as they do interactively. That's the whole payoff of the earlier chapters: the same reviewed, versioned setup runs in CI without a second configuration.</p>
+
+  <h2>Permissions are the part that bites</h2>
+
+  <p>A headless run does <strong>not</strong> inherit auto mode. It starts in Manual, where most actions want a prompt, and there's no one to answer it. Be explicit:</p>
+
+  <pre data-lang="bash">claude -p "run the test suite and summarize failures" \
+  --permission-mode dontAsk \
+  --allowedTools "Bash(npm test)" "Read" "Grep"</pre>
+
+  <p><code>dontAsk</code> means: run the pre-approved tools, and <em>deny</em> anything that would have prompted. That fails loudly and safely, which is what you want in a pipeline. For an unattended host where you want the same behaviour without listing tools, <code>--permission-prompts none</code> denies anything that would prompt.</p>
+
+  <aside class="callout callout-danger">
+    <div class="callout-title">--dangerously-skip-permissions is not the CI answer</div>
+    <p>It's tempting because it makes the pipeline green. It also removes every check in a context where untrusted input, a PR title, an issue body, a dependency's README, reaches a model with your CI credentials. If you genuinely need it, it belongs inside a throwaway container running as a non-root user, with scoped tokens, never on a runner that can push to <code>main</code>. Chapter 15 has the mode table; Chapter 16 has the injection risk.</p>
+  </aside>
+
+  <h2>Three ways to put Claude in your pipeline</h2>
+
+  <table>
+    <thead><tr><th>Mechanism</th><th>Runs on</th><th>Good for</th></tr></thead>
+    <tbody>
+      <tr><td><strong>GitHub Actions</strong> / <strong>GitLab CI</strong></td><td>Your runner</td><td>PR review, issue triage, anything that needs repo secrets and your CI context</td></tr>
+      <tr><td><strong>Routines</strong> (<code>/schedule</code>)</td><td>Anthropic's cloud</td><td>Recurring work with your machine off: a weekly dependency audit, an overnight CI-failure digest. Can also fire on GitHub events or an API call</td></tr>
+      <tr><td><strong>Desktop scheduled tasks</strong></td><td>Your machine</td><td>Anything needing local files or local tooling</td></tr>
+    </tbody>
+  </table>
+
+  <p>For code review specifically you don't have to build it: <strong>GitHub Code Review</strong> gives automatic review on every PR, <code>/code-review</code> runs a review of the current diff from a session, and <code>claude ultrareview</code> puts a fleet of cloud bug-hunting agents into CI or a script. The <strong>security-guidance</strong> plugin reviews Claude's own changes for vulnerabilities as it writes them.</p>
+
+  <h2>A worked gate</h2>
+
+  <p>The most valuable headless job is usually the least glamorous one: enforce the <code>verify</code> gate from Chapter 02 on every pull request, and have Claude explain the failure rather than just reporting a red X.</p>
+
+  <pre data-lang="yaml">- name: Verify
+  run: pnpm verify
+- name: Explain failures
+  if: failure()
+  run: |
+    pnpm verify 2&gt;&amp;1 | claude -p "Explain these failures and name the likely file." \
+      --permission-mode dontAsk --allowedTools "Read" "Grep"</pre>
+
+  <p>Read-only tools, no write path, no credentials in reach. It turns a failed build from a wall of output into a sentence, and there's nothing it can break.</p>
+
+  <aside class="callout callout-warning">
+    <div class="callout-title">Workflows in headless mode need an explicit allow</div>
+    <p>In <code>claude -p</code> and the Agent SDK there's no approval prompt for a dynamic workflow (Chapter 19), so the launch goes through normal permission evaluation and gets denied by default. Add <code>Workflow</code> to your allow rules, or <code>Workflow(&lt;name&gt;)</code> for one saved workflow. Note also that the <code>ultracode</code> keyword deliberately does nothing in <code>-p</code>, a webhook payload can't talk your pipeline into a hundred-agent run.</p>
+  </aside>
+
+  <aside class="callout callout-danger">
+    <div class="callout-title">Propose, don't merge</div>
+    <p>The rule from Chapter 17 is the one to carry out of this chapter. An agent with no human at the keyboard gets least privilege and an output channel that a human reads: an issue, a draft PR, a review comment. Write permission on <code>main</code> is not a convenience you trade for a green pipeline. The safety isn't the prompt you wrote, it's the token the job runs with.</p>
+  </aside>
+</article>
+
+<!-- =================================================================
+     CHAPTER 22, Auditing your own setup  ⭐ NEW in V4
+     ================================================================= -->
+<article class="chapter">
+  <h1 class="chapter-title"><span class="chapter-number">Chapter 22 <span class="badge badge-intermediate">INTERMEDIATE</span></span>Auditing your own setup</h1>
+
+  <aside class="callout callout-info">
+    <div class="callout-title">TL;DR</div>
+    <ul>
+      <li>This book told you to add a CLAUDE.md, hooks, agents, skills, commands, MCP servers and a plugin. None of that is free, and some of it stops earning its keep.</li>
+      <li><code>/doctor</code> checks the configuration. <code>/skill-doctor</code> checks what your skills cost and whether they're used. <code>claude plugin eval</code> checks whether your plugin actually makes Claude better.</li>
+      <li>A setup nobody prunes becomes a setup nobody trusts. Put this on a monthly cadence.</li>
+    </ul>
+  </aside>
+
+  <p>Chapter 08 built a loop for catching drift in your <em>code</em>. This chapter points the same instrument at your <em>configuration</em>, because it drifts too: skills you wrote for a library you no longer use, an agent whose description never triggers, a hook that's been silently failing for three weeks, a permission you granted once and forgot.</p>
+
+  <h2>/doctor, the setup checkup</h2>
+
+  <p><code>/doctor</code> (alias <code>/checkup</code>) diagnoses your installation and configuration, and can fix a good share of what it finds. Two things make it worth running even on a setup you think is clean:</p>
+
+  <ul>
+    <li>It verifies that what you <em>think</em> is loaded is loaded, the single most common cause of "Claude ignores my instructions".</li>
+    <li>It proposes <strong>trims to a checked-in <code>CLAUDE.md</code></strong>: cutting what Claude can derive from the codebase (directory layouts, dependency lists, architecture overviews) and keeping the pitfalls, the rationale, and the conventions that differ from tool defaults. That's the editing rule from Chapter 20, applied for you.</li>
+  </ul>
+
+  <p>When something is loaded but not behaving, <code>--safe-mode</code> starts Claude Code with all customizations disabled, which answers "is it my config or is it Claude?" in one run. The <code>InstructionsLoaded</code> hook logs exactly which instruction files loaded and when, useful when path-scoped rules aren't firing.</p>
+
+  <h2>/skill-doctor, what your skills really cost</h2>
+
+  <p>Skills are the easiest thing in this book to over-produce: they're cheap to write and they feel productive. <code>/skill-doctor</code> reports, per skill, how much context it consumes and how often it actually gets used. The output is usually uncomfortable, and that's the point.</p>
+
+  <aside class="callout callout-tip">
+    <div class="callout-title">An unused skill is worse than no skill</div>
+    <p>It costs context on every session, it dilutes the descriptions Claude is choosing between, and it's one more file that can go stale and start giving wrong advice. If <code>/skill-doctor</code> shows a skill that never triggers, you have two honest options: fix the description (Chapter 06 covers calibration) or delete it. Keeping it "just in case" is the option that costs you every day.</p>
+  </aside>
+
+  <h2>claude plugin eval, does the plugin actually help?</h2>
+
+  <p>If you followed Chapter 17 and packaged your setup, you now ship configuration to other people. <code>claude plugin eval</code> runs your plugin against a suite of test cases, scores the results, and, crucially, <strong>compares them against a no-plugin baseline</strong>. That last comparison is the whole value: it answers "is this plugin making Claude better, or just making it different?"</p>
+
+  <pre data-lang="bash">claude plugin eval init   # drafts the cases and graders for you
+claude plugin eval        # scored, reproducible results, JSON + HTML report</pre>
+
+  <p>Because the results are reproducible and machine-readable, this belongs in CI (Chapter 21): a plugin whose eval score drops on a pull request is a regression like any other. It's the closest thing the ecosystem has to a test suite for prompts.</p>
+
+  <h2>The monthly pass</h2>
+
+  <table>
+    <thead><tr><th>Check</th><th>Command</th><th>Looking for</th></tr></thead>
+    <tbody>
+      <tr><td>Configuration health</td><td><code>/doctor</code></td><td>Files not loading, stale CLAUDE.md content</td></tr>
+      <tr><td>Context budget</td><td><code>/context</code></td><td>What's actually resident, and why</td></tr>
+      <tr><td>Skill hygiene</td><td><code>/skill-doctor</code></td><td>Unused skills, expensive skills</td></tr>
+      <tr><td>Usage drivers</td><td><code>/usage</code></td><td>Which agent or MCP server is eating your limits</td></tr>
+      <tr><td>Permissions</td><td><code>/permissions</code></td><td>Grants you forgot, servers you forgot</td></tr>
+      <tr><td>Plugin quality</td><td><code>claude plugin eval</code></td><td>Score regressions against baseline</td></tr>
+      <tr><td>Orphans and dead refs</td><td><code>/audit-claude-setup</code></td><td>Agents referencing deleted skills, broken hook paths</td></tr>
+    </tbody>
+  </table>
+
+  <aside class="callout callout-info">
+    <div class="callout-title">Why this chapter exists at all</div>
+    <p>The failure mode for everything this book teaches isn't that the setup doesn't work. It's that it works, accumulates, and quietly becomes something nobody understands well enough to change, at which point people start bypassing it. A setup you prune is a setup you keep trusting. Thirty minutes a month is the whole price.</p>
+  </aside>
+</article>
+
+<!-- =================================================================
+     CHAPTER 23, Artifacts  ⭐ NEW in V4
+     ================================================================= -->
+<article class="chapter">
+  <h1 class="chapter-title"><span class="chapter-number">Chapter 23 <span class="badge badge-beginner">BEGINNER</span></span>Artifacts</h1>
+
+  <aside class="callout callout-info">
+    <div class="callout-title">TL;DR</div>
+    <ul>
+      <li>An <strong>artifact</strong> turns a session's output into a live page on claude.ai, <strong>private by default</strong>, that updates in place as the session keeps working.</li>
+      <li>It's the answer to "the result is done but it only exists in my terminal scrollback".</li>
+      <li>People can comment on it, and a comment sent to Claude comes back into your session as work.</li>
+      <li>Use it for output meant for <em>other people</em>. A file in the repo is still right for output meant for the code.</li>
+    </ul>
+  </aside>
+
+  <p>Everything else in this book produces changes to a repository. Some work doesn't fit that shape: an audit report, a migration plan, a dashboard of what the test suite has been doing all week, a one-pager your team has to decide on. Historically that output died in the terminal or became a markdown file nobody opened.</p>
+
+  <p>An artifact is a page published to claude.ai from your session. It's private until you share it, it has a URL, and when the session republishes, anyone with the page open sees the new version.</p>
+
+  <h2>When it's the right tool</h2>
+
+  <table>
+    <thead><tr><th>Output</th><th>Where it belongs</th></tr></thead>
+    <tbody>
+      <tr><td>A code change</td><td>The repo. Obviously</td></tr>
+      <tr><td>A convention Claude must follow</td><td><code>CLAUDE.md</code> or a rule (Chapter 11)</td></tr>
+      <tr><td>A report your team reads once</td><td><strong>An artifact</strong></td></tr>
+      <tr><td>A decision doc people comment on</td><td><strong>An artifact</strong></td></tr>
+      <tr><td>A small tool or dashboard for the team</td><td><strong>An artifact</strong>, it can hold state and read live data</td></tr>
+      <tr><td>Architecture documentation</td><td>The repo, so it versions with the code it describes</td></tr>
+    </tbody>
+  </table>
+
+  <p>The test is who the output is <em>for</em>. If the next reader is Claude or the compiler, it goes in the repo. If the next reader is a colleague, a page beats a file they have to clone to see.</p>
+
+  <h2>The loop that makes it interesting</h2>
+
+  <p>Artifacts aren't a one-way export. A viewer can leave a comment thread on the page, and send that thread to Claude, at which point it arrives in your session as a request you can act on, reply to, and resolve. For the audit reports of Chapter 08, or the plan reviews of Chapter 07, that closes a loop that used to run through a separate tool.</p>
+
+  <aside class="callout callout-tip">
+    <div class="callout-title">A natural fit for the knowledge-worker reader</div>
+    <p>If you're using Claude Code to research, analyse, or write rather than to ship code (Annex H, case 2), artifacts are probably the most useful feature added since V3. Your deliverable stops being "a markdown file in a folder" and becomes a page with a link, which is what the person waiting on you actually wanted.</p>
+  </aside>
+
+  <h2>Two cautions</h2>
+
+  <aside class="callout callout-warning">
+    <div class="callout-title">Publishing is a share, even when the page is private</div>
+    <p>An artifact leaves your machine. Treat publishing the way you'd treat pushing to a remote: fine for a report, not fine for a page containing credentials, customer data, or the contents of a <code>.env</code>. "Private by default" controls who can open the link, not whether the content left your laptop. If output is sensitive, keep it a local file.</p>
+  </aside>
+
+  <aside class="callout callout-danger">
+    <div class="callout-title">Don't publish things that pretend to be real</div>
+    <p>A page that imitates a real company, person, or record is off-limits, and Claude will refuse it, whatever the stated reason. That includes mock invoices, fabricated reviews, and anything collecting credentials. The rule isn't about the artifact feature; it's the same rule that applies to anything you'd put on the open web under someone else's name.</p>
+  </aside>
+
+  <p class="muted small">Related: <code>/design</code> is a research preview built on the same machinery, it drafts editable artboards for a UI and then implements the one you pick. Worth a look if your work involves interface design rather than reports.</p>
 </article>
 
 <!-- =================================================================
@@ -2246,7 +3002,7 @@ One-sentence description.
 </article>
 
 <article class="chapter">
-  <h1 class="chapter-title"><span class="chapter-number">Annex E</span>Six slash commands</h1>
+  <h1 class="chapter-title"><span class="chapter-number">Annex E</span>Eight slash commands</h1>
   <table>
     <thead><tr><th>Command</th><th>Effect</th></tr></thead>
     <tbody>
@@ -2270,11 +3026,35 @@ One-sentence description.
     <dt>Agent (sub-agent)</dt>
     <dd>A specialized prompt + tool set + model selection, defined in <code>.claude/agents/&lt;name&gt;.md</code>, that Claude can delegate a task to. Runs in its own context window.</dd>
 
+    <dt>Agent view</dt>
+    <dd>The <code>claude agents</code> screen listing every background session, its state, and which ones are waiting on you. Research preview. See Chapter 18.</dd>
+
     <dt>$ARGUMENTS</dt>
     <dd>The placeholder for arguments passed to a slash command. Example: <code>/ship "fix: typo"</code> sets <code>$ARGUMENTS</code> to <code>"fix: typo"</code>.</dd>
 
+    <dt>Artifact</dt>
+    <dd>A live page published to claude.ai from a session, private by default, that updates in place as the session works. See Chapter 23.</dd>
+
+    <dt>Auto memory</dt>
+    <dd>Notes Claude writes for itself between sessions, stored per repository in <code>~/.claude/projects/&lt;project&gt;/memory/</code> with a <code>MEMORY.md</code> index. Machine-local, never versioned. See Chapter 11.</dd>
+
+    <dt>Auto mode</dt>
+    <dd>The permission mode where a second model, the classifier, reviews actions instead of prompting you. The built-in default on Pro, Max, and Team since August 2026. Not the same as <code>--dangerously-skip-permissions</code>. See Chapter 15.</dd>
+
+    <dt>Chantier</dt>
+    <dd>A unit of work: one feature, one fix, one branch. Borrowed from French, where it means a worksite. Used throughout this book as the thing you plan before (Chapter 07) and capture a lesson from after (Chapter 08), and as the <code>chantier/&lt;slug&gt;</code> branch prefix.</dd>
+
+    <dt>Classifier</dt>
+    <dd>The second model that reviews tool calls in auto mode and approves or blocks them without interrupting the session.</dd>
+
     <dt>Coach mode</dt>
     <dd>The three-layer system (rules in CLAUDE.md, Stop hook with suggestions, manual <code>/coach</code>) that nudges you toward the right command or agent at the right time.</dd>
+
+    <dt>Context window</dt>
+    <dd>Everything Claude can see at once: system prompt, tool definitions, memory files, loaded skills, and the conversation. Inspect it with <code>/context</code>. See Chapter 20.</dd>
+
+    <dt>Effort level</dt>
+    <dd>How much reasoning the model spends before answering (<code>low</code> to <code>xhigh</code>, plus <code>ultracode</code>). Set with <code>/effort</code>. Separate from the model choice. See Chapter 05.</dd>
 
     <dt>Frontmatter</dt>
     <dd>The YAML block at the top of a markdown file (between two <code>---</code> lines) that holds metadata. Used in agents, slash commands, and skill references.</dd>
@@ -2300,11 +3080,20 @@ One-sentence description.
     <dt>Plan-first development</dt>
     <dd>Workflow pattern where the user writes a <code>PLAN_&lt;slug&gt;.md</code> document before any code is touched. Reviewed by a second Claude instance (plan-reviewer) before implementation begins. See Chapter 07.</dd>
 
+    <dt>Rule (path-scoped)</dt>
+    <dd>A markdown file in <code>.claude/rules/</code> whose <code>paths:</code> frontmatter limits it to matching files, so it only enters the context window when Claude reads one. See Chapter 11.</dd>
+
+    <dt>Sandbox</dt>
+    <dd>Filesystem and network isolation for Bash commands, enabled with <code>/sandbox</code> or <code>sandbox.enabled</code>. Independent of permission modes. macOS, Linux, and WSL2 only. See Chapter 15.</dd>
+
     <dt>Skill</dt>
     <dd>A versioned folder of domain knowledge under <code>.agents/skills/&lt;name&gt;/</code> with a <code>SKILL.md</code> entry point and rule files in <code>references/</code>. Loaded on demand. See Chapter 06.</dd>
 
     <dt>Slash command</dt>
     <dd>A reusable prompt template defined in <code>.claude/commands/&lt;name&gt;.md</code>, invoked by typing <code>/name</code> in Claude Code.</dd>
+
+    <dt>Workflow (dynamic)</dt>
+    <dd>A JavaScript script Claude writes that orchestrates many sub-agents, executed by a runtime in the background. Intermediate results stay in script variables, not in your context. See Chapter 19.</dd>
 
     <dt>Worktree</dt>
     <dd>A second working directory for the same git repository, on a different branch. Lets you run multiple Claude Code sessions in parallel. See Chapter 10.</dd>
@@ -2479,16 +3268,58 @@ One-sentence description.
   <table>
     <thead><tr><th>Location</th><th>Versioned?</th><th>Use for</th></tr></thead>
     <tbody>
-      <tr><td><code>CLAUDE.md</code> § Lessons</td><td>✅</td><td>≥ 2 agents need it · cross-cutting</td></tr>
+      <tr><td><code>CLAUDE.md</code> § Lessons</td><td>✅</td><td>≥ 2 agents need it · repo-wide · keep under 200 lines</td></tr>
+      <tr><td><code>.claude/rules/*.md</code></td><td>✅</td><td>Repo-wide rule scoped to a subtree via <code>paths:</code></td></tr>
       <tr><td><code>.agents/skills/&lt;domain&gt;/</code></td><td>✅</td><td>Domain rules · structured (Incorrect → Correct)</td></tr>
       <tr><td><code>.claude/agent-memory/&lt;agent&gt;/</code></td><td>✅</td><td>"Don't flag this again" · per-agent</td></tr>
-      <tr><td><code>~/.claude/projects/.../memory/</code></td><td>❌</td><td>Personal · this machine only · ephemeral</td></tr>
+      <tr><td><code>~/.claude/projects/.../memory/</code></td><td>❌</td><td><strong>Auto memory, written by Claude</strong> · this machine only</td></tr>
+      <tr><td><code>CLAUDE.local.md</code></td><td>❌</td><td>Personal · this checkout only · gitignored</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Permission modes · pick one</h2>
+
+  <table>
+    <thead><tr><th>Mode</th><th>Runs without asking</th></tr></thead>
+    <tbody>
+      <tr><td><code>default</code> (Manual)</td><td>Reads only</td></tr>
+      <tr><td><code>acceptEdits</code></td><td>Reads, edits, common filesystem commands</td></tr>
+      <tr><td><code>plan</code></td><td>Reads, no edits until you approve a plan</td></tr>
+      <tr><td><code>auto</code></td><td>Everything, classifier-reviewed. <strong>Default on Pro/Max/Team</strong></td></tr>
+      <tr><td><code>dontAsk</code></td><td>Pre-approved tools only; the rest is denied. CI posture</td></tr>
+      <tr><td><code>bypassPermissions</code></td><td>Everything. Containers and VMs only</td></tr>
+    </tbody>
+  </table>
+
+  <p class="muted small">Deny rules and <code>PreToolUse</code> hooks apply in <em>every</em> mode, including bypass. <code>Shift+Tab</code> cycles modes.</p>
+
+  <h2>Commands worth knowing</h2>
+
+  <table>
+    <thead><tr><th>Command</th><th>What it gives you</th></tr></thead>
+    <tbody>
+      <tr><td><code>/context</code></td><td>What's in the context window right now</td></tr>
+      <tr><td><code>/compact</code> · <code>/clear</code></td><td>Summarize and continue · start fresh</td></tr>
+      <tr><td><code>/doctor</code></td><td>Setup checkup, proposes CLAUDE.md trims</td></tr>
+      <tr><td><code>/skill-doctor</code></td><td>Context cost and usage rate of each skill</td></tr>
+      <tr><td><code>/usage</code> · <code>/cost</code></td><td>What drives your limits · spend and cache misses</td></tr>
+      <tr><td><code>/memory</code></td><td>Browse and edit every memory file, toggle auto memory</td></tr>
+      <tr><td><code>/permissions</code></td><td>Review what's granted</td></tr>
+      <tr><td><code>/sandbox</code></td><td>Filesystem and network isolation for Bash</td></tr>
+      <tr><td><code>/effort</code> · <code>/model</code> · <code>/fast</code></td><td>Reasoning depth · model · faster output</td></tr>
+      <tr><td><code>/workflows</code></td><td>Running and completed dynamic workflows</td></tr>
+      <tr><td><code>/deep-research &lt;q&gt;</code></td><td>Bundled multi-agent research workflow, cited and cross-checked</td></tr>
+      <tr><td><code>claude agents</code> · <code>/tasks</code></td><td>Background sessions · everything running in this session</td></tr>
+      <tr><td><code>/subtask</code> · <code>/fork</code> · <code>/batch</code></td><td>Forked sub-agent · forked session · split a change into PRs</td></tr>
+      <tr><td><code>/rewind</code></td><td>Roll back code and/or conversation. See Annex J</td></tr>
+      <tr><td><code>/diff</code></td><td>Live panel of uncommitted changes as Claude edits</td></tr>
+      <tr><td><code>claude plugin eval</code></td><td>Score your plugin against a no-plugin baseline</td></tr>
     </tbody>
   </table>
 
   <h2>The decision rule, in one sentence</h2>
 
-  <p><strong>Slash command</strong> if it's a verb. <strong>Sub-agent</strong> if it's a noun with a job. <strong>Skill</strong> if it's a body of rules. <strong>Hook</strong> if it's a reflex.</p>
+  <p><strong>Slash command</strong> if it's a verb. <strong>Sub-agent</strong> if it's a noun with a job. <strong>Skill</strong> if it's a body of rules. <strong>Hook</strong> if it's a reflex. <strong>Workflow</strong> if it's a plan you want to rerun.</p>
 
   <h2>Golden rules</h2>
 
@@ -2496,9 +3327,11 @@ One-sentence description.
     <li><code>pnpm verify</code> (or equivalent) must be green before every push. Husky pre-push if you're forgetful.</li>
     <li>Plan-first when the chantier touches ≥ 3 files OR a critical module OR a database migration.</li>
     <li>After a significant commit, decide: capture a lesson, or let the hook be silent.</li>
-    <li>Each piece of memory lives in exactly one of the four locations. No duplicates.</li>
-    <li>Skill > agent prompt. If a rule lives in both, the agent loses; the skill wins.</li>
-    <li>Run <code>/audit-claude-setup</code> once a month. Orphan skills, dormant agents, broken refs.</li>
+    <li>Each piece of memory lives in exactly one of the six locations. No duplicates.</li>
+    <li>Skill &gt; agent prompt. If a rule lives in both, the agent loses; the skill wins.</li>
+    <li>If you'd never want it to happen, it goes in <code>permissions.deny</code> or a hook, not in a CLAUDE.md sentence.</li>
+    <li>An unattended agent proposes; it never merges.</li>
+    <li>Run <code>/audit-claude-setup</code>, <code>/doctor</code> and <code>/skill-doctor</code> once a month.</li>
   </ol>
 </article>
 
@@ -2590,6 +3423,197 @@ git checkout -b rescue origin/main   # a clean branch at the remote's state</pre
   <aside class="callout callout-info">
     <div class="callout-title">The cheapest recovery is a small commit</div>
     <p>Every technique here gets easier the more often you commit. <code>/ship</code> after each green chantier isn't just hygiene, it's what makes "go back to the last good point" a five-second operation instead of an afternoon.</p>
+  </aside>
+</article>
+
+<!-- =================================================================
+     ANNEX K, Onboarding an existing codebase  ⭐ NEW in V4
+     ================================================================= -->
+<article class="chapter">
+  <h1 class="chapter-title"><span class="chapter-number">Annex K</span>Onboarding an existing codebase</h1>
+
+  <p class="muted small">Chapter 02 sets up a project you control from the start. Most readers don't have that. This annex is the version for 50,000 lines you inherited, where nobody remembers why half of it is the way it is.</p>
+
+  <h2>Don't write CLAUDE.md first</h2>
+
+  <p>The instinct is to sit down and document the project. It produces a long, confident, partly wrong file, and wrong context is worse than no context: Claude will act on it. Explore first, write second.</p>
+
+  <ol>
+    <li><strong>Run <code>/init</code>.</strong> Claude analyses the codebase and drafts a CLAUDE.md with the build commands, test instructions, and conventions it can actually observe. If one already exists, it suggests improvements instead of overwriting. Set <code>CLAUDE_CODE_NEW_INIT=1</code> for the interactive multi-phase version: it explores with a sub-agent, asks follow-up questions, and shows you a reviewable proposal before writing anything.</li>
+    <li><strong>Bring over what already exists.</strong> <code>/init</code> reads Cursor rules (<code>.cursor/rules/</code>, <code>.cursorrules</code>) and Copilot instructions. <code>/import</code> goes further and carries over another agent's configuration, including MCP servers, commands, sub-agents and skills. If the repo has an <code>AGENTS.md</code>, don't duplicate it, create a <code>CLAUDE.md</code> that starts with <code>@AGENTS.md</code> and add Claude-specific rules underneath.</li>
+    <li><strong>Delegate the archaeology.</strong> "Trace how a request reaches the database" burns a lot of context in search results you'll read once. That's a sub-agent's job (Chapters 05 and 20). You want the answer, not the forty files it read.</li>
+  </ol>
+
+  <h2>Start with a subtree, not the repo</h2>
+
+  <p>A first CLAUDE.md that tries to describe everything describes nothing usefully. Pick the area you're actually about to work in and get that right. Two mechanisms make this practical:</p>
+
+  <ul>
+    <li><strong>Nested <code>CLAUDE.md</code> files.</strong> A CLAUDE.md in a subdirectory loads on demand, when Claude reads files in it, and costs nothing the rest of the time.</li>
+    <li><strong>Path-scoped rules.</strong> <code>.claude/rules/&lt;topic&gt;.md</code> with <code>paths:</code> frontmatter (Chapter 11) is the right home for "in this part of the codebase, we do X".</li>
+  </ul>
+
+  <p>In a monorepo where other teams' CLAUDE.md files get picked up from ancestor directories, <code>claudeMdExcludes</code> in <code>.claude/settings.local.json</code> skips them by glob. Keep it local, it's your machine's problem, not the repo's.</p>
+
+  <h2>What belongs in the first version</h2>
+
+  <table>
+    <thead><tr><th>Include</th><th>Leave out</th></tr></thead>
+    <tbody>
+      <tr><td>Build, test, lint, and run commands</td><td>Directory layouts (Claude can see them)</td></tr>
+      <tr><td>The three conventions that surprise newcomers</td><td>Dependency lists (they're in the manifest)</td></tr>
+      <tr><td>Traps: "migrations must run before seeds"</td><td>Architecture overviews Claude can derive</td></tr>
+      <tr><td>What's deprecated and what replaced it</td><td>Anything you're not sure is still true</td></tr>
+    </tbody>
+  </table>
+
+  <p>That list is short on purpose. It's the same rule <code>/doctor</code> applies when it proposes trims: keep the pitfalls, the rationale, and the conventions that differ from tool defaults; cut what's derivable.</p>
+
+  <aside class="callout callout-tip">
+    <div class="callout-title">Let the audit loop write the rest</div>
+    <p>You do not need a complete CLAUDE.md on day one, and you can't produce an accurate one anyway. Ship twenty lines, then let Chapter 08 do its job: every time Claude gets something wrong about this codebase in a way that surprises you, that's a lesson worth capturing. After a month of real work the file describes the project as it <em>actually</em> behaves, which is something no upfront documentation pass produces.</p>
+  </aside>
+
+  <aside class="callout callout-danger">
+    <div class="callout-title">Don't do this</div>
+    <ul>
+      <li><strong>Generating 400 lines of CLAUDE.md on day one.</strong> Past 200 lines adherence drops, and an inherited codebase is exactly where your guesses are least reliable.</li>
+      <li><strong>Turning on every hook before you understand the build.</strong> A format-on-write hook pointed at the wrong formatter will rewrite files across a repo you don't know yet.</li>
+      <li><strong>Letting Claude "clean up" broadly.</strong> On unfamiliar code, scope every change to something you can review in one sitting. Plan-first (Chapter 07) exists for exactly this.</li>
+    </ul>
+  </aside>
+</article>
+
+<!-- =================================================================
+     ANNEX L, Cross-platform hooks  ⭐ NEW in V4
+     ================================================================= -->
+<article class="chapter">
+  <h1 class="chapter-title"><span class="chapter-number">Annex L</span>Cross-platform hooks</h1>
+
+  <p class="muted small">Every hook in this book is bash + <code>jq</code>. That's a fine default on macOS and Linux and a papercut on Windows. This annex gives the same guard hook in three portable forms, and lists what genuinely differs per platform.</p>
+
+  <h2>What changed on Windows</h2>
+
+  <p>Git for Windows is no longer required. Claude Code installs natively (<code>winget install Anthropic.ClaudeCode</code>, or <code>irm https://claude.ai/install.ps1 | iex</code>), and when Bash isn't present it uses <strong>PowerShell as its shell tool</strong>. That's good news for installation and bad news for a <code>.claude/hooks/*.sh</code> you copied from this book, there's no bash to run it.</p>
+
+  <p>Three ways out, in order of preference:</p>
+
+  <table>
+    <thead><tr><th>Option</th><th>Good when</th><th>Cost</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Install Git for Windows</strong></td><td>You want the book's hooks to work unchanged</td><td>One install; watch the line endings (below)</td></tr>
+      <tr><td><strong>Write hooks in Python</strong></td><td>Your team is mixed macOS/Linux/Windows</td><td>Python must be on PATH everywhere</td></tr>
+      <tr><td><strong>Write hooks in PowerShell</strong></td><td>Windows-only team, no extra dependency</td><td>Doesn't run on your colleagues' Macs</td></tr>
+    </tbody>
+  </table>
+
+  <h2>The guard hook, in Python</h2>
+
+  <p>Python is the best answer for a mixed team: one file, no <code>jq</code> dependency, identical behaviour everywhere. The contract is the same as the bash version, read JSON on stdin, write a reason to stderr, <strong>exit 2 to block</strong>.</p>
+
+  <pre data-lang="python">#!/usr/bin/env python3
+"""PreToolUse guard: block destructive actions before execution."""
+import json, re, sys
+
+data = json.load(sys.stdin)
+tool = data.get("tool_name", "")
+ti = data.get("tool_input", {})
+
+def block(msg):
+    print(f"BLOCKED: {msg}", file=sys.stderr)
+    sys.exit(2)
+
+if tool in ("Edit", "Write"):
+    path = ti.get("file_path", "")
+    if re.search(r"(^|[\\/])\.env(\.|$)", path):
+        block(".env file protected. Use provider env vars.")
+
+if tool == "Bash":
+    cmd = ti.get("command", "")
+    if re.search(r"rm\s+-[a-zA-Z]*[rf][a-zA-Z]*\s+(/|~|\.\./|\$HOME)", cmd):
+        block("rm -rf on a dangerous path.")
+    if re.search(r"git\s+push.*(--force\b|\s-f(\s|$))", cmd):
+        block("git push --force. Ask the user for explicit confirmation.")
+    if re.search(r"git\s+commit.*--no-verify", cmd):
+        block("--no-verify skips checks. Fix the errors first.")
+
+sys.exit(0)</pre>
+
+  <p>Register it the same way, with the interpreter in the command so it works regardless of the file's executable bit:</p>
+
+  <pre data-lang="json">{
+  "hooks": {
+    "PreToolUse": [
+      { "hooks": [
+          { "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/.claude/hooks/pre_tool_guard.py\"" }
+        ] }
+    ]
+  }
+}</pre>
+
+  <h2>The same hook, in PowerShell</h2>
+
+  <pre data-lang="powershell"># PreToolUse guard: block destructive actions before execution.
+$raw   = [Console]::In.ReadToEnd()
+$data  = $raw | ConvertFrom-Json
+$tool  = $data.tool_name
+$ti    = $data.tool_input
+
+function Block($msg) {
+  [Console]::Error.WriteLine("BLOCKED: $msg")
+  exit 2
+}
+
+if ($tool -in @('Edit','Write')) {
+  if ($ti.file_path -match '(^|[\\/])\.env(\.|$)') {
+    Block '.env file protected. Use provider env vars.'
+  }
+}
+
+if ($tool -eq 'Bash' -or $tool -eq 'PowerShell') {
+  $cmd = $ti.command
+  if ($cmd -match 'rm\s+-[a-zA-Z]*[rf][a-zA-Z]*\s+(/|~|\.\./|\$HOME)') {
+    Block 'rm -rf on a dangerous path.'
+  }
+  if ($cmd -match 'Remove-Item.*-Recurse.*-Force') {
+    Block 'Remove-Item -Recurse -Force. Confirm explicitly.'
+  }
+  if ($cmd -match 'git\s+push.*(--force|-f(\s|$))') {
+    Block 'git push --force. Ask the user for explicit confirmation.'
+  }
+  if ($cmd -match 'git\s+commit.*--no-verify') {
+    Block '--no-verify skips the checks. Fix the errors first.'
+  }
+}
+
+exit 0</pre>
+
+  <p class="muted small">Note the extra <code>PowerShell</code> tool name and the <code>Remove-Item</code> pattern: on Windows the destructive command you actually need to block often isn't spelled <code>rm</code>.</p>
+
+  <aside class="callout callout-danger">
+    <div class="callout-title">The CRLF trap</div>
+    <p>A <code>.sh</code> hook checked out with Windows line endings has <code>#!/usr/bin/env bash\r</code> as its shebang, and the <code>\r</code> makes the interpreter lookup fail. The hook then <strong>silently never runs</strong>, which is the worst possible failure mode for a security guard. Commit a <code>.gitattributes</code> with <code>*.sh text eol=lf</code> before you commit a single hook. This bites hardest inside a plugin, where scripts are copied into <code>~/.claude/plugins/cache</code> (Chapter 17).</p>
+  </aside>
+
+  <h2>What else differs by platform</h2>
+
+  <table>
+    <thead><tr><th>Feature</th><th>macOS / Linux</th><th>WSL2</th><th>Native Windows</th></tr></thead>
+    <tbody>
+      <tr><td>Bash sandbox (<code>/sandbox</code>)</td><td>✅</td><td>✅</td><td>❌ Use a dev container</td></tr>
+      <tr><td>Bash hooks</td><td>✅</td><td>✅</td><td>Needs Git for Windows</td></tr>
+      <tr><td>PowerShell tool</td><td>❌</td><td>❌</td><td>✅ Used when Bash is absent</td></tr>
+      <tr><td>Cross-session messaging</td><td>✅</td><td>✅</td><td>Check your version</td></tr>
+      <tr><td><code>CLAUDE.md</code> symlink to <code>AGENTS.md</code></td><td>✅</td><td>✅</td><td>Needs admin or Developer Mode; use <code>@AGENTS.md</code> instead</td></tr>
+    </tbody>
+  </table>
+
+  <aside class="callout callout-tip">
+    <div class="callout-title">Test a hook before you trust it</div>
+    <p>A hook that never fires looks exactly like a hook with nothing to block. Pipe a fake payload into it directly and check the exit code, on every platform your team uses:</p>
+    <pre data-lang="bash">echo '{"tool_name":"Bash","tool_input":{"command":"git push --force"}}' \
+  | python3 .claude/hooks/pre_tool_guard.py ; echo "exit=$?"   # expect exit=2</pre>
   </aside>
 </article>
 

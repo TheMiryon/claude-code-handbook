@@ -1,29 +1,49 @@
 # Roadmap
 
-Forward-looking scope for the handbook. Ranks #1–#3 **shipped as V3.0** (June 2026); #4–#7 are the queue for V3.1+.
+Forward-looking scope for the handbook. The original V3 ranked list is now fully shipped.
 
-## Shipped in V3.0
+## Shipped in V3.0 (June 2026)
 
 - ✅ **Testing & TDD** → Chapter 14
 - ✅ **Recovery playbook** → Annex J
-- ✅ **Third-party MCP & prompt-injection security** → Chapter 15
+- ✅ **Third-party MCP & prompt-injection security** → Chapter 16 (was 15)
 
-(All three live in the new Part VI, "Discipline & safety".)
+(All three live in Part VI, "Discipline & safety".)
 
-## Shipped in V3.1
+## Shipped in V3.1 (June 2026)
 
-- ✅ **Plugins & marketplaces** (+ `/loop` & Routines) → Chapter 16, new Part VII "Packaging & distribution". Off the original ranked list, but the biggest missing primitive.
+- ✅ **Plugins & marketplaces** (+ `/loop` & Routines) → Chapter 17 (was 16), Part VII "Packaging & distribution"
 
-## V3.1+: Tentative scope
+## Shipped in V4.0 (September 2026)
 
-| Rank | Topic | Why it's prioritized |
+The remaining ranked items, plus everything the product added between June and September 2026.
+
+| Was rank | Topic | Landed as |
 |---|---|---|
-| 4 | **Windows & cross-platform hooks** | V2's hooks are bash + jq only. Add Python (and where possible PowerShell) hook examples as an annex so Windows readers stop hitting friction at install time. |
-| 5 | **Onboarding an existing codebase** | V2 assumes a project configured cleanly from scratch. Most readers have legacy code. V3 will add a discovery strategy for large existing repos. |
-| 6 | **Context-window management** | When to `/compact`, when to `/clear`, and at what fill rate precision starts to drop. More advanced; can wait. |
-| 7 | **Headless mode & CI integration** | `claude -p`, automated PR review, GitHub Actions. Niche but real: last in the queue. |
+| 4 | **Windows & cross-platform hooks** | Annex L, with Python and PowerShell versions of the guard hook |
+| 5 | **Onboarding an existing codebase** | Annex K |
+| 6 | **Context-window management** | Chapter 20 |
+| 7 | **Headless mode & CI integration** | Chapter 21 |
 
-## Out of scope (for V3)
+Off the original list, but required because the product moved:
+
+- ✅ **Permissions, auto mode & the sandbox** → Chapter 15. Auto mode became the default permission mode in August 2026; the book's guardrail chapters described the old world.
+- ✅ **Working in parallel** → Chapter 18 (agent view, agent teams, cross-session messaging, `/batch`)
+- ✅ **Dynamic workflows** → Chapter 19
+- ✅ **Auditing your own setup** → Chapter 22 (`/doctor`, `/skill-doctor`, `claude plugin eval`)
+- ✅ **Artifacts** → Chapter 23
+- ✅ **Auto memory + path-scoped rules** → Chapter 11, memory matrix grown from 4 to 6 locations
+
+## V4.1+: Tentative scope
+
+| Topic | Why it might earn a place |
+|---|---|
+| **Agent SDK** | The book stops at the CLI. Building a custom agent on Claude Code's tools is a different audience, but a real one. Currently out of scope; revisit if readers ask. |
+| **Self-hosted & enterprise deployment** | Managed settings, gateways, `managedMcpServers`. Relevant to teams, irrelevant to the solo reader the book is written for. Probably an appendix at most. |
+| **A trimmed "essentials" edition** | V4 is ~125 pages, double V2. The three reading paths help, but a genuine 40-page "essentials" cut may serve newcomers better than a longer book. |
+| **Computer use & Chrome** | Covered in one line in Chapter 00. Could justify a short chapter if it stabilizes. |
+
+## Out of scope
 
 - Translations beyond EN / FR
 - IDE-specific deep-dives (VS Code, JetBrains, iOS, etc.), covered briefly, not as chapters
@@ -31,4 +51,4 @@ Forward-looking scope for the handbook. Ranks #1–#3 **shipped as V3.0** (June 
 
 ## How to suggest a topic
 
-Open an issue with the label `v3-scope` (or comment on an existing one). PRs welcome for typos and corrections in V2 in the meantime.
+Open an issue with the label `v4-scope` (or comment on an existing one). PRs welcome for typos and corrections in the meantime.
