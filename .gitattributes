@@ -1,3 +1,7 @@
-# Shell scripts must stay LF: CRLF breaks the bash shebang at runtime,
-# including plugin hook scripts copied to the plugin cache.
+# Executable scripts must stay LF: a CRLF line ending turns the shebang into
+# "#!/usr/bin/env bash\r" and the interpreter lookup fails, so the hook
+# silently never runs. This is the worst failure mode for a security guard.
+# Applies to plugin hook scripts copied into the plugin cache too.
+# See the handbook, Annex L.
 *.sh text eol=lf
+*.py text eol=lf
