@@ -3,7 +3,7 @@
 > The Claude Code handbook you actually finish. Bilingual (EN/FR), free. Hooks, sub-agents, skills, plan-first dev, audit loop. For developers and knowledge workers.
 > Le manuel Claude Code que tu finis vraiment. Bilingue (EN/FR), gratuit.
 
-**Latest version**: V4.0 (September 2026), ~120 pages, 24 chapters in 9 parts, 12 annexes.
+**Latest version**: V4.0 (September 2026), ~125 pages, 24 chapters in 9 parts, 12 annexes.
 
 ## 📖 Read the guide / Lire le guide
 
@@ -32,12 +32,12 @@ V4 is the largest revision since V1, because Claude Code changed underneath the 
 
 ### What's new in V3.1
 
-- **Plugins & marketplaces** (Chapter 16, new Part VII): package your whole `.claude/` setup as one installable, versioned, shareable plugin; `userConfig`, marketplaces, the `${CLAUDE_PLUGIN_ROOT}` cache gotcha, and a `/loop` vs Routines scheduling section
+- **Plugins & marketplaces** (Chapter 17, was 16; new Part VII): package your whole `.claude/` setup as one installable, versioned, shareable plugin; `userConfig`, marketplaces, the `${CLAUDE_PLUGIN_ROOT}` cache gotcha, and a `/loop` vs Routines scheduling section
 
 ### What's new in V3
 
 - **Testing & TDD** (Chapter 14): how to actually get tests out of Claude, test-first prompting, the test-as-spec pattern, and wiring tests into the `verify` gate
-- **Third-party MCP & prompt-injection security** (Chapter 15): the `npx -y` arbitrary-code risk, treating MCP/web/file content as untrusted, and the built-in safeguards (sandbox, isolated web-fetch context, `--dangerously-skip-permissions`)
+- **Third-party MCP & prompt-injection security** (Chapter 16, was 15): the `npx -y` arbitrary-code risk, treating MCP/web/file content as untrusted, and the built-in safeguards (sandbox, isolated web-fetch context, `--dangerously-skip-permissions`)
 - **Recovery playbook** (Annex J): what to do *after* something breaks, `/rewind` checkpoints, `git restore` / `reflog`, and the revert-or-repair rule
 - All three live in the new **Part VI, "Discipline & safety"**
 
@@ -47,7 +47,7 @@ V4 is the largest revision since V1, because Claude Code changed underneath the 
 - **Plan-first development** with a `plan-reviewer` sub-agent acting as staff engineer (Chapter 07)
 - **The audit loop**: capture lessons in Git-versioned files instead of local-only memory (Chapter 08)
 - **Parallel worktrees** for running multiple Claude sessions side by side (Chapter 10)
-- **The memory matrix**: clear rules for the 4 memory locations (Chapter 11)
+- **The memory matrix**: clear rules for the 4 memory locations (Chapter 11; now 6, see V4)
 - **Two anonymized case studies**: a 6-month solo developer + a 3-month knowledge worker (Annex H)
 - **Glossary** for newcomers (Annex F)
 - Reading paths and difficulty badges so you can read the book in the order that fits you

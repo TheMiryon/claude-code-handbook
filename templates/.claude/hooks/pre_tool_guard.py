@@ -65,7 +65,7 @@ def main() -> None:
         if re.search(r"Remove-Item\b.*-Recurse\b.*-Force\b", cmd, re.IGNORECASE):
             block("Remove-Item -Recurse -Force. Confirm explicitly.")
 
-        if re.search(r"git\s+push\b.*(--force\b|--force-with-lease\b|\s-f(\s|$))", cmd):
+        if re.search(r"git\s+push\b.*(--force\b|\s-f(\s|$))", cmd):
             block("git push --force. Ask the user for explicit confirmation.")
 
         if re.search(r"git\s+commit\b.*--no-verify\b", cmd):

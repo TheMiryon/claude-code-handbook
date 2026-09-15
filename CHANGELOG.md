@@ -37,6 +37,11 @@ The largest revision since V1. Claude Code changed underneath the book during 20
 - **`en/index.html` and `fr/index.html` were still V2.** The GitHub Pages site had not been regenerated for V3 or V3.1, so online readers were two versions behind the EPUBs. Both now mirror `source-v2.html` as the conventions require.
 - **Root `index.html`** landing page still advertised V2 and linked to the V2 EPUBs.
 - **`build-epub.ps1`**: the FR `pandoc` invocation was silently truncated by PowerShell 5.1 backtick line-continuation. Arguments are now built as arrays and splatted, which removes the documented manual workaround.
+- **Bilingual parity restored**: the FR edition told the reader to consult the English book for two hook scripts (`session-start.sh`, `coach-suggest.sh`). Both are now inlined in French, so the FR EPUB is self-contained. This had been true since V2.
+- **Self-referential claims invalidated by the restructuring**: chapter 22 called itself "the last chapter" (chapter 23 follows it), chapter 17 called itself "the book's endpoint" (Parts VIII and IX follow it), chapter 20 said the book had "spent seventeen chapters" (twenty precede it), and the chapter 11 TL;DR claimed two of the six memory locations are written by Claude (one is).
+- **TOC pagination**: part covers take a full page in `print.css`, but the entries for Parts VI–IX and the annexes gave the part cover and its first chapter the same page number.
+- **Annex L PowerShell hook** was missing the `--no-verify` guard that the bash and Python versions have, so a Windows-only team following the annex shipped a weaker guard than the book's other listings. It also assigned to `$input`, a PowerShell automatic variable.
+- Stale authoring comments removed, including one instructing a rewrite-from-V1 of the chapter V4 had just rewritten, and a finished V2 translation backlog that was being served to every visitor of the FR page.
 
 ### Verified against
 - Official Claude Code documentation at `code.claude.com/docs/en/` (changelog, what's-new digests weeks 22–37, permission-modes, sandboxing, memory, workflows, agents, artifacts, headless, plugin-evals, routines).

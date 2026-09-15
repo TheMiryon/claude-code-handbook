@@ -40,7 +40,7 @@ Off the original list, but required because the product moved:
 |---|---|
 | **Agent SDK** | The book stops at the CLI. Building a custom agent on Claude Code's tools is a different audience, but a real one. Currently out of scope; revisit if readers ask. |
 | **Self-hosted & enterprise deployment** | Managed settings, gateways, `managedMcpServers`. Relevant to teams, irrelevant to the solo reader the book is written for. Probably an appendix at most. |
-| **A trimmed "essentials" edition** | V4 is ~120 pages, double V2. The three reading paths help, but a genuine 40-page "essentials" cut may serve newcomers better than a longer book. |
+| **A trimmed "essentials" edition** | V4 is ~125 pages, double V2. The three reading paths help, but a genuine 40-page "essentials" cut may serve newcomers better than a longer book. |
 | **Computer use & Chrome** | Covered in one line in Chapter 00. Could justify a short chapter if it stabilizes. |
 
 ## Out of scope
