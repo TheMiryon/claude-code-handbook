@@ -80,8 +80,11 @@ templates/
     ├── settings.json               ← permissions + hooks
     ├── COMMANDS.md                 ← optional: index of your slash commands
     ├── PATTERNS.md                 ← optional: copy-paste recipes
+    ├── rules/
+    │   └── api.md                  ← path-scoped rule example (paths: frontmatter), NEW in V4
     ├── hooks/
     │   ├── pre-tool-guard.sh       ← defensive: block rm -rf, .env writes, --force pushes
+    │   ├── pre_tool_guard.py       ← same guard, cross-platform (no jq, works on Windows), NEW in V4
     │   ├── post-edit-format.sh     ← auto-format after Write/Edit
     │   ├── session-start.sh        ← project recap at session open
     │   ├── activity-log.sh         ← zero-token activity log
