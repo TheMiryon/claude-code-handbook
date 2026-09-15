@@ -3,38 +3,62 @@
 # Pre-requisites:
 #   1. Node + Puppeteer installed (npm install)
 #   2. Pandoc installed: https://pandoc.org/installing.html (~50 MB MSI)
+#
+# Note: pandoc arguments are passed as arrays and splatted rather than using
+# backtick line-continuations, which PowerShell 5.1 mis-parses when a trailing
+# space follows the backtick. That bug silently truncated the FR invocation.
 
-Write-Host "→ Step 1/2 : Rendering Mermaid diagrams inline..." -ForegroundColor Cyan
+$ErrorActionPreference = 'Stop'
+
+$Version = '4.0'
+$Date    = '2026-09'
+
+Write-Host "-> Step 1/2 : Rendering Mermaid diagrams inline..." -ForegroundColor Cyan
 node prepare-for-epub.js
 if ($LASTEXITCODE -ne 0) { Write-Error "prepare-for-epub failed"; exit 1 }
 
-Write-Host "`n→ Step 2/2 : Building EPUBs via Pandoc..." -ForegroundColor Cyan
+Write-Host "`n-> Step 2/2 : Building EPUBs via Pandoc..." -ForegroundColor Cyan
 
-pandoc en/source-v2-rendered.html `
-  -o en/claude-code-handbook-v3.epub `
-  --metadata title="The Claude Code Handbook V3.1" `
-  --metadata subtitle="The handbook you actually finish." `
-  --metadata author="TheMiryon" `
-  --metadata lang=en `
-  --metadata date="2026-06" `
-  --toc --toc-depth=2 `
-  --split-level=1
+$builds = @(
+  @{
+    Source   = 'en/source-v2-rendered.html'
+    Output   = 'en/claude-code-handbook-v4.epub'
+    Title    = "The Claude Code Handbook V$Version"
+    Subtitle = 'The handbook you actually finish.'
+    Lang     = 'en'
+  },
+  @{
+    Source   = 'fr/source-v2-rendered.html'
+    Output   = 'fr/le-code-du-claudeur-v4.epub'
+    Title    = "Le Code du Claudeur V$Version"
+    Subtitle = 'Le manuel que tu finis vraiment.'
+    Lang     = 'fr'
+  }
+)
 
-if ($LASTEXITCODE -ne 0) { Write-Error "EN EPUB build failed"; exit 1 }
-Write-Host "  ✓ en/claude-code-handbook-v3.epub" -ForegroundColor Green
+foreach ($b in $builds) {
+  if (-not (Test-Path $b.Source)) {
+    Write-Error "Missing $($b.Source). Did prepare-for-epub.js run?"
+    exit 1
+  }
 
-pandoc fr/source-v2-rendered.html `
-  -o fr/le-code-du-claudeur-v3.epub `
-  --metadata title="Le Code du Claudeur V3.1" `
-  --metadata subtitle="Le manuel que tu finis vraiment." `
-  --metadata author="TheMiryon" `
-  --metadata lang=fr `
-  --metadata date="2026-06" `
-  --toc --toc-depth=2 `
-  --split-level=1
+  $pandocArgs = @(
+    $b.Source
+    '-o', $b.Output
+    '--metadata', "title=$($b.Title)"
+    '--metadata', "subtitle=$($b.Subtitle)"
+    '--metadata', 'author=TheMiryon'
+    '--metadata', "lang=$($b.Lang)"
+    '--metadata', "date=$Date"
+    '--toc', '--toc-depth=2'
+    '--split-level=1'
+  )
 
-if ($LASTEXITCODE -ne 0) { Write-Error "FR EPUB build failed"; exit 1 }
-Write-Host "  ✓ fr/le-code-du-claudeur-v3.epub" -ForegroundColor Green
+  pandoc @pandocArgs
+  if ($LASTEXITCODE -ne 0) { Write-Error "$($b.Lang.ToUpper()) EPUB build failed"; exit 1 }
+  Write-Host "  [ok] $($b.Output)" -ForegroundColor Green
+}
 
-Write-Host "`n✅ Done. Both EPUBs ready." -ForegroundColor Green
-Get-ChildItem en/*.epub, fr/*.epub | Select-Object Name, @{N='Size';E={[math]::Round($_.Length/1024, 0).ToString() + ' KB'}}
+Write-Host "`nDone. Both EPUBs ready." -ForegroundColor Green
+Get-ChildItem en/*.epub, fr/*.epub |
+  Select-Object Name, @{N='Size';E={[math]::Round($_.Length/1024, 0).ToString() + ' KB'}}

@@ -3,18 +3,34 @@
 > The Claude Code handbook you actually finish. Bilingual (EN/FR), free. Hooks, sub-agents, skills, plan-first dev, audit loop. For developers and knowledge workers.
 > Le manuel Claude Code que tu finis vraiment. Bilingue (EN/FR), gratuit.
 
-**Latest version**: V3.1 (June 2026), 60 pages, 17 chapters in 7 parts.
+**Latest version**: V4.0 (September 2026), ~120 pages, 24 chapters in 9 parts, 12 annexes.
 
 ## 📖 Read the guide / Lire le guide
 
 | | English | Français |
 |---|---|---|
 | **Read online** | [themiryon.github.io/claude-code-handbook/en/](https://themiryon.github.io/claude-code-handbook/en/) | [themiryon.github.io/claude-code-handbook/fr/](https://themiryon.github.io/claude-code-handbook/fr/) |
-| **EPUB (V3)** | [`en/claude-code-handbook-v3.epub`](en/claude-code-handbook-v3.epub) | [`fr/le-code-du-claudeur-v3.epub`](fr/le-code-du-claudeur-v3.epub) |
+| **EPUB (V4)** | [`en/claude-code-handbook-v4.epub`](en/claude-code-handbook-v4.epub) | [`fr/le-code-du-claudeur-v4.epub`](fr/le-code-du-claudeur-v4.epub) |
 
 ---
 
-## ✨ What's new in V3.1
+## ✨ What's new in V4.0
+
+V4 is the largest revision since V1, because Claude Code changed underneath the book during 2026. Two chapters had become factually wrong and are rewritten; two parts are new.
+
+**Corrected**
+- **Auto mode is now the default** permission mode on Pro/Max/Team. The book was written for a world where you approved every action.
+- **The memory matrix grew from 4 locations to 6**: `.claude/rules/` (path-scoped instructions) and **auto memory**, which Claude writes itself.
+- **The surfaces chapter** now covers mobile (iOS *and* Android), Slack, Chrome, and the mobility layer: Remote Control, `--teleport`, `/desktop`, Channels.
+- **Model selection** is no longer the whole cost decision: effort levels (`/effort`, `xhigh`, `ultracode`) and fast mode are covered in Chapter 05.
+
+**New**
+- **Chapter 15, Permissions, auto mode & the sandbox**: the six modes, what the classifier will never wave through, the Bash sandbox as a second axis, and why your `PreToolUse` guard hook now matters *more*.
+- **Part VIII, Orchestration & scale**: working in parallel (Ch. 18), dynamic workflows (Ch. 19), the context window (Ch. 20).
+- **Part IX, Automation & quality gates**: headless & CI (Ch. 21), auditing your own setup (Ch. 22), artifacts (Ch. 23).
+- **Annex K**, onboarding an existing codebase; **Annex L**, cross-platform hooks (Python + PowerShell versions of the guard hook, and the CRLF trap).
+
+### What's new in V3.1
 
 - **Plugins & marketplaces** (Chapter 16, new Part VII): package your whole `.claude/` setup as one installable, versioned, shareable plugin; `userConfig`, marketplaces, the `${CLAUDE_PLUGIN_ROOT}` cache gotcha, and a `/loop` vs Routines scheduling section
 
@@ -43,7 +59,7 @@ See [`CHANGELOG.md`](CHANGELOG.md) for the full change log.
 
 ## 🚀 Quick start: 30 minutes
 
-The guide covers 17 chapters in 7 parts. If you want to jump straight in, Annex G has a **"30-minute quick start"** checklist.
+The guide covers 24 chapters in 9 parts. If you want to jump straight in, Annex G has a **"30-minute quick start"** checklist.
 
 Or skip ahead and just copy the templates below.
 
