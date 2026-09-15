@@ -35,7 +35,7 @@
   <div class="cover-eyebrow">Claude Code · Handbook</div>
   <h1 class="cover-title">The handbook<br>you actually finish.</h1>
   <p class="cover-subtitle">125 pages. Free. Works for developers and knowledge workers. Hooks, sub-agents, skills, plan-first development, the audit loop, testing, auto mode and the sandbox, dynamic workflows, context management, CI, and packaging it all as a plugin.</p>
-  <div class="cover-version">Version 4.0 · 2026 · MIT</div>
+  <div class="cover-version">Version 4.0.1 · 2026 · MIT</div>
 </section>
 
 <!-- =================================================================
@@ -624,8 +624,18 @@ fi
 if [ "$TOOL" = "Bash" ]; then
   CMD=$(echo "$INPUT" | jq -r '.tool_input.command // empty' 2>/dev/null)
 
-  if echo "$CMD" | grep -qE 'rm[[:space:]]+-[a-zA-Z]*[rf][a-zA-Z]*[[:space:]]+(/|~|\.\./|\$HOME)'; then
-    echo "BLOCKED: rm -rf on dangerous path." >&amp;2
+  # Protected targets only: the root, a system dir, a home dir, or ../.
+  # An ordinary absolute path such as /tmp/build.log is NOT blocked.
+  CMD_NQ=$(printf '%s' "$CMD" | tr -d "\"'")   # so "$HOME" matches $HOME
+
+  RM_RE='rm[[:space:]]+-[a-zA-Z]*[rf][a-zA-Z]*[[:space:]]+('
+  RM_RE=$RM_RE'/([[:space:]]|$|\*)'                       # the root itself
+  RM_RE=$RM_RE'|/(bin|boot|dev|etc|lib|proc|root|sbin|sys|usr|home|Users|System|Library)([/[:space:]]|$)'
+  RM_RE=$RM_RE'|~|\$\{?HOME\}?'                          # a home directory
+  RM_RE=$RM_RE'|\.\./)'                                  # parent traversal
+
+  if echo "$CMD_NQ" | grep -qE "$RM_RE"; then
+    echo "BLOCKED: rm on a protected path (root, home, system dir, ../)." >&amp;2
     exit 2
   fi
 
@@ -705,7 +715,7 @@ echo ""</pre>
 echo '{"tool_name":"Bash","tool_input":{"command":"rm -rf /"}}' \
   | .claude/hooks/pre-tool-guard.sh
 echo "Exit code: $?"
-# Should print "BLOCKED: rm -rf..." and exit 2</pre>
+# Should print "BLOCKED: rm on a protected path..." and exit 2</pre>
 
   <aside class="callout callout-tip">
     <div class="callout-title">Performance</div>
@@ -3530,11 +3540,21 @@ if tool in ("Edit", "Write"):
 
 if tool == "Bash":
     cmd = ti.get("command", "")
-    if re.search(r"rm\s+-[a-zA-Z]*[rf][a-zA-Z]*\s+(/|~|\.\./|\$HOME)", cmd):
-        block("rm -rf on a dangerous path.")
-    if re.search(r"git\s+push.*(--force\b|\s-f(\s|$))", cmd):
+    # Strip quotes so "$HOME" matches like the bare form.
+    cmd_nq = cmd.replace('"', "").replace("'", "")
+
+    SYS = "bin|boot|dev|etc|lib|proc|root|sbin|sys|usr|home|Users|System|Library"
+    # Protected targets only, not every absolute path.
+    protected = (r"rm\s+-[a-zA-Z]*[rf][a-zA-Z]*\s+("
+                 r"/(\s|$|\*)"                  # the filesystem root itself
+                 rf"|/({SYS})([/\s]|$)"          # a system directory
+                 r"|~|\$\{?HOME\}?"             # a home directory
+                 r"|\.\./)")                    # parent traversal
+    if re.search(protected, cmd_nq):
+        block("rm on a protected path (root, home, a system directory, or ../).")
+    if re.search(r"git\s+push.*(--force\b|\s-f(\s|$))", cmd_nq):
         block("git push --force. Ask the user for explicit confirmation.")
-    if re.search(r"git\s+commit.*--no-verify", cmd):
+    if re.search(r"git\s+commit.*--no-verify", cmd_nq):
         block("--no-verify skips checks. Fix the errors first.")
 
 sys.exit(0)</pre>
@@ -3573,8 +3593,13 @@ if ($tool -in @('Edit','Write')) {
 
 if ($tool -eq 'Bash' -or $tool -eq 'PowerShell') {
   $cmd = $ti.command
-  if ($cmd -match 'rm\s+-[a-zA-Z]*[rf][a-zA-Z]*\s+(/|~|\.\./|\$HOME)') {
-    Block 'rm -rf on a dangerous path.'
+  $cmdNq = $cmd -replace '["'']', ''   # so "$HOME" matches $HOME
+
+  $sys = 'bin|boot|dev|etc|lib|proc|root|sbin|sys|usr|home|Users|System|Library'
+  $rmRe = "rm\s+-[a-zA-Z]*[rf][a-zA-Z]*\s+(/(\s|`$|\*)|/($sys)([/\s]|`$)|~|\`$\{?HOME\}?|\.\./)"
+
+  if ($cmdNq -match $rmRe) {
+    Block 'rm on a protected path (root, home, a system directory, or ../).'
   }
   if ($cmd -match 'Remove-Item.*-Recurse.*-Force') {
     Block 'Remove-Item -Recurse -Force. Confirm explicitly.'

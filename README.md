@@ -3,7 +3,7 @@
 > The Claude Code handbook you actually finish. Bilingual (EN/FR), free. Hooks, sub-agents, skills, plan-first dev, audit loop. For developers and knowledge workers.
 > Le manuel Claude Code que tu finis vraiment. Bilingue (EN/FR), gratuit.
 
-**Latest version**: V4.0 (September 2026), ~125 pages, 24 chapters in 9 parts, 12 annexes.
+**Latest version**: V4.0.1 (September 2026), ~125 pages, 24 chapters in 9 parts, 12 annexes.
 
 ## 📖 Read the guide / Lire le guide
 

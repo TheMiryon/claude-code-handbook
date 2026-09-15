@@ -7,6 +7,27 @@ Versioned with [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [V4.0.1] - 2026-09-15
+
+Patch. Tightens the `rm` guard so it stops blocking ordinary absolute paths, and extends it to system directories it never covered.
+
+### Fixed
+- **The guard hook blocked every absolute path, not just dangerous ones.** The pattern `rm\s+-[rf]\s+(/|~|../|$HOME)` matched the leading `/` of *any* absolute path, so `rm -f /tmp/build.log` was refused. A guard that blocks routine commands is a guard people learn to work around, which is worse than no guard. The regex now matches only the filesystem root itself, a system directory, a home directory, or a `../` traversal.
+- **System directories were never guarded.** `rm -rf /etc` and `rm -rf /usr/local` passed, because neither is the bare root. Both are now blocked.
+- **Quoted forms slipped through.** `rm -rf "$HOME"` didn't match while `rm -rf $HOME` did. Quotes are now stripped before matching.
+- The `--no-verify` and `--force-with-lease` checks now read the de-quoted command too, so they can't be bypassed with quoting.
+
+Applied to all six copies: `.claude/hooks/pre-tool-guard.sh`, `plugins/kit-methode/scripts/pre-tool-guard.sh`, both template hooks (bash and Python), and the three listings in the book (bash in Chapter 03, Python and PowerShell in Annex L), EN and FR.
+
+### Changed
+- The book's guard listings were a single 300-character regex line. They now build the pattern in named, commented pieces, which fits the printed page and is what the shipped script files contain.
+
+### Verified
+- 33 cases against the three shell scripts, 28 against the Python template.
+- 106 cases against the code **as printed in the book**: the bash, Python and PowerShell listings are extracted from the HTML, unescaped, and executed. `rm -rf /`, `/etc`, `/usr/local/bin`, `~`, `$HOME`, `"$HOME"`, `${HOME}/x`, `../../src` block; `/tmp/build.log`, `/var/folders/...`, `./build`, `node_modules`, `dist` pass.
+
+---
+
 ## [V4.0] - 2026-09-15
 
 The largest revision since V1. Claude Code changed underneath the book during 2026: **auto mode became the default permission mode**, Claude started writing its own memory, and dynamic workflows landed as a new orchestration primitive above sub-agents. V4 rewrites the chapters those changes made obsolete and adds two parts. Bilingual EN/FR.

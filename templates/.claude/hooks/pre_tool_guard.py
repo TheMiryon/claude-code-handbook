@@ -23,13 +23,36 @@ Register it in .claude/settings.json:
 
 Test it without a session (expect exit=2):
 
-  echo '{"tool_name":"Bash","tool_input":{"command":"git push --force"}}' \
+  echo '{"tool_name":"Bash","tool_input":{"command":"rm -rf /etc"}}' \
     | python3 .claude/hooks/pre_tool_guard.py ; echo "exit=$?"
 """
 
 import json
 import re
 import sys
+
+# Directories where a recursive delete is never a routine operation.
+# Deliberately excludes /tmp and /var: those are scratch space, and macOS
+# puts per-process temp dirs under /var/folders.
+SYSTEM_DIRS = (
+    "bin|boot|dev|etc|lib|lib64|proc|root|sbin|srv|sys|usr"
+    "|home|Users|System|Library|Applications"
+)
+
+# A destructive rm aimed at a PROTECTED path. The point of the alternation is
+# that it does NOT match an ordinary absolute path: `rm -f /tmp/build.log` is
+# something people run all day and blocking it just teaches them to bypass
+# the guard.
+RM_PROTECTED = re.compile(
+    r"rm\s+-[a-zA-Z]*[rf][a-zA-Z]*\s+"      # rm with -r and/or -f
+    r"(?:"
+    r"/(?:\s|$|\*)"                          # the filesystem root itself
+    rf"|/(?:{SYSTEM_DIRS})(?:[/\s]|$)"       # a system directory
+    r"|~"                                    # a home directory
+    r"|\$\{?HOME\}?"                         # ... written as a variable
+    r"|\.\./"                                # parent traversal
+    r")"
+)
 
 
 def block(msg: str) -> None:
@@ -57,21 +80,23 @@ def main() -> None:
     # 2. Block destructive shell commands.
     if tool in ("Bash", "PowerShell"):
         cmd = tool_input.get("command", "") or ""
+        # Strip quotes so "$HOME" and '/etc' are matched like their bare forms.
+        cmd_nq = cmd.replace('"', "").replace("'", "")
 
-        if re.search(r"rm\s+-[a-zA-Z]*[rf][a-zA-Z]*\s+(/|~|\.\./|\$HOME)", cmd):
-            block("rm -rf on a dangerous path.")
+        if RM_PROTECTED.search(cmd_nq):
+            block("rm on a protected path (root, home, a system directory, or ../).")
 
         # The Windows spelling of the same mistake.
-        if re.search(r"Remove-Item\b.*-Recurse\b.*-Force\b", cmd, re.IGNORECASE):
+        if re.search(r"Remove-Item\b.*-Recurse\b.*-Force\b", cmd_nq, re.IGNORECASE):
             block("Remove-Item -Recurse -Force. Confirm explicitly.")
 
-        if re.search(r"git\s+push\b.*(--force\b|\s-f(\s|$))", cmd):
+        if re.search(r"git\s+push\b.*(--force\b|\s-f(\s|$))", cmd_nq):
             block("git push --force. Ask the user for explicit confirmation.")
 
-        if re.search(r"git\s+commit\b.*--no-verify\b", cmd):
+        if re.search(r"git\s+commit\b.*--no-verify\b", cmd_nq):
             block("--no-verify skips the checks. Fix the errors first.")
 
-        if re.search(r"git\s+reset\b.*--hard\b", cmd):
+        if re.search(r"git\s+reset\b.*--hard\b", cmd_nq):
             block("git reset --hard discards work. Confirm explicitly, or use --soft.")
 
     sys.exit(0)

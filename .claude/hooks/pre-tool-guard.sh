@@ -21,10 +21,14 @@ fi
 if [ "$TOOL" = "Bash" ]; then
   CMD=$(echo "$INPUT" | jq -r '.tool_input.command // empty' 2>/dev/null || echo "")
 
-  # rm -rf on dangerous roots: bare / (e.g. "rm -rf /", "rm -rf /*"), ~, ../, $HOME.
-  # A specific absolute path like /tmp/x is allowed (only the bare root matches).
-  if echo "$CMD" | grep -qE 'rm[[:space:]]+-[a-zA-Z]*[rf][a-zA-Z]*[[:space:]]+(/([[:space:]]|$|\*)|~|\.\./|\$HOME)' ; then
-    echo "BLOCKED: rm -rf on a dangerous path. Use an explicit, precise path." >&2
+  # Destructive rm aimed at a PROTECTED path: the filesystem root, a system
+  # directory, a home directory, or a parent-traversal path. An ordinary
+  # absolute path such as /tmp/build.log is NOT blocked, blocking those just
+  # teaches people to work around the guard.
+  # Quotes are stripped first so "$HOME" matches like the bare form.
+  CMD_NQ=$(printf '%s' "$CMD" | tr -d "\"'")
+  if echo "$CMD_NQ" | grep -qE 'rm[[:space:]]+-[a-zA-Z]*[rf][a-zA-Z]*[[:space:]]+(/([[:space:]]|$|\*)|/(bin|boot|dev|etc|lib|lib64|proc|root|sbin|srv|sys|usr|home|Users|System|Library|Applications)([/[:space:]]|$)|~|\$\{?HOME\}?|\.\./)' ; then
+    echo "BLOCKED: rm on a protected path (root, home, system dir, or ../). Use an explicit, precise path." >&2
     exit 2
   fi
 
