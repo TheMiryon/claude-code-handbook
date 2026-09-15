@@ -10,7 +10,7 @@
 
 $ErrorActionPreference = 'Stop'
 
-$Version = '4.0'
+$Version = '4.0.1'
 $Date    = '2026-09'
 
 Write-Host "-> Step 1/2 : Rendering Mermaid diagrams inline..." -ForegroundColor Cyan
