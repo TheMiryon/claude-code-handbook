@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Claude Code Handbook V3, A pro setup, step by step</title>
+  <title>Claude Code Handbook V4, A pro setup, step by step</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/css/print.css">
   <!-- Mermaid for diagrams. For static rendering in EPUB, see prepare-for-epub.js. -->
@@ -34,8 +34,8 @@
 <section class="cover">
   <div class="cover-eyebrow">Claude Code · Handbook</div>
   <h1 class="cover-title">The handbook<br>you actually finish.</h1>
-  <p class="cover-subtitle">60 pages. Free. Works for developers and knowledge workers. Hooks, sub-agents, skills, plan-first development, the audit loop, testing, third-party security, a recovery playbook, and packaging it all as a plugin.</p>
-  <div class="cover-version">Version 3.1 · 2026 · MIT</div>
+  <p class="cover-subtitle">80 pages. Free. Works for developers and knowledge workers. Hooks, sub-agents, skills, plan-first development, the audit loop, testing, auto mode and the sandbox, dynamic workflows, context management, CI, and packaging it all as a plugin.</p>
+  <div class="cover-version">Version 4.0 · 2026 · MIT</div>
 </section>
 
 <!-- =================================================================
@@ -61,7 +61,7 @@
 
   <p>The whole setup takes about 30 minutes to bootstrap and a few hours to fully tune. The compound payoff is measured in days saved per quarter.</p>
 
-  <p class="muted small">This is V3.1 of the handbook. New in V3.1, Part VII "Packaging &amp; distribution": a chapter on packaging your whole setup as a plugin and sharing it via a marketplace (Chapter 16). V3 added Part VI "Discipline &amp; safety", testing &amp; TDD, third-party MCP and prompt-injection security, and a recovery playbook (Annex J). V2 added the skills chapters, the plan-first workflow inspired by Claude Code's creator Boris Cherny, the audit loop, parallel worktrees, and the four-locations memory matrix.</p>
+  <p class="muted small">This is V4.0 of the handbook, the largest revision since V1. Claude Code changed underneath the book during 2026: <strong>auto mode became the default permission mode</strong>, Claude started writing its own memory, and a new orchestration primitive (dynamic workflows) landed above sub-agents. V4 rewrites the chapters those changes made obsolete and adds two parts. New in V4: Chapter 15 "Permissions, auto mode &amp; the sandbox"; Part VIII "Orchestration &amp; scale" (working in parallel, dynamic workflows, the context window); Part IX "Automation &amp; quality gates" (headless &amp; CI, auditing your own setup, artifacts); and two annexes, onboarding an existing codebase (K) and cross-platform hooks (L). V3.1 added Part VII on plugins and marketplaces. V3 added Part VI "Discipline &amp; safety" and the recovery playbook (Annex J). V2 added the skills chapters, the plan-first workflow inspired by Claude Code's creator Boris Cherny, the audit loop, parallel worktrees, and the memory matrix.</p>
 </article>
 
 <!-- =================================================================
@@ -227,25 +227,46 @@
 
   <p>Before configuring anything, know where you're installing it. All Claude Code surfaces support the same mechanisms, but Claude Code is distinct from the Claude.ai chat product.</p>
 
-  <h2>The 6 official Claude Code surfaces</h2>
+  <h2>The surfaces</h2>
 
-  <p>All read the same <code>.claude/</code> config in your repo. You can switch between them without re-configuring anything.</p>
+  <p>All of them read the same <code>.claude/</code> config in your repo. You switch between them without re-configuring anything.</p>
 
   <table>
     <thead><tr><th>Surface</th><th>What's special</th></tr></thead>
     <tbody>
-      <tr><td><strong>Terminal CLI</strong></td><td>The most complete. Run <code>claude</code> in any project folder. Ideal for scripting, pipes, CI.</td></tr>
-      <tr><td><strong>VS Code extension</strong></td><td>Inline diffs, @-mentions, plan review. <strong>Also works in Cursor</strong> (official Anthropic extension, not <code>.cursorrules</code>).</td></tr>
-      <tr><td><strong>JetBrains plugin</strong></td><td>IntelliJ, PyCharm, WebStorm, etc. Available on the official JetBrains Marketplace.</td></tr>
-      <tr><td><strong>Desktop app</strong></td><td>Standalone macOS/Windows app. Visual diff, parallel sessions, scheduled tasks, cloud sessions.</td></tr>
-      <tr><td><strong>Web</strong></td><td><code>claude.ai/code</code> in your browser. Ideal for long-running tasks, repos you don't have locally, mobile.</td></tr>
-      <tr><td><strong>iOS app</strong></td><td>Claude app for iPhone. Continue a session from your phone.</td></tr>
+      <tr><td><strong>Terminal CLI</strong></td><td>The most complete. Run <code>claude</code> in any project folder. Ideal for scripting, pipes, CI. Native installers on macOS, Linux, and Windows (<code>winget</code>, <code>install.ps1</code>).</td></tr>
+      <tr><td><strong>VS Code extension</strong></td><td>Inline diffs, @-mentions, plan review, and dialogs for hooks and permission rules. <strong>Also works in Cursor</strong> (official Anthropic extension, not <code>.cursorrules</code>).</td></tr>
+      <tr><td><strong>JetBrains plugin</strong></td><td>IntelliJ, PyCharm, WebStorm, etc. Requires the CLI installed separately.</td></tr>
+      <tr><td><strong>Desktop app</strong></td><td>macOS, Windows, and Linux (beta on Ubuntu/Debian). Visual diff, parallel sessions, scheduled tasks, cloud sessions, a built-in browser, an iOS Simulator pane.</td></tr>
+      <tr><td><strong>Web</strong></td><td><code>claude.ai/code</code> in your browser. Ideal for long-running tasks and repos you don't have locally.</td></tr>
+      <tr><td><strong>Mobile</strong></td><td>The Claude app on <strong>iOS and Android</strong>. Start a task, get a push notification when it needs you.</td></tr>
+      <tr><td><strong>Slack</strong></td><td>Mention <code>@Claude</code> with a bug report, get a pull request back. The team-chat entry point.</td></tr>
+      <tr><td><strong>Chrome</strong></td><td>Claude drives your browser to debug a live web app. GA since July 2026.</td></tr>
     </tbody>
   </table>
 
   <aside class="callout callout-tip">
     <div class="callout-title">Shared engine</div>
-    <p>Every surface connects to the same Claude Code engine. Your <code>CLAUDE.md</code>, hooks, sub-agents, and <code>.mcp.json</code> work everywhere. Start a task in the terminal, resume it on your phone.</p>
+    <p>Every surface connects to the same Claude Code engine. Your <code>CLAUDE.md</code>, hooks, sub-agents, and <code>.mcp.json</code> work everywhere. Configure once, in the repo, and the config follows you.</p>
+  </aside>
+
+  <h2>The mobility layer <small class="muted">(new in V4)</small></h2>
+
+  <p>The surfaces above are where a session <em>starts</em>. What changed in 2026 is that a session is no longer tied to the surface that started it. Four mechanisms move work around, and they're easy to confuse:</p>
+
+  <table>
+    <thead><tr><th>You want to…</th><th>Use</th><th>What actually happens</th></tr></thead>
+    <tbody>
+      <tr><td>Keep driving your <em>local</em> session from your phone</td><td><strong>Remote Control</strong></td><td>The session stays on your machine, with your files and your tools. Your phone becomes the keyboard. Your machine must stay on.</td></tr>
+      <tr><td>Pull a cloud/web session down to your terminal</td><td><code>claude --teleport</code></td><td>The conversation moves to your machine. Requires a claude.ai subscription.</td></tr>
+      <tr><td>Continue the current terminal session in the desktop app</td><td><code>/desktop</code></td><td>Hand-off to review diffs visually. macOS and x64 Windows.</td></tr>
+      <tr><td>Push external events into a <em>running</em> session</td><td><strong>Channels</strong></td><td>Telegram, Discord, iMessage, or your own webhooks deliver into a live session. The session reacts without you typing.</td></tr>
+    </tbody>
+  </table>
+
+  <aside class="callout callout-warning">
+    <div class="callout-title">Remote Control is not a cloud session</div>
+    <p>The distinction matters for your setup. <strong>Remote Control</strong> runs on your machine: your <code>.claude/</code>, your hooks, your git remote, your secrets. A <strong>cloud session</strong> (<code>claude --cloud</code>, the web, Routines) runs on Anthropic's infrastructure: it clones the repo, and anything machine-local, your auto memory, your <code>CLAUDE.local.md</code>, your unpushed work, <em>isn't there</em>. If a workflow behaves differently on the web than on your laptop, this is almost always why.</p>
   </aside>
 
   <h2>Recommendations by profile</h2>
@@ -254,15 +275,17 @@
     <thead><tr><th>Profile</th><th>Recommendation</th></tr></thead>
     <tbody>
       <tr><td>Solo dev working in an IDE</td><td><strong>VS Code or JetBrains extension</strong> for everyday work, <strong>CLI</strong> in the terminal for scripted workflows. Full setup possible.</td></tr>
-      <tr><td>Team</td><td>Any surface, with a <code>.claude/</code> setup versioned in git. Everyone inherits the config.</td></tr>
-      <tr><td>Mobile / away from desk</td><td><strong>Web</strong> on phone or <strong>iOS app</strong>. Kick off a long task, resume it on your machine.</td></tr>
+      <tr><td>Team</td><td>Any surface, with a <code>.claude/</code> setup versioned in git. Everyone inherits the config. Add <strong>Slack</strong> so bug reports become PRs without a context switch.</td></tr>
+      <tr><td>Away from desk</td><td><strong>Remote Control</strong> if your machine is on and you want your real environment. <strong>Web or mobile</strong> if it isn't.</td></tr>
+      <tr><td>Long unattended jobs</td><td><strong>Web / cloud sessions</strong> or <strong>Routines</strong>. See Chapter 17.</td></tr>
       <tr><td>Cursor user</td><td>Install the official Claude Code extension in Cursor (<code>cursor:extension/anthropic.claude-code</code>). All <code>.claude/</code> config works.</td></tr>
+      <tr><td>Windows user</td><td>Native install works without Git Bash; Claude Code falls back to PowerShell as its shell tool. Installing <a href="https://git-scm.com/downloads/win">Git for Windows</a> is still recommended so bash hooks run. See Annex L.</td></tr>
     </tbody>
   </table>
 
   <aside class="callout callout-warning">
     <div class="callout-title">Claude.ai (chat) ≠ Claude Code</div>
-    <p>Claude.ai (the chat product) supports "Projects" with custom instructions (a lightweight CLAUDE.md equivalent), but <strong>not</strong> hooks, sub-agents, or MCP servers. This handbook covers Claude Code (the 6 surfaces above). For chat alone, only chapters 1–2 (principles + CLAUDE.md) apply.</p>
+    <p>Claude.ai (the chat product) supports "Projects" with custom instructions (a lightweight CLAUDE.md equivalent), but <strong>not</strong> hooks, sub-agents, or MCP servers. This handbook covers Claude Code. For chat alone, only chapters 1–2 (principles + CLAUDE.md) apply.</p>
   </aside>
 </article>
 
@@ -915,6 +938,32 @@ End with: Overall score /10 + Top 3 priority actions.
   </table>
 
   <p><strong>Rule of thumb</strong>: any audit that could lose data or compromise production → <code>opus</code>. Everything else → <code>sonnet</code> by default. <code>haiku</code> when speed beats depth.</p>
+
+  <h2>The other dial: effort <small class="muted">(new in V4)</small></h2>
+
+  <p>Picking a model used to be the whole cost decision. It isn't anymore. Since the Claude 5 generation, the <strong>effort level</strong> controls how much reasoning the model spends before answering, and it moves cost and latency more than the model alias does on many tasks.</p>
+
+  <table>
+    <thead><tr><th>Level</th><th>Use for</th></tr></thead>
+    <tbody>
+      <tr><td><code>low</code> / <code>medium</code></td><td>Mechanical edits, renames, formatting, triage. Cheap and fast.</td></tr>
+      <tr><td><code>high</code></td><td>The sane default for coding work.</td></tr>
+      <tr><td><code>xhigh</code></td><td>Hard debugging, architecture, a plan you'll commit to. Recommended for the genuinely difficult.</td></tr>
+      <tr><td><code>ultracode</code></td><td><code>xhigh</code> plus automatic workflow orchestration. Claude plans a multi-agent workflow for every substantive task. Expensive by design. See Chapter 19.</td></tr>
+    </tbody>
+  </table>
+
+  <p>Set it for a session with <code>/effort</code> (or <code>/effort s</code> for this session only), start one with <code>claude --effort xhigh</code>, or cap it organization-wide with the <code>maxEffortLevel</code> setting. <strong>Fast mode</strong> is the orthogonal dial: same model, faster output, toggled with <code>/fast</code>.</p>
+
+  <aside class="callout callout-tip">
+    <div class="callout-title">Model for capability, effort for difficulty</div>
+    <p>Treat the two as separate questions. The <em>model</em> answers "what class of work is this?" (a haiku agent will never do deep architecture, whatever effort you give it). The <em>effort</em> answers "how hard is this instance?" A <code>sonnet</code> agent at <code>xhigh</code> often beats an <code>opus</code> agent at <code>low</code>, for less money. Your read-only auditors are the place to be generous; your classification agents are the place to be stingy.</p>
+  </aside>
+
+  <aside class="callout callout-warning">
+    <div class="callout-title">1M context is not a licence to stop pruning</div>
+    <p>Opus 5, Sonnet 5, and Fable 5.1 all carry a 1M-token context window. It's tempting to read that as "context management is solved". It isn't: a full window is slower, more expensive, and measurably less precise than a focused one. The window got bigger; the discipline didn't get optional. See Chapter 20.</p>
+  </aside>
 
   <h2>Restrict tools (least privilege)</h2>
 
@@ -1631,96 +1680,168 @@ git branch -d chantier/marketing-launch</pre>
   <aside class="callout callout-info">
     <div class="callout-title">TL;DR</div>
     <ul>
-      <li>Four places where memory can live. Use the wrong one and the same fact ends up in two places, drifting.</li>
-      <li>The decision rule fits on one line: <em>≥2 agents need it? → CLAUDE.md. Else domain? → skill. Else "don't flag"? → agent-memory. Else? → local only.</em></li>
-      <li>Anything you want to survive a reclone has to land in versioned files. Not in <code>~/.claude/projects/</code>.</li>
+      <li><strong>Six</strong> places where memory can live, up from four in V3. Use the wrong one and the same fact ends up in two places, drifting.</li>
+      <li>Two of the six are now written by <em>Claude</em>, not by you. Knowing which is which is the whole chapter.</li>
+      <li>The decision rule still fits on one line: <em>≥2 agents need it? → CLAUDE.md. Scoped to a subtree? → rules. Else domain? → skill. Else "don't flag"? → agent-memory. Else? → local.</em></li>
+      <li>Anything you want to survive a reclone has to land in versioned files. Auto memory will not.</li>
     </ul>
   </aside>
 
   <p>You'll quickly accumulate things Claude needs to remember: user preferences, project decisions, external references, domain rules, audit feedback. Each of these belongs in a <em>different</em> place. Getting this wrong means duplicating information across files, and the duplicate inevitably drifts.</p>
 
-  <p>There are four locations where memory can live. Use this matrix to decide which.</p>
+  <p>V3 of this book described four locations. Claude Code has since added two mechanisms that change the picture: <strong><code>.claude/rules/</code></strong>, which lets an instruction load only when Claude touches matching files, and <strong>auto memory</strong>, where Claude writes its own notes between sessions. Both are on by default. Ignoring them doesn't make them go away, it just means you have memory you didn't plan.</p>
 
   <figure>
     <pre class="mermaid">
 graph TB
-    Q[New thing to remember] --> Q1{Would ≥ 2 agents<br/>benefit from this?}
-    Q1 -->|Yes| L1[CLAUDE.md<br/>§ Lessons learned<br/>versioned · cross-cutting]
+    Q[New thing to remember] --> Q0{Who writes it?}
+    Q0 -->|Claude, on its own| L5[~/.claude/projects/.../memory/<br/>AUTO MEMORY · local only]
+    Q0 -->|You| Q1{Would 2+ agents<br/>benefit from this?}
+    Q1 -->|Yes| Q1b{Does it apply to<br/>the whole repo?}
+    Q1b -->|Yes| L1[CLAUDE.md<br/>Lessons learned<br/>versioned · always loaded]
+    Q1b -->|One subtree| L2[.claude/rules/*.md<br/>paths: frontmatter<br/>versioned · loads on demand]
     Q1 -->|No| Q2{Is it a domain<br/>e.g. SQL, dates, commits?}
-    Q2 -->|Yes| L2[.agents/skills/domain/<br/>versioned · structured rules]
-    Q2 -->|No| Q3{One agent ·<br/>'don't flag this again'?}
-    Q3 -->|Yes| L3[.claude/agent-memory/agent/<br/>versioned · agent-scoped]
-    Q3 -->|No| L4[~/.claude/projects/.../memory/<br/>LOCAL ONLY · will be lost]
+    Q2 -->|Yes| L3[.agents/skills/domain/<br/>versioned · structured rules]
+    Q2 -->|No| Q3{One agent ·<br/>do not flag this again?}
+    Q3 -->|Yes| L4[.claude/agent-memory/agent/<br/>versioned · agent-scoped]
+    Q3 -->|No| L6[CLAUDE.local.md<br/>gitignored · this checkout]
     style L1 fill:#dcfce7,stroke:#15803d,stroke-width:2px
-    style L2 fill:#dbeafe,stroke:#1d4ed8,stroke-width:2px
-    style L3 fill:#fef3c7,stroke:#d97706,stroke-width:2px
-    style L4 fill:#fee2e2,stroke:#b91c1c,stroke-width:2px
+    style L2 fill:#dcfce7,stroke:#15803d,stroke-width:2px
+    style L3 fill:#dbeafe,stroke:#1d4ed8,stroke-width:2px
+    style L4 fill:#fef3c7,stroke:#d97706,stroke-width:2px
+    style L5 fill:#fee2e2,stroke:#b91c1c,stroke-width:2px
+    style L6 fill:#fee2e2,stroke:#b91c1c,stroke-width:2px
     </pre>
-    <figcaption>The decision tree. Three of the four leaves are versioned in Git; only one is local and ephemeral.</figcaption>
+    <figcaption>The decision tree. Four leaves are versioned in Git; two are local and will not survive a reclone.</figcaption>
   </figure>
 
-  <h2>The four locations</h2>
+  <h2>The six locations</h2>
 
   <table>
     <thead>
-      <tr><th>Location</th><th>Git-versioned?</th><th>Scope</th><th>Use case</th></tr>
+      <tr><th>Location</th><th>Written by</th><th>Versioned?</th><th>Loaded</th><th>Use case</th></tr>
     </thead>
     <tbody>
       <tr>
         <td><code>CLAUDE.md</code> §&nbsp;Lessons learned</td>
+        <td>You</td>
         <td>✅ Yes</td>
-        <td>Cross-cutting, project-wide</td>
-        <td>Non-obvious traps, implicit conventions, architectural decisions, library-version workarounds. See Chapter 08.</td>
+        <td>Every session</td>
+        <td>Non-obvious traps, implicit conventions, architectural decisions. Keep it under 200 lines. See Chapter 08.</td>
+      </tr>
+      <tr>
+        <td><code>.claude/rules/*.md</code></td>
+        <td>You</td>
+        <td>✅ Yes</td>
+        <td>On demand, via <code>paths:</code></td>
+        <td>An instruction that only matters for part of the repo. The pressure valve for an overgrown CLAUDE.md.</td>
       </tr>
       <tr>
         <td><code>.agents/skills/&lt;domain&gt;/</code></td>
+        <td>You</td>
         <td>✅ Yes</td>
-        <td>Domain-specific knowledge</td>
-        <td>Canonical rules with Incorrect → Correct examples. Loaded by the agents that need them. See Chapter 06.</td>
+        <td>When invoked or relevant</td>
+        <td>Canonical rules with Incorrect → Correct examples. See Chapter 06.</td>
       </tr>
       <tr>
         <td><code>.claude/agent-memory/&lt;agent&gt;/</code></td>
+        <td>You</td>
         <td>✅ Yes</td>
-        <td>Per-agent feedback &amp; project state</td>
-        <td>"Don't re-flag this", validated exceptions, references the agent specifically needs. Four sub-types: <code>user_*</code>, <code>feedback_*</code>, <code>project_*</code>, <code>reference_*</code>.</td>
+        <td>By that agent</td>
+        <td>"Don't re-flag this", validated exceptions, references one agent needs.</td>
       </tr>
       <tr>
         <td><code>~/.claude/projects/&lt;project&gt;/memory/</code></td>
-        <td>❌ No (local only)</td>
-        <td>This machine, volatile</td>
-        <td>Personal preferences, session-level context, shortcuts. <strong>Anything that should survive a reclone goes elsewhere.</strong></td>
+        <td><strong>Claude</strong></td>
+        <td>❌ No (machine-local)</td>
+        <td><code>MEMORY.md</code> index, every session</td>
+        <td>Auto memory. Your preferences, corrections you gave, project context Claude can't derive from the code.</td>
+      </tr>
+      <tr>
+        <td><code>CLAUDE.local.md</code></td>
+        <td>You</td>
+        <td>❌ No (gitignored)</td>
+        <td>Every session</td>
+        <td>Your sandbox URLs, your test data, personal project preferences. Exists only in the worktree you created it in.</td>
       </tr>
     </tbody>
   </table>
 
+  <h2>Path-scoped rules, the CLAUDE.md pressure valve</h2>
+
+  <p>Chapter 13 tells you to split a bloated <code>CLAUDE.md</code> into imports. That helps organization but <em>not</em> context: an <code>@import</code> still loads at launch. A rule with <code>paths:</code> frontmatter is different, it only enters the context window when Claude reads a matching file:</p>
+
+  <pre data-lang="markdown">---
+paths:
+  - "src/api/**/*.ts"
+---
+
+# API rules
+
+- Every endpoint validates its input with the shared zod schema.
+- Errors use the standard envelope, never a bare throw.</pre>
+
+  <p>Put it in <code>.claude/rules/api.md</code> and it costs nothing until Claude opens an API file. Rules without a <code>paths:</code> field load unconditionally, at the same priority as <code>.claude/CLAUDE.md</code>. Personal, cross-project rules go in <code>~/.claude/rules/</code>.</p>
+
+  <h2>Auto memory, the one Claude writes</h2>
+
+  <p>Claude now keeps its own notes per repository, at <code>~/.claude/projects/&lt;project&gt;/memory/</code>. It records four types, tagged in each file's frontmatter:</p>
+
+  <table>
+    <thead><tr><th>Type</th><th>What lands there</th></tr></thead>
+    <tbody>
+      <tr><td><code>user</code></td><td>Your role, expertise, working preferences</td></tr>
+      <tr><td><code>feedback</code></td><td>Corrections you gave, approaches you confirmed</td></tr>
+      <tr><td><code>project</code></td><td>Ongoing work and decisions not derivable from the code or git history</td></tr>
+      <tr><td><code>reference</code></td><td>Where to find things outside the project: a dashboard, a tracker</td></tr>
+    </tbody>
+  </table>
+
+  <p>The directory holds one file per memory plus a <code>MEMORY.md</code> index. Only the index is loaded at session start, and only its <strong>first 200 lines or 25&nbsp;KB</strong>, whichever comes first. Topic files are read on demand. Inspect and edit all of it with <code>/memory</code>; disable it per project with <code>"autoMemoryEnabled": false</code> in <code>.claude/settings.json</code>.</p>
+
+  <aside class="callout callout-warning">
+    <div class="callout-title">Auto memory is machine-local, and that is the trap</div>
+    <p>It's shared across worktrees of the same repo, but it does <strong>not</strong> travel: not to a teammate, not to a cloud session, not to your other laptop. A convention that only exists in auto memory is a convention your team doesn't have. When Claude says "Saved 2 memories" about something project-critical, that's your cue to promote it into <code>CLAUDE.md</code> or a rule.</p>
+  </aside>
+
+  <aside class="callout callout-info">
+    <div class="callout-title">Does auto memory replace the audit loop?</div>
+    <p>No, and the difference is worth naming. Auto memory is <em>Claude's</em> notebook: automatic, private, machine-local, and Claude decides what goes in. The audit loop of Chapter 08 is <em>yours</em>: deliberate, reviewed in a PR, versioned, shared with everyone who clones the repo. Use auto memory for "he prefers terse commit messages". Use <code>/extract-lesson</code> for "this migration breaks if you don't drop the index first". The test is simple: <strong>would a new teammate need to know this?</strong> If yes, it does not belong in auto memory.</p>
+  </aside>
+
   <h2>Decision rules</h2>
 
   <ol>
-    <li><strong>Two or more agents would benefit from this info</strong> → <code>CLAUDE.md</code> §&nbsp;Lessons learned.</li>
+    <li><strong>Two or more agents benefit, and it applies repo-wide</strong> → <code>CLAUDE.md</code> §&nbsp;Lessons learned.</li>
+    <li><strong>Same, but it only applies to one subtree</strong> → <code>.claude/rules/&lt;topic&gt;.md</code> with <code>paths:</code>.</li>
     <li><strong>One agent, and the topic is a domain (Postgres, React, dates, commits)</strong> → skill under <code>.agents/skills/</code>.</li>
     <li><strong>One agent, and the info is purely "don't flag this again"</strong> → <code>.claude/agent-memory/&lt;agent&gt;/</code>.</li>
-    <li><strong>None of the above (purely my preference, this machine)</strong> → <code>~/.claude/projects/</code>.</li>
+    <li><strong>Personal, this checkout, and you want it in a file you control</strong> → <code>CLAUDE.local.md</code>.</li>
+    <li><strong>Anything else</strong> → leave it to auto memory, and don't rely on it surviving.</li>
   </ol>
 
   <h2>Worked examples</h2>
 
-  <p><strong>Example 1.</strong> You decided to use <code>date-fns</code> over <code>moment.js</code> across the project. Multiple future commits will refer to this choice. Multiple agents (code-auditor, qa-tester) need to know. → <code>CLAUDE.md</code> §&nbsp;Lessons learned, with the commit SHA.</p>
+  <p><strong>Example 1.</strong> You decided to use <code>date-fns</code> over <code>moment.js</code> across the project. Multiple agents need to know. → <code>CLAUDE.md</code> §&nbsp;Lessons learned, with the commit SHA.</p>
 
-  <p><strong>Example 2.</strong> Your code-auditor keeps flagging <code>any</code> in Recharts formatters, which is a documented project convention. → <code>.claude/agent-memory/code-auditor/feedback_recharts_any_ok.md</code>. The agent loads its memory and stops re-flagging.</p>
+  <p><strong>Example 2.</strong> Your API handlers must validate with zod, but nothing else in the repo does. → <code>.claude/rules/api.md</code> with <code>paths: ["src/api/**"]</code>. It costs zero context on a frontend session.</p>
 
-  <p><strong>Example 3.</strong> You want a versioned catalog of REST API versioning rules with examples. → <code>.agents/skills/api-versioning/</code> with one rule per file under <code>references/</code>.</p>
+  <p><strong>Example 3.</strong> Your code-auditor keeps flagging <code>any</code> in Recharts formatters, a documented convention. → <code>.claude/agent-memory/code-auditor/feedback_recharts_any_ok.md</code>.</p>
 
-  <p><strong>Example 4.</strong> You prefer terse responses from Claude. This is a personal taste, this machine only. → <code>~/.claude/projects/&lt;project&gt;/memory/user_communication.md</code>.</p>
+  <p><strong>Example 4.</strong> You want a versioned catalog of REST API versioning rules with examples. → <code>.agents/skills/api-versioning/</code>, one rule per file under <code>references/</code>.</p>
+
+  <p><strong>Example 5.</strong> You prefer terse responses. Personal, no team value. → let auto memory keep it, or write it once in <code>~/.claude/CLAUDE.md</code> if you want it in every project.</p>
 
   <h2>Anti-patterns</h2>
 
   <aside class="callout callout-danger">
     <div class="callout-title">Don't do this</div>
     <ul>
-      <li><strong>Duplicate the same info in two locations.</strong> At the next update, one drifts. Pick one location and let the other point to it.</li>
-      <li><strong>Put a project-critical convention in <code>~/.claude/projects/</code></strong>. It's local. It'll be lost. You'll re-discover it the hard way after a reclone.</li>
-      <li><strong>Put a formula in a skill <em>and</em> in an agent's system prompt.</strong> The skill wins. Always. The agent prompt should reference the skill, not duplicate it.</li>
-      <li><strong>Treat <code>CLAUDE.md</code> as a dumping ground.</strong> If it crosses 300 lines, split it into thematic imports (<code>@.claude/CONVENTIONS.md</code>, <code>@.claude/STACK.md</code>, etc.). See Chapter 13.</li>
+      <li><strong>Duplicate the same info in two locations.</strong> At the next update, one drifts. Pick one and let the other point to it.</li>
+      <li><strong>Treat auto memory as documentation.</strong> It's a notebook, not a contract. It doesn't reach your team and it doesn't reach the cloud.</li>
+      <li><strong>Let <code>MEMORY.md</code> grow past 200 lines.</strong> Everything past the limit is silently dropped at the next load. Claude Code warns; act on the warning.</li>
+      <li><strong>Put a formula in a skill <em>and</em> in an agent's system prompt.</strong> The skill wins. Always.</li>
+      <li><strong>Treat <code>CLAUDE.md</code> as a dumping ground.</strong> Past 200 lines, adherence drops. Move what's path-specific into <code>.claude/rules/</code>, not into an import. See Chapter 13.</li>
     </ul>
   </aside>
 </article>
@@ -1960,10 +2081,117 @@ graph TB
 </article>
 
 <!-- =================================================================
-     CHAPTER 15, Third-party MCP & prompt injection  ⭐ NEW in V3
+     CHAPTER 15, Permissions, auto mode & the sandbox  ⭐ NEW in V4
      ================================================================= -->
 <article class="chapter">
-  <h1 class="chapter-title"><span class="chapter-number">Chapter 15 <span class="badge badge-advanced">ADVANCED</span></span>Third-party MCP &amp; prompt injection</h1>
+  <h1 class="chapter-title"><span class="chapter-number">Chapter 15 <span class="badge badge-intermediate">INTERMEDIATE</span></span>Permissions, auto mode &amp; the sandbox</h1>
+
+  <aside class="callout callout-info">
+    <div class="callout-title">TL;DR</div>
+    <ul>
+      <li>Since August 2026, <strong>auto mode is the default</strong> on Pro, Max, and Team. A classifier reviews actions instead of you. If you last read this book in V3, your mental model is out of date.</li>
+      <li>Permission <em>modes</em> decide whether Claude asks. The <em>sandbox</em> decides what an action can reach once it runs. Two independent axes; configure both.</li>
+      <li><strong>Deny rules and <code>PreToolUse</code> hooks still win in every mode.</strong> Your guard hook from Chapter 03 did not become decorative, it became the layer that matters most.</li>
+    </ul>
+  </aside>
+
+  <p>Earlier chapters of this book were written against a simple model: Claude proposes, you approve, a hook blocks the worst. That model described Claude Code accurately for two years. It no longer describes the default.</p>
+
+  <p>The permission prompt hasn't disappeared, it's been delegated. In <strong>auto mode</strong>, a second model, the classifier, reviews each action against a safety policy and approves or blocks it without stopping the session. This is genuinely useful, it removes the prompt fatigue that pushed people toward <code>--dangerously-skip-permissions</code>, and it is <em>not</em> the same thing as that flag. Understanding the difference is this chapter's job.</p>
+
+  <h2>The six modes</h2>
+
+  <p>A mode sets the baseline for what runs without asking you. Note that "Manual" is the display name; its config value is <code>default</code>.</p>
+
+  <table>
+    <thead><tr><th>Mode</th><th>Runs without asking</th><th>Best for</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Manual</strong> (<code>default</code>)</td><td>Reads only</td><td>Sensitive work, unfamiliar code, reviewing every action yourself</td></tr>
+      <tr><td><code>acceptEdits</code></td><td>Reads, file edits, common filesystem commands</td><td>Iterating on code you're actively reviewing</td></tr>
+      <tr><td><code>plan</code></td><td>Reads, plus classifier-approved commands where auto mode is available</td><td>Exploring before changing anything. See Chapter 07</td></tr>
+      <tr><td><code>auto</code></td><td>Everything, with background safety checks</td><td>Long tasks. <strong>The built-in default on Pro, Max, Team</strong></td></tr>
+      <tr><td><code>dontAsk</code></td><td>Reads and pre-approved tools; anything that would prompt is <em>denied</em></td><td>Locked-down CI and scripts. See Chapter 21</td></tr>
+      <tr><td><code>bypassPermissions</code></td><td>Everything, no checks</td><td>Isolated containers and VMs <em>only</em></td></tr>
+    </tbody>
+  </table>
+
+  <p>Your session starts in auto mode if you're on Pro, Max, or Team in a terminal or VS Code. It starts in Manual on an Enterprise plan, with a Console API key, on Bedrock / Google Cloud / Foundry, and in every <code>claude -p</code> or Agent SDK run. Switch at any time with <code>Shift+Tab</code>. To pin a different default for a machine or a project, set <code>permissions.defaultMode</code> in a settings file.</p>
+
+  <aside class="callout callout-warning">
+    <div class="callout-title">Two values don't take effect from project settings</div>
+    <p>Setting <code>"auto"</code> or <code>"bypassPermissions"</code> as <code>permissions.defaultMode</code> in a project's <code>.claude/settings.json</code> is silently ignored, a repo you clone can't escalate its own privileges. Pin them in <code>~/.claude/settings.json</code> or managed settings, or switch in-session.</p>
+  </aside>
+
+  <h2>What the classifier will never wave through</h2>
+
+  <p>Auto mode is not "approve everything quietly". A fixed set of actions is never auto-approved <em>in any mode</em>, including <code>bypassPermissions</code>:</p>
+
+  <ul>
+    <li>Anything matched by an explicit <strong>ask rule</strong> you wrote.</li>
+    <li><code>rm</code> and <code>rmdir</code> targeting a <strong>critical path</strong>, which no allow rule and no hook <code>"allow"</code> can approve.</li>
+    <li>Tools that need a human by definition, like <code>AskUserQuestion</code>.</li>
+    <li>Reads outside your working directories, when <code>permissions.blockReadsOutsideWorkingDirectories</code> is on.</li>
+  </ul>
+
+  <p>On top of that, auto mode blocks specific categories outright: destructive git commands when you didn't ask to discard work, transcript tampering, <code>rm -rf</code> on an unresolved variable, and a "containment escape" family, fetching cloud metadata credentials, evading egress controls, reaching across tenants.</p>
+
+  <aside class="callout callout-danger">
+    <div class="callout-title">Auto mode ≠ --dangerously-skip-permissions</div>
+    <p>They feel similar from the keyboard: no prompts. They are opposites in design. Auto mode <em>adds</em> a reviewer; bypass mode <em>removes</em> one. In auto mode your deny rules, your ask rules, your hooks, and the critical-path protections all still fire. In <code>bypassPermissions</code>, allow rules become meaningless and only deny rules and the short "never" list survive. Everything Chapter 16 says about prompt injection applies with full force to bypass mode, and only partially to auto mode.</p>
+  </aside>
+
+  <h2>The second axis: the sandbox</h2>
+
+  <p>Modes answer "does Claude ask first?". The <strong>sandbox</strong> answers a different question: "when the command runs, what can it touch?" A sandboxed Bash command gets filesystem and network isolation, so a command that gets through the permission layer still can't read your SSH keys or phone home.</p>
+
+  <p>Turn it on for a session with <code>/sandbox</code>, or permanently with <code>sandbox.enabled</code> in settings. Two details are worth knowing:</p>
+
+  <ul>
+    <li><strong>Auto-allow mode</strong> is the sweet spot for the cautious: keep <em>Manual</em> permission mode, turn the sandbox on in auto-allow. You get far fewer prompts without ever handing approval to a classifier. Deny rules still apply, and ask rules that name a command (<code>Bash(git push *)</code>) still stop the session.</li>
+    <li><strong>Per-command <code>allowed_domains</code></strong> lets a single command reach a named host and refuses every other. The right default for a build step that needs exactly one registry.</li>
+  </ul>
+
+  <aside class="callout callout-warning">
+    <div class="callout-title">The Bash sandbox is macOS, Linux, and WSL2</div>
+    <p>It relies on OS-level isolation primitives that native Windows doesn't provide. If you work in PowerShell on Windows, the sandbox is not your layer, your <code>PreToolUse</code> guard hook and your deny rules are. Run Claude Code under WSL2, or in a dev container, if you want the isolation. See Annex L.</p>
+  </aside>
+
+  <h2>Choosing your posture</h2>
+
+  <table>
+    <thead><tr><th>You want to…</th><th>Mode</th><th>Isolation</th></tr></thead>
+    <tbody>
+      <tr><td>Review every action yourself</td><td>Manual</td><td>None needed</td></tr>
+      <tr><td>Fewer prompts, but no classifier deciding for you</td><td>Manual</td><td>Sandbox in auto-allow</td></tr>
+      <tr><td>Explore an unfamiliar repo</td><td><code>plan</code></td><td>None needed</td></tr>
+      <tr><td>Work hands-off on a long task</td><td><code>auto</code></td><td>Sandbox as defence in depth</td></tr>
+      <tr><td>Run in CI with an exact allowlist</td><td><code>dontAsk</code> + <code>--allowedTools</code></td><td>Whatever your runner gives you</td></tr>
+      <tr><td>Run fully unattended</td><td><code>bypassPermissions</code></td><td><strong>Required</strong>: container or VM, non-root</td></tr>
+    </tbody>
+  </table>
+
+  <h2>What this means for the setup in this book</h2>
+
+  <p>Nothing you built in Chapters 02 and 03 becomes obsolete. The weights shift:</p>
+
+  <ol>
+    <li><strong>The guard hook matters more, not less.</strong> A <code>PreToolUse</code> hook is <em>enforcement</em>, it runs as code regardless of what any model decides. The classifier is judgement. When you care about a specific outcome, write the hook.</li>
+    <li><strong>Deny rules are your hard floor.</strong> They block in every mode, including bypass. Anything you would genuinely never want, put it in <code>permissions.deny</code>, not in a CLAUDE.md sentence.</li>
+    <li><strong>CLAUDE.md is context, not configuration.</strong> "Never push to main" in prose is a suggestion. In <code>permissions.deny</code> it's a wall. The official docs are explicit about this split; so should your setup be.</li>
+    <li><strong>Re-read your permissions after upgrading.</strong> <code>/permissions</code> shows what's granted. A default that changed underneath you is exactly the kind of drift the audit loop (Chapter 08) exists to catch.</li>
+  </ol>
+
+  <aside class="callout callout-tip">
+    <div class="callout-title">A reasonable default for this book's reader</div>
+    <p>If you want one recommendation: <strong>auto mode on, sandbox on, deny rules written, guard hook installed.</strong> That combination gives you an uninterrupted session, a second reviewer, an isolation boundary, and a hard floor that no model can talk its way past. If you'd rather not have a classifier approving on your behalf at all, use Manual plus sandbox auto-allow instead, you'll trade some prompts for full control.</p>
+  </aside>
+</article>
+
+<!-- =================================================================
+     CHAPTER 16, Third-party MCP & prompt injection  (was 15 in V3)
+     ================================================================= -->
+<article class="chapter">
+  <h1 class="chapter-title"><span class="chapter-number">Chapter 16 <span class="badge badge-advanced">ADVANCED</span></span>Third-party MCP &amp; prompt injection</h1>
 
   <p>Chapter 12 connected Claude to the outside world and locked the obvious door, read-only MCP scopes. This chapter is about the doors you didn't know were open. Every MCP server you add, and every file, issue, or web page Claude reads, is a place where someone else's text meets your privileges.</p>
 
@@ -2033,10 +2261,10 @@ graph TB
 </section>
 
 <!-- =================================================================
-     CHAPTER 16, Plugins & marketplaces  ⭐ NEW in V3.1
+     CHAPTER 17, Plugins & marketplaces  (was 16 in V3.1)
      ================================================================= -->
 <article class="chapter">
-  <h1 class="chapter-title"><span class="chapter-number">Chapter 16 <span class="badge badge-advanced">ADVANCED</span></span>Plugins &amp; marketplaces</h1>
+  <h1 class="chapter-title"><span class="chapter-number">Chapter 17 <span class="badge badge-advanced">ADVANCED</span></span>Plugins &amp; marketplaces</h1>
 
   <p>You've built hooks (Ch. 03), sub-agents (Ch. 05), skills (Ch. 06), and slash commands (Ch. 04). So far it all lives in one repo's <code>.claude/</code>, copied by hand into the next project. A <strong>plugin</strong> packages the whole setup into one installable, versioned unit you can drop into any project and share with a team, no more copy-paste drift.</p>
 
@@ -2112,7 +2340,7 @@ graph TB
 
   <aside class="callout callout-danger">
     <div class="callout-title">An unattended agent should propose, not merge</div>
-    <p>A cloud routine runs with no human at the keyboard, so the Chapter 15 rule hardens: give it least-privilege, and have it <em>open an issue or a draft</em> with its findings rather than commit or push. The safety isn't the prompt, it's the permissions the schedule runs under.</p>
+    <p>A cloud routine runs with no human at the keyboard, so the Chapter 16 rule hardens: give it least-privilege, and have it <em>open an issue or a draft</em> with its findings rather than commit or push. The safety isn't the prompt, it's the permissions the schedule runs under.</p>
   </aside>
 
   <aside class="callout callout-info">

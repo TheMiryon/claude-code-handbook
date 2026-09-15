@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Le code du claudeur V3, Un setup pro, étape par étape</title>
+  <title>Le code du claudeur V4, Un setup pro, étape par étape</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/css/print.css">
   <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
@@ -31,8 +31,8 @@
 <section class="cover">
   <div class="cover-eyebrow">Claude Code · Manuel</div>
   <h1 class="cover-title">Le manuel<br>que tu finis vraiment.</h1>
-  <p class="cover-subtitle">60 pages. Gratuit. Pour les devs et les knowledge workers. Hooks, sub-agents, skills, développement plan-first, la boucle d'audit, le testing, la sécurité des tiers, un playbook de récupération, et l'empaquetage de tout ça en plugin.</p>
-  <div class="cover-version">Version 3.1 · 2026 · MIT</div>
+  <p class="cover-subtitle">80 pages. Gratuit. Pour les devs et les knowledge workers. Hooks, sub-agents, skills, développement plan-first, la boucle d'audit, le testing, le mode auto et le bac à sable, les workflows dynamiques, la fenêtre de contexte, la CI, et l'empaquetage de tout ça en plugin.</p>
+  <div class="cover-version">Version 4.0 · 2026 · MIT</div>
 </section>
 
 <!-- ===== AVANT-PROPOS ===== -->
@@ -56,7 +56,7 @@
 
   <p>L'ensemble prend ~30 minutes à amorcer et quelques heures à affiner. Le gain composé se mesure en jours économisés par trimestre.</p>
 
-  <p class="muted small">Ceci est la V3.1 du manuel. Nouveau en V3.1, Partie VII « Packaging &amp; distribution » : un chapitre sur l'empaquetage de tout ton setup en plugin et son partage via une marketplace (Chapitre 16). La V3 avait ajouté la Partie VI « Discipline &amp; sûreté », le testing &amp; TDD, la sécurité des MCP tiers et la prompt injection, et un playbook de récupération (Annexe J). La V2 avait ajouté les chapitres skills, le workflow plan-first inspiré du créateur de Claude Code Boris Cherny, la boucle d'audit, les worktrees parallèles, et la matrice mémoire à 4 lieux.</p>
+  <p class="muted small">Ceci est la V4.0 du manuel, la plus grosse révision depuis la V1. Claude Code a changé sous le livre pendant 2026 : <strong>le mode auto est devenu le mode de permission par défaut</strong>, Claude s'est mis à écrire sa propre mémoire, et une nouvelle primitive d'orchestration (les workflows dynamiques) est apparue au-dessus des sub-agents. La V4 réécrit les chapitres que ces changements ont rendus obsolètes et ajoute deux parties. Nouveau en V4 : le Chapitre 15 « Permissions, mode auto &amp; bac à sable » ; la Partie VIII « Orchestration &amp; passage à l'échelle » (travailler en parallèle, les workflows dynamiques, la fenêtre de contexte) ; la Partie IX « Automatisation &amp; contrôle qualité » (headless &amp; CI, auditer son propre setup, les artifacts) ; et deux annexes, onboarder un codebase existant (K) et les hooks cross-platform (L). La V3.1 avait ajouté la Partie VII sur les plugins et marketplaces. La V3 avait ajouté la Partie VI « Discipline &amp; sûreté » et le playbook de récupération (Annexe J). La V2 avait ajouté les chapitres skills, le workflow plan-first inspiré du créateur de Claude Code Boris Cherny, la boucle d'audit, les worktrees parallèles, et la matrice mémoire.</p>
 </article>
 
 <!-- ===== POUR QUI / PAS POUR QUI ===== -->
@@ -228,42 +228,65 @@ INSTRUCTIONS POUR LA TRADUCTION FR :
 
   <p>Avant de configurer quoi que ce soit, sache où tu vas l'installer. Toutes les surfaces Claude Code supportent les mêmes mécanismes, mais Claude Code reste distinct du produit Claude.ai (chat).</p>
 
-  <h2>Les 6 surfaces officielles Claude Code</h2>
+  <h2>Les surfaces</h2>
 
-  <p>Toutes lisent la même config <code>.claude/</code> dans ton repo. Tu peux switcher entre elles sans rien re-configurer.</p>
+  <p>Toutes lisent la même config <code>.claude/</code> dans ton repo. Tu switches de l'une à l'autre sans rien re-configurer.</p>
 
   <table>
-    <thead><tr><th>Surface</th><th>Particularité</th></tr></thead>
+    <thead><tr><th>Surface</th><th>Sa particularité</th></tr></thead>
     <tbody>
-      <tr><td><strong>Terminal CLI</strong></td><td>Le plus complet. Commande <code>claude</code> dans n'importe quel dossier. Idéal pour scripting, pipes, CI.</td></tr>
-      <tr><td><strong>VS Code extension</strong></td><td>Inline diffs, @-mentions, plan review. <strong>Marche aussi dans Cursor</strong> (extension officielle Anthropic, pas <code>.cursorrules</code>).</td></tr>
-      <tr><td><strong>JetBrains plugin</strong></td><td>IntelliJ, PyCharm, WebStorm, etc. Marketplace JetBrains officielle.</td></tr>
-      <tr><td><strong>Desktop app</strong></td><td>App standalone macOS/Windows. Diff visuel, sessions parallèles, tâches planifiées, sessions cloud.</td></tr>
-      <tr><td><strong>Web</strong></td><td><code>claude.ai/code</code> dans le navigateur. Idéal pour tâches longues, repos pas en local, mobile.</td></tr>
-      <tr><td><strong>iOS app</strong></td><td>Claude app pour iPhone. Continuer une session depuis le téléphone.</td></tr>
+      <tr><td><strong>CLI terminal</strong></td><td>La plus complète. Lance <code>claude</code> dans n'importe quel dossier projet. Idéale pour le scripting, les pipes, la CI. Installeurs natifs sur macOS, Linux et Windows (<code>winget</code>, <code>install.ps1</code>).</td></tr>
+      <tr><td><strong>Extension VS Code</strong></td><td>Diffs inline, @-mentions, revue de plan, et des dialogues pour les hooks et les règles de permission. <strong>Marche aussi dans Cursor</strong> (extension officielle Anthropic, pas <code>.cursorrules</code>).</td></tr>
+      <tr><td><strong>Plugin JetBrains</strong></td><td>IntelliJ, PyCharm, WebStorm, etc. Nécessite la CLI installée à part.</td></tr>
+      <tr><td><strong>App Desktop</strong></td><td>macOS, Windows et Linux (beta sur Ubuntu/Debian). Diff visuel, sessions parallèles, tâches planifiées, sessions cloud, navigateur intégré, panneau Simulateur iOS.</td></tr>
+      <tr><td><strong>Web</strong></td><td><code>claude.ai/code</code> dans le navigateur. Idéale pour les tâches longues et les repos que tu n'as pas en local.</td></tr>
+      <tr><td><strong>Mobile</strong></td><td>L'app Claude sur <strong>iOS et Android</strong>. Tu lances une tâche, tu reçois une notification push quand elle a besoin de toi.</td></tr>
+      <tr><td><strong>Slack</strong></td><td>Mentionne <code>@Claude</code> avec un rapport de bug, récupère une pull request. Le point d'entrée depuis le chat d'équipe.</td></tr>
+      <tr><td><strong>Chrome</strong></td><td>Claude pilote ton navigateur pour débugger une app web en direct. GA depuis juillet 2026.</td></tr>
     </tbody>
   </table>
 
   <aside class="callout callout-tip">
-    <div class="callout-title">Le moteur est partagé</div>
-    <p>Chaque surface se connecte au même moteur Claude Code. Ton <code>CLAUDE.md</code>, tes hooks, tes sub-agents, ton <code>.mcp.json</code>, tout marche partout. Tu démarres une tâche dans le terminal, tu la reprends sur ton tel.</p>
+    <div class="callout-title">Moteur partagé</div>
+    <p>Chaque surface se connecte au même moteur Claude Code. Ton <code>CLAUDE.md</code>, tes hooks, tes sub-agents et ton <code>.mcp.json</code> marchent partout. Tu configures une fois, dans le repo, et la config te suit.</p>
   </aside>
 
-  <h2>Recommandation par profil</h2>
+  <h2>La couche mobilité <small class="muted">(nouveau en V4)</small></h2>
+
+  <p>Les surfaces ci-dessus sont là où une session <em>démarre</em>. Ce qui a changé en 2026, c'est qu'une session n'est plus liée à la surface qui l'a lancée. Quatre mécanismes déplacent le travail, et on les confond facilement :</p>
+
+  <table>
+    <thead><tr><th>Tu veux…</th><th>Utilise</th><th>Ce qui se passe réellement</th></tr></thead>
+    <tbody>
+      <tr><td>Continuer à piloter ta session <em>locale</em> depuis ton téléphone</td><td><strong>Remote Control</strong></td><td>La session reste sur ta machine, avec tes fichiers et tes outils. Ton téléphone devient le clavier. Ta machine doit rester allumée.</td></tr>
+      <tr><td>Rapatrier une session cloud/web dans ton terminal</td><td><code>claude --teleport</code></td><td>La conversation migre sur ta machine. Nécessite un abonnement claude.ai.</td></tr>
+      <tr><td>Continuer la session terminal courante dans l'app Desktop</td><td><code>/desktop</code></td><td>Passage de relais pour relire les diffs visuellement. macOS et Windows x64.</td></tr>
+      <tr><td>Pousser des événements externes dans une session <em>en cours</em></td><td><strong>Channels</strong></td><td>Telegram, Discord, iMessage ou tes propres webhooks arrivent dans une session vivante. Elle réagit sans que tu tapes quoi que ce soit.</td></tr>
+    </tbody>
+  </table>
+
+  <aside class="callout callout-warning">
+    <div class="callout-title">Remote Control n'est pas une session cloud</div>
+    <p>La distinction compte pour ton setup. <strong>Remote Control</strong> tourne sur ta machine : ton <code>.claude/</code>, tes hooks, ton remote git, tes secrets. Une <strong>session cloud</strong> (<code>claude --cloud</code>, le web, les Routines) tourne sur l'infra d'Anthropic : elle clone le repo, et tout ce qui est local à ta machine, ta mémoire auto, ton <code>CLAUDE.local.md</code>, ton travail non poussé, <em>n'y est pas</em>. Si un workflow se comporte différemment sur le web et sur ton laptop, c'est presque toujours ça.</p>
+  </aside>
+
+  <h2>Recommandations par profil</h2>
 
   <table>
     <thead><tr><th>Profil</th><th>Recommandation</th></tr></thead>
     <tbody>
-      <tr><td>Solo dev qui code dans un IDE</td><td><strong>VS Code ou JetBrains extension</strong> pour le quotidien, <strong>CLI</strong> dans le terminal pour les workflows scriptés. Setup complet possible.</td></tr>
-      <tr><td>Équipe</td><td>N'importe quelle surface, avec un setup <code>.claude/</code> versionné dans git. Tout le monde hérite de la config.</td></tr>
-      <tr><td>Mobile / hors du bureau</td><td><strong>Web</strong> sur tel ou <strong>iOS app</strong>. Lance une tâche longue, reprends-la sur l'ordi.</td></tr>
-      <tr><td>Utilisateur Cursor</td><td>Installer l'extension Claude Code officielle dans Cursor (<code>cursor:extension/anthropic.claude-code</code>). Toute la config <code>.claude/</code> marche.</td></tr>
+      <tr><td>Dev solo dans un IDE</td><td><strong>Extension VS Code ou JetBrains</strong> pour le quotidien, <strong>CLI</strong> dans le terminal pour les workflows scriptés. Setup complet possible.</td></tr>
+      <tr><td>Équipe</td><td>N'importe quelle surface, avec un setup <code>.claude/</code> versionné dans git. Tout le monde hérite de la config. Ajoute <strong>Slack</strong> pour que les rapports de bug deviennent des PR sans changer de contexte.</td></tr>
+      <tr><td>Loin du bureau</td><td><strong>Remote Control</strong> si ta machine est allumée et que tu veux ton vrai environnement. <strong>Web ou mobile</strong> si elle ne l'est pas.</td></tr>
+      <tr><td>Travaux longs sans surveillance</td><td><strong>Sessions web / cloud</strong> ou <strong>Routines</strong>. Voir Chapitre 17.</td></tr>
+      <tr><td>Utilisateur Cursor</td><td>Installe l'extension officielle Claude Code dans Cursor (<code>cursor:extension/anthropic.claude-code</code>). Toute la config <code>.claude/</code> marche.</td></tr>
+      <tr><td>Utilisateur Windows</td><td>L'install native marche sans Git Bash ; Claude Code retombe alors sur PowerShell comme shell tool. Installer <a href="https://git-scm.com/downloads/win">Git for Windows</a> reste recommandé pour que les hooks bash tournent. Voir Annexe L.</td></tr>
     </tbody>
   </table>
 
   <aside class="callout callout-warning">
     <div class="callout-title">Claude.ai (chat) ≠ Claude Code</div>
-    <p>Claude.ai (le produit chat) supporte les « Projects » avec instructions custom (équivalent léger à CLAUDE.md), mais <strong>pas</strong> hooks, sub-agents, ou MCP serveur. Ce manuel concerne Claude Code (les 6 surfaces ci-dessus). Pour le chat seul, garde uniquement les chapitres 1-2 (principes + CLAUDE.md).</p>
+    <p>Claude.ai (le produit chat) supporte les « Projects » avec des instructions custom (un équivalent léger de CLAUDE.md), mais <strong>pas</strong> les hooks, sub-agents ou serveurs MCP. Ce manuel couvre Claude Code. Pour le chat seul, seuls les chapitres 1–2 (principes + CLAUDE.md) s'appliquent.</p>
   </aside>
 </article>
 
@@ -859,6 +882,32 @@ Termine par : Score /10 + Top 3 actions prioritaires.
   </table>
 
   <p><strong>Règle empirique</strong> : tout audit pouvant perdre des données ou compromettre la prod → <code>opus</code>. Le reste → <code>sonnet</code> par défaut. <code>haiku</code> quand la vitesse prime sur la profondeur.</p>
+
+  <h2>L'autre molette : l'effort <small class="muted">(nouveau en V4)</small></h2>
+
+  <p>Choisir un modèle, c'était toute la décision de coût. Ça ne l'est plus. Depuis la génération Claude 5, le <strong>niveau d'effort</strong> contrôle la quantité de raisonnement dépensée avant de répondre, et sur beaucoup de tâches il déplace le coût et la latence plus que l'alias de modèle.</p>
+
+  <table>
+    <thead><tr><th>Niveau</th><th>Pour quoi</th></tr></thead>
+    <tbody>
+      <tr><td><code>low</code> / <code>medium</code></td><td>Éditions mécaniques, renommages, formatage, triage. Pas cher et rapide.</td></tr>
+      <tr><td><code>high</code></td><td>Le défaut raisonnable pour du code.</td></tr>
+      <tr><td><code>xhigh</code></td><td>Debug difficile, architecture, un plan sur lequel tu vas t'engager. Recommandé pour ce qui est vraiment dur.</td></tr>
+      <tr><td><code>ultracode</code></td><td><code>xhigh</code> plus l'orchestration automatique de workflows. Claude planifie un workflow multi-agents pour chaque tâche substantielle. Cher par construction. Cf. Chapitre 19.</td></tr>
+    </tbody>
+  </table>
+
+  <p>Règle-le pour une session avec <code>/effort</code> (ou <code>/effort s</code> pour cette session seulement), démarre avec <code>claude --effort xhigh</code>, ou plafonne-le pour toute l'organisation avec le réglage <code>maxEffortLevel</code>. Le <strong>fast mode</strong> est la molette orthogonale : même modèle, sortie plus rapide, activé par <code>/fast</code>.</p>
+
+  <aside class="callout callout-tip">
+    <div class="callout-title">Le modèle pour la capacité, l'effort pour la difficulté</div>
+    <p>Traite les deux comme des questions séparées. Le <em>modèle</em> répond à « quelle classe de travail ? » (un agent haiku ne fera jamais d'architecture profonde, quel que soit l'effort). L'<em>effort</em> répond à « à quel point cette instance-là est dure ? » Un agent <code>sonnet</code> en <code>xhigh</code> bat souvent un agent <code>opus</code> en <code>low</code>, pour moins cher. Tes auditeurs read-only sont l'endroit où être généreux ; tes agents de classification, l'endroit où être radin.</p>
+  </aside>
+
+  <aside class="callout callout-warning">
+    <div class="callout-title">1M de contexte n'est pas un permis d'arrêter d'élaguer</div>
+    <p>Opus 5, Sonnet 5 et Fable 5.1 embarquent tous une fenêtre de contexte de 1M tokens. Tentant de lire ça comme « la gestion du contexte est réglée ». Elle ne l'est pas : une fenêtre pleine est plus lente, plus chère et mesurablement moins précise qu'une fenêtre ciblée. La fenêtre a grandi ; la discipline n'est pas devenue optionnelle. Cf. Chapitre 20.</p>
+  </aside>
 
   <h2>Restreindre les outils (moindre privilège)</h2>
 
@@ -1510,92 +1559,168 @@ git branch -d chantier/marketing-launch</pre>
   <aside class="callout callout-info">
     <div class="callout-title">TL;DR</div>
     <ul>
-      <li>Quatre lieux où la mémoire peut vivre. Mauvais choix = même info dans 2 endroits, dérive garantie.</li>
-      <li>La règle tient en une ligne : <em>≥ 2 agents en ont besoin ? → CLAUDE.md. Sinon domaine ? → skill. Sinon « ne re-flagge pas » ? → agent-memory. Sinon ? → local uniquement.</em></li>
-      <li>Tout ce qui doit survivre à un reclone doit aller dans un fichier versionné. Pas dans <code>~/.claude/projects/</code>.</li>
+      <li><strong>Six</strong> lieux où la mémoire peut vivre, contre quatre en V3. Mauvais choix = même info dans 2 endroits, dérive garantie.</li>
+      <li>Deux des six sont désormais écrits par <em>Claude</em>, pas par toi. Savoir lesquels, c'est tout le chapitre.</li>
+      <li>La règle tient toujours en une ligne : <em>≥ 2 agents en ont besoin ? → CLAUDE.md. Limité à un sous-arbre ? → rules. Sinon domaine ? → skill. Sinon « ne re-flagge pas » ? → agent-memory. Sinon ? → local.</em></li>
+      <li>Tout ce qui doit survivre à un reclone doit atterrir dans des fichiers versionnés. La mémoire auto, non.</li>
     </ul>
   </aside>
+
+  <p>Tu vas vite accumuler des choses que Claude doit retenir : préférences utilisateur, décisions projet, références externes, règles métier, retours d'audit. Chacune a sa place, et ce n'est <em>pas la même</em>. Se tromper, c'est dupliquer l'information entre fichiers, et le doublon finit toujours par dériver.</p>
+
+  <p>La V3 de ce livre décrivait quatre lieux. Claude Code en a ajouté deux depuis, qui changent le tableau : <strong><code>.claude/rules/</code></strong>, qui permet à une instruction de ne se charger que quand Claude touche les fichiers concernés, et la <strong>mémoire auto</strong>, où Claude écrit ses propres notes entre les sessions. Les deux sont actives par défaut. Les ignorer ne les fait pas disparaître, ça veut juste dire que tu as de la mémoire que tu n'as pas planifiée.</p>
 
   <figure>
     <pre class="mermaid">
 graph TB
-    Q[Nouvelle info à retenir] --> Q1{≥ 2 agents<br/>en bénéficieraient ?}
-    Q1 -->|Oui| L1[CLAUDE.md<br/>§ Lessons learned<br/>versionné · transversal]
-    Q1 -->|Non| Q2{Est-ce un domaine<br/>ex SQL, dates, commits ?}
-    Q2 -->|Oui| L2[.agents/skills/domain/<br/>versionné · règles structurées]
-    Q2 -->|Non| Q3{Un seul agent ·<br/>« ne re-flagge pas » ?}
-    Q3 -->|Oui| L3[.claude/agent-memory/agent/<br/>versionné · agent-scoped]
-    Q3 -->|Non| L4[~/.claude/projects/.../memory/<br/>LOCAL UNIQUEMENT · sera perdu]
+    Q[Nouvelle info à retenir] --> Q0{Qui l'écrit ?}
+    Q0 -->|Claude, tout seul| L5[~/.claude/projects/.../memory/<br/>MÉMOIRE AUTO · local uniquement]
+    Q0 -->|Toi| Q1{2+ agents en<br/>profiteraient ?}
+    Q1 -->|Oui| Q1b{Ça vaut pour<br/>tout le repo ?}
+    Q1b -->|Oui| L1[CLAUDE.md<br/>Leçons apprises<br/>versionné · toujours chargé]
+    Q1b -->|Un sous-arbre| L2[.claude/rules/*.md<br/>frontmatter paths:<br/>versionné · chargé à la demande]
+    Q1 -->|Non| Q2{C'est un domaine<br/>SQL, dates, commits ?}
+    Q2 -->|Oui| L3[.agents/skills/domaine/<br/>versionné · règles structurées]
+    Q2 -->|Non| Q3{Un agent ·<br/>ne re-flagge plus ça ?}
+    Q3 -->|Oui| L4[.claude/agent-memory/agent/<br/>versionné · portée agent]
+    Q3 -->|Non| L6[CLAUDE.local.md<br/>gitignoré · ce checkout]
     style L1 fill:#dcfce7,stroke:#15803d,stroke-width:2px
-    style L2 fill:#dbeafe,stroke:#1d4ed8,stroke-width:2px
-    style L3 fill:#fef3c7,stroke:#d97706,stroke-width:2px
-    style L4 fill:#fee2e2,stroke:#b91c1c,stroke-width:2px
+    style L2 fill:#dcfce7,stroke:#15803d,stroke-width:2px
+    style L3 fill:#dbeafe,stroke:#1d4ed8,stroke-width:2px
+    style L4 fill:#fef3c7,stroke:#d97706,stroke-width:2px
+    style L5 fill:#fee2e2,stroke:#b91c1c,stroke-width:2px
+    style L6 fill:#fee2e2,stroke:#b91c1c,stroke-width:2px
     </pre>
-    <figcaption>L'arbre de décision. Trois des quatre feuilles sont versionnées dans Git ; une seule est locale et éphémère.</figcaption>
+    <figcaption>L'arbre de décision. Quatre feuilles sont versionnées dans Git ; deux sont locales et ne survivront pas à un reclone.</figcaption>
   </figure>
 
-  <h2>Les quatre lieux</h2>
+  <h2>Les six lieux</h2>
 
   <table>
     <thead>
-      <tr><th>Lieu</th><th>Versionné Git ?</th><th>Scope</th><th>Cas d'usage</th></tr>
+      <tr><th>Lieu</th><th>Écrit par</th><th>Versionné ?</th><th>Chargé</th><th>Cas d'usage</th></tr>
     </thead>
     <tbody>
       <tr>
-        <td><code>CLAUDE.md</code> §&nbsp;Lessons learned</td>
+        <td><code>CLAUDE.md</code> §&nbsp;Leçons apprises</td>
+        <td>Toi</td>
         <td>✅ Oui</td>
-        <td>Transversal projet</td>
-        <td>Pièges non-évidents, conventions implicites, décisions d'architecture, workarounds de versions de lib. Voir Chapitre 08.</td>
+        <td>Chaque session</td>
+        <td>Pièges non évidents, conventions implicites, décisions d'architecture. Reste sous 200 lignes. Cf. Chapitre 08.</td>
+      </tr>
+      <tr>
+        <td><code>.claude/rules/*.md</code></td>
+        <td>Toi</td>
+        <td>✅ Oui</td>
+        <td>À la demande, via <code>paths:</code></td>
+        <td>Une instruction qui ne concerne qu'une partie du repo. La soupape du CLAUDE.md qui déborde.</td>
       </tr>
       <tr>
         <td><code>.agents/skills/&lt;domaine&gt;/</code></td>
+        <td>Toi</td>
         <td>✅ Oui</td>
-        <td>Connaissance métier spécifique</td>
-        <td>Règles canoniques avec exemples Incorrect → Correct. Chargées par les agents qui en ont besoin. Voir Chapitre 06.</td>
+        <td>À l'invocation ou si pertinent</td>
+        <td>Règles canoniques avec exemples Incorrect → Correct. Cf. Chapitre 06.</td>
       </tr>
       <tr>
         <td><code>.claude/agent-memory/&lt;agent&gt;/</code></td>
+        <td>Toi</td>
         <td>✅ Oui</td>
-        <td>Par-agent : feedback &amp; état projet</td>
-        <td>« Ne re-flagge pas », exceptions validées, références dont l'agent a spécifiquement besoin. Quatre sous-types : <code>user_*</code>, <code>feedback_*</code>, <code>project_*</code>, <code>reference_*</code>.</td>
+        <td>Par cet agent</td>
+        <td>« Ne re-flagge pas ça », exceptions validées, références qu'un agent seul utilise.</td>
       </tr>
       <tr>
         <td><code>~/.claude/projects/&lt;projet&gt;/memory/</code></td>
-        <td>❌ Non (local)</td>
-        <td>Cette machine, volatile</td>
-        <td>Préférences perso, contexte de session, raccourcis. <strong>Tout ce qui doit survivre à un reclone doit aller ailleurs.</strong></td>
+        <td><strong>Claude</strong></td>
+        <td>❌ Non (local machine)</td>
+        <td>L'index <code>MEMORY.md</code>, chaque session</td>
+        <td>Mémoire auto. Tes préférences, tes corrections, le contexte projet que Claude ne peut pas déduire du code.</td>
+      </tr>
+      <tr>
+        <td><code>CLAUDE.local.md</code></td>
+        <td>Toi</td>
+        <td>❌ Non (gitignoré)</td>
+        <td>Chaque session</td>
+        <td>Tes URLs de sandbox, tes données de test, tes préférences projet perso. N'existe que dans le worktree où tu l'as créé.</td>
       </tr>
     </tbody>
   </table>
 
+  <h2>Les règles à portée de chemin, la soupape du CLAUDE.md</h2>
+
+  <p>Le Chapitre 13 te dit de découper un <code>CLAUDE.md</code> obèse en imports. Ça aide l'organisation mais <em>pas</em> le contexte : un <code>@import</code> se charge quand même au lancement. Une règle avec frontmatter <code>paths:</code>, c'est différent : elle n'entre dans la fenêtre de contexte que quand Claude lit un fichier qui matche :</p>
+
+  <pre data-lang="markdown">---
+paths:
+  - "src/api/**/*.ts"
+---
+
+# Règles API
+
+- Chaque endpoint valide son entrée avec le schéma zod partagé.
+- Les erreurs utilisent l'enveloppe standard, jamais un throw nu.</pre>
+
+  <p>Mets ça dans <code>.claude/rules/api.md</code> et ça ne coûte rien tant que Claude n'ouvre pas un fichier API. Les règles sans champ <code>paths:</code> se chargent inconditionnellement, à la même priorité que <code>.claude/CLAUDE.md</code>. Les règles perso, transverses aux projets, vont dans <code>~/.claude/rules/</code>.</p>
+
+  <h2>La mémoire auto, celle que Claude écrit</h2>
+
+  <p>Claude tient désormais ses propres notes par dépôt, dans <code>~/.claude/projects/&lt;projet&gt;/memory/</code>. Il enregistre quatre types, tagués dans le frontmatter de chaque fichier :</p>
+
+  <table>
+    <thead><tr><th>Type</th><th>Ce qui y atterrit</th></tr></thead>
+    <tbody>
+      <tr><td><code>user</code></td><td>Ton rôle, ton expertise, tes préférences de travail</td></tr>
+      <tr><td><code>feedback</code></td><td>Les corrections que tu as données, les approches que tu as validées</td></tr>
+      <tr><td><code>project</code></td><td>Travaux en cours et décisions non déductibles du code ou de l'historique git</td></tr>
+      <tr><td><code>reference</code></td><td>Où trouver les choses hors du projet : un dashboard, un tracker</td></tr>
+    </tbody>
+  </table>
+
+  <p>Le dossier contient un fichier par mémoire plus un index <code>MEMORY.md</code>. Seul l'index est chargé au démarrage de session, et seulement ses <strong>200 premières lignes ou 25&nbsp;Ko</strong>, au premier atteint. Les fichiers thématiques sont lus à la demande. Inspecte et édite tout ça avec <code>/memory</code> ; désactive-le par projet avec <code>"autoMemoryEnabled": false</code> dans <code>.claude/settings.json</code>.</p>
+
+  <aside class="callout callout-warning">
+    <div class="callout-title">La mémoire auto est locale à la machine, et c'est là le piège</div>
+    <p>Elle est partagée entre les worktrees du même repo, mais elle ne <strong>voyage pas</strong> : ni vers un collègue, ni vers une session cloud, ni vers ton autre laptop. Une convention qui n'existe que dans la mémoire auto est une convention que ton équipe n'a pas. Quand Claude affiche « Saved 2 memories » à propos de quelque chose de critique pour le projet, c'est ton signal pour la promouvoir dans <code>CLAUDE.md</code> ou dans une règle.</p>
+  </aside>
+
+  <aside class="callout callout-info">
+    <div class="callout-title">La mémoire auto remplace-t-elle la boucle d'audit ?</div>
+    <p>Non, et la différence mérite d'être nommée. La mémoire auto est le carnet de <em>Claude</em> : automatique, privé, local machine, et c'est Claude qui décide de ce qui y entre. La boucle d'audit du Chapitre 08 est <em>la tienne</em> : délibérée, relue en PR, versionnée, partagée avec tous ceux qui clonent le repo. Utilise la mémoire auto pour « il préfère des messages de commit courts ». Utilise <code>/extract-lesson</code> pour « cette migration casse si tu ne drop pas l'index d'abord ». Le test est simple : <strong>est-ce qu'un nouveau collègue aurait besoin de le savoir ?</strong> Si oui, ça n'a rien à faire dans la mémoire auto.</p>
+  </aside>
+
   <h2>Règles de décision</h2>
 
   <ol>
-    <li><strong>≥ 2 agents bénéficieraient de cette info</strong> → <code>CLAUDE.md</code> §&nbsp;Lessons learned.</li>
-    <li><strong>1 agent, et le sujet est un domaine (Postgres, React, dates, commits)</strong> → skill sous <code>.agents/skills/</code>.</li>
-    <li><strong>1 agent, et l'info est purement « ne re-flagge pas »</strong> → <code>.claude/agent-memory/&lt;agent&gt;/</code>.</li>
-    <li><strong>Aucun des trois ci-dessus (purement ma préférence, cette machine)</strong> → <code>~/.claude/projects/</code>.</li>
+    <li><strong>Deux agents ou plus en profitent, et ça vaut pour tout le repo</strong> → <code>CLAUDE.md</code> §&nbsp;Leçons apprises.</li>
+    <li><strong>Pareil, mais ça ne concerne qu'un sous-arbre</strong> → <code>.claude/rules/&lt;sujet&gt;.md</code> avec <code>paths:</code>.</li>
+    <li><strong>Un seul agent, et le sujet est un domaine (Postgres, React, dates, commits)</strong> → skill sous <code>.agents/skills/</code>.</li>
+    <li><strong>Un seul agent, et l'info est purement « ne re-flagge pas ça »</strong> → <code>.claude/agent-memory/&lt;agent&gt;/</code>.</li>
+    <li><strong>Perso, ce checkout, et tu veux un fichier que tu contrôles</strong> → <code>CLAUDE.local.md</code>.</li>
+    <li><strong>Tout le reste</strong> → laisse la mémoire auto s'en charger, et ne compte pas dessus pour survivre.</li>
   </ol>
 
-  <h2>Exemples concrets</h2>
+  <h2>Exemples travaillés</h2>
 
-  <p><strong>Exemple 1.</strong> Tu as décidé d'utiliser <code>date-fns</code> plutôt que <code>moment.js</code> sur tout le projet. Plusieurs futurs commits y feront référence. Plusieurs agents (code-auditor, qa-tester) doivent le savoir. → <code>CLAUDE.md</code> §&nbsp;Lessons learned, avec le SHA du commit.</p>
+  <p><strong>Exemple 1.</strong> Tu as décidé d'utiliser <code>date-fns</code> plutôt que <code>moment.js</code> sur tout le projet. Plusieurs agents doivent le savoir. → <code>CLAUDE.md</code> §&nbsp;Leçons apprises, avec le SHA du commit.</p>
 
-  <p><strong>Exemple 2.</strong> Ton code-auditor flagge sans cesse les <code>any</code> dans les formatters Recharts, alors que c'est une convention projet documentée. → <code>.claude/agent-memory/code-auditor/feedback_recharts_any_ok.md</code>. L'agent charge sa mémoire et arrête de re-flagger.</p>
+  <p><strong>Exemple 2.</strong> Tes handlers API doivent valider avec zod, mais rien d'autre dans le repo ne le fait. → <code>.claude/rules/api.md</code> avec <code>paths: ["src/api/**"]</code>. Ça coûte zéro contexte sur une session frontend.</p>
 
-  <p><strong>Exemple 3.</strong> Tu veux un catalogue versionné de règles de versioning d'API REST avec exemples. → <code>.agents/skills/api-versioning/</code> avec une règle par fichier sous <code>references/</code>.</p>
+  <p><strong>Exemple 3.</strong> Ton code-auditor flagge sans arrêt les <code>any</code> dans les formatters Recharts, alors que c'est une convention documentée. → <code>.claude/agent-memory/code-auditor/feedback_recharts_any_ok.md</code>.</p>
 
-  <p><strong>Exemple 4.</strong> Tu préfères des réponses concises de Claude. C'est une préférence perso, cette machine uniquement. → <code>~/.claude/projects/&lt;projet&gt;/memory/user_communication.md</code>.</p>
+  <p><strong>Exemple 4.</strong> Tu veux un catalogue versionné des règles de versioning d'API REST avec exemples. → <code>.agents/skills/api-versioning/</code>, une règle par fichier sous <code>references/</code>.</p>
+
+  <p><strong>Exemple 5.</strong> Tu préfères des réponses courtes. Perso, aucune valeur pour l'équipe. → laisse la mémoire auto le garder, ou écris-le une fois dans <code>~/.claude/CLAUDE.md</code> si tu le veux dans tous tes projets.</p>
 
   <h2>Anti-patterns</h2>
 
   <aside class="callout callout-danger">
     <div class="callout-title">Ne fais pas ça</div>
     <ul>
-      <li><strong>Dupliquer la même info dans deux lieux.</strong> Au prochain update, l'un dérive. Choisis un seul lieu et fais pointer l'autre vers.</li>
-      <li><strong>Mettre une convention projet critique dans <code>~/.claude/projects/</code></strong>. C'est local. Ça sera perdu. Tu re-découvriras le bug à la dure après un reclone.</li>
-      <li><strong>Mettre une formule dans une skill <em>et</em> dans le system prompt d'un agent.</strong> La skill gagne. Toujours. Le prompt de l'agent doit référencer la skill, pas la dupliquer.</li>
-      <li><strong>Traiter <code>CLAUDE.md</code> comme un dépotoir.</strong> S'il dépasse 300 lignes, splitte en imports thématiques (<code>@.claude/CONVENTIONS.md</code>, <code>@.claude/STACK.md</code>, etc.). Voir Chapitre 13.</li>
+      <li><strong>Dupliquer la même info dans deux lieux.</strong> À la prochaine mise à jour, l'un dérive. Choisis-en un, et que l'autre pointe dessus.</li>
+      <li><strong>Traiter la mémoire auto comme de la documentation.</strong> C'est un carnet, pas un contrat. Elle n'atteint ni ton équipe ni le cloud.</li>
+      <li><strong>Laisser <code>MEMORY.md</code> dépasser 200 lignes.</strong> Tout ce qui dépasse est silencieusement jeté au chargement suivant. Claude Code prévient ; agis sur l'avertissement.</li>
+      <li><strong>Mettre une formule dans une skill <em>et</em> dans le system prompt d'un agent.</strong> La skill gagne. Toujours.</li>
+      <li><strong>Traiter <code>CLAUDE.md</code> comme un fourre-tout.</strong> Au-delà de 200 lignes, l'adhérence chute. Déplace ce qui est spécifique à un chemin dans <code>.claude/rules/</code>, pas dans un import. Cf. Chapitre 13.</li>
     </ul>
   </aside>
 </article>
@@ -1827,10 +1952,117 @@ graph TB
 </article>
 
 <!-- =================================================================
-     CHAPITRE 15, MCP tiers & prompt injection  ⭐ NOUVEAU en V3
+     CHAPITRE 15, Permissions, mode auto & bac à sable  ⭐ NOUVEAU en V4
      ================================================================= -->
 <article class="chapter">
-  <h1 class="chapter-title"><span class="chapter-number">Chapitre 15 <span class="badge badge-advanced">AVANCÉ</span></span>MCP tiers &amp; prompt injection</h1>
+  <h1 class="chapter-title"><span class="chapter-number">Chapitre 15 <span class="badge badge-intermediate">INTERMÉDIAIRE</span></span>Permissions, mode auto &amp; bac à sable</h1>
+
+  <aside class="callout callout-info">
+    <div class="callout-title">TL;DR</div>
+    <ul>
+      <li>Depuis août 2026, <strong>le mode auto est le défaut</strong> sur Pro, Max et Team. Un classificateur relit les actions à ta place. Si tu as lu ce livre en V3, ton modèle mental est périmé.</li>
+      <li>Les <em>modes</em> de permission décident si Claude demande. Le <em>bac à sable</em> décide de ce qu'une action peut atteindre une fois lancée. Deux axes indépendants ; configure les deux.</li>
+      <li><strong>Les règles deny et les hooks <code>PreToolUse</code> gagnent toujours, dans tous les modes.</strong> Ton hook de garde du Chapitre 03 n'est pas devenu décoratif, il est devenu la couche qui compte le plus.</li>
+    </ul>
+  </aside>
+
+  <p>Les chapitres précédents ont été écrits contre un modèle simple : Claude propose, tu approuves, un hook bloque le pire. Ce modèle a décrit Claude Code fidèlement pendant deux ans. Il ne décrit plus le défaut.</p>
+
+  <p>Le prompt de permission n'a pas disparu, il a été délégué. En <strong>mode auto</strong>, un second modèle, le classificateur, relit chaque action contre une politique de sûreté et l'approuve ou la bloque sans interrompre la session. C'est réellement utile : ça supprime la fatigue de validation qui poussait les gens vers <code>--dangerously-skip-permissions</code>, et ce n'est <em>pas</em> la même chose que ce flag. Comprendre la différence, c'est le boulot de ce chapitre.</p>
+
+  <h2>Les six modes</h2>
+
+  <p>Un mode fixe la base de ce qui tourne sans te demander. Note que « Manual » est le nom affiché ; sa valeur de config est <code>default</code>.</p>
+
+  <table>
+    <thead><tr><th>Mode</th><th>Tourne sans demander</th><th>Pour quoi</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Manual</strong> (<code>default</code>)</td><td>Lectures uniquement</td><td>Travail sensible, code inconnu, relire chaque action toi-même</td></tr>
+      <tr><td><code>acceptEdits</code></td><td>Lectures, éditions de fichiers, commandes filesystem courantes</td><td>Itérer sur du code que tu relis au fur et à mesure</td></tr>
+      <tr><td><code>plan</code></td><td>Lectures, plus les commandes approuvées par le classificateur si le mode auto est dispo</td><td>Explorer avant de changer quoi que ce soit. Cf. Chapitre 07</td></tr>
+      <tr><td><code>auto</code></td><td>Tout, avec des contrôles de sûreté en arrière-plan</td><td>Tâches longues. <strong>Le défaut natif sur Pro, Max, Team</strong></td></tr>
+      <tr><td><code>dontAsk</code></td><td>Lectures et outils pré-approuvés ; tout ce qui demanderait est <em>refusé</em></td><td>CI et scripts verrouillés. Cf. Chapitre 21</td></tr>
+      <tr><td><code>bypassPermissions</code></td><td>Tout, aucun contrôle</td><td>Conteneurs et VM isolés <em>uniquement</em></td></tr>
+    </tbody>
+  </table>
+
+  <p>Ta session démarre en mode auto si tu es sur Pro, Max ou Team, en terminal ou VS Code. Elle démarre en Manual sur un plan Enterprise, avec une clé API Console, sur Bedrock / Google Cloud / Foundry, et dans tout run <code>claude -p</code> ou Agent SDK. Change à tout moment avec <code>Shift+Tab</code>. Pour figer un autre défaut sur une machine ou un projet, règle <code>permissions.defaultMode</code> dans un fichier de settings.</p>
+
+  <aside class="callout callout-warning">
+    <div class="callout-title">Deux valeurs ne prennent pas effet depuis les settings projet</div>
+    <p>Mettre <code>"auto"</code> ou <code>"bypassPermissions"</code> comme <code>permissions.defaultMode</code> dans le <code>.claude/settings.json</code> d'un projet est silencieusement ignoré : un repo que tu clones ne peut pas élever ses propres privilèges. Fige-les dans <code>~/.claude/settings.json</code> ou dans les managed settings, ou change en session.</p>
+  </aside>
+
+  <h2>Ce que le classificateur ne laissera jamais passer</h2>
+
+  <p>Le mode auto n'est pas « tout approuver en silence ». Un ensemble fixe d'actions n'est jamais auto-approuvé <em>dans aucun mode</em>, <code>bypassPermissions</code> compris :</p>
+
+  <ul>
+    <li>Tout ce qui matche une <strong>règle ask</strong> explicite que tu as écrite.</li>
+    <li><code>rm</code> et <code>rmdir</code> visant un <strong>chemin critique</strong>, qu'aucune règle allow ni aucun <code>"allow"</code> de hook ne peut approuver.</li>
+    <li>Les outils qui exigent un humain par définition, comme <code>AskUserQuestion</code>.</li>
+    <li>Les lectures hors de tes répertoires de travail, quand <code>permissions.blockReadsOutsideWorkingDirectories</code> est actif.</li>
+  </ul>
+
+  <p>En plus de ça, le mode auto bloque des catégories entières : les commandes git destructives quand tu n'as pas demandé à jeter ton travail, la falsification de transcript, <code>rm -rf</code> sur une variable non résolue, et une famille « évasion de confinement » : récupérer des credentials de métadonnées cloud, contourner les contrôles de sortie réseau, atteindre d'autres tenants.</p>
+
+  <aside class="callout callout-danger">
+    <div class="callout-title">Mode auto ≠ --dangerously-skip-permissions</div>
+    <p>Au clavier ils se ressemblent : pas de popups. Par conception, ce sont des opposés. Le mode auto <em>ajoute</em> un relecteur ; le mode bypass en <em>retire</em> un. En mode auto, tes règles deny, tes règles ask, tes hooks et les protections de chemins critiques se déclenchent toujours. En <code>bypassPermissions</code>, les règles allow n'ont plus de sens et seules les règles deny et la courte liste des « jamais » survivent. Tout ce que dit le Chapitre 16 sur la prompt injection s'applique à plein régime au mode bypass, et seulement partiellement au mode auto.</p>
+  </aside>
+
+  <h2>Le second axe : le bac à sable</h2>
+
+  <p>Les modes répondent à « est-ce que Claude demande d'abord ? ». Le <strong>bac à sable</strong> répond à une autre question : « quand la commande tourne, qu'est-ce qu'elle peut toucher ? » Une commande Bash sandboxée reçoit une isolation filesystem et réseau : même passée à travers la couche permissions, elle ne peut pas lire tes clés SSH ni appeler l'extérieur.</p>
+
+  <p>Active-le pour une session avec <code>/sandbox</code>, ou en permanence avec <code>sandbox.enabled</code> dans les settings. Deux détails valent le détour :</p>
+
+  <ul>
+    <li>Le <strong>mode auto-allow</strong> est le point d'équilibre pour les prudents : tu gardes le mode de permission <em>Manual</em> et tu actives le bac à sable en auto-allow. Tu obtiens beaucoup moins de popups sans jamais confier l'approbation à un classificateur. Les règles deny s'appliquent toujours, et les règles ask qui nomment une commande (<code>Bash(git push *)</code>) arrêtent encore la session.</li>
+    <li>Les <strong><code>allowed_domains</code> par commande</strong> laissent une commande précise joindre un hôte nommé et refusent tous les autres. Le bon défaut pour une étape de build qui a besoin d'exactement un registre.</li>
+  </ul>
+
+  <aside class="callout callout-warning">
+    <div class="callout-title">Le bac à sable Bash, c'est macOS, Linux et WSL2</div>
+    <p>Il repose sur des primitives d'isolation de l'OS que Windows natif ne fournit pas. Si tu bosses en PowerShell sous Windows, le bac à sable n'est pas ta couche : ton hook de garde <code>PreToolUse</code> et tes règles deny le sont. Lance Claude Code sous WSL2, ou dans un dev container, si tu veux l'isolation. Cf. Annexe L.</p>
+  </aside>
+
+  <h2>Choisir sa posture</h2>
+
+  <table>
+    <thead><tr><th>Tu veux…</th><th>Mode</th><th>Isolation</th></tr></thead>
+    <tbody>
+      <tr><td>Relire chaque action toi-même</td><td>Manual</td><td>Aucune nécessaire</td></tr>
+      <tr><td>Moins de popups, sans classificateur qui décide pour toi</td><td>Manual</td><td>Bac à sable en auto-allow</td></tr>
+      <tr><td>Explorer un repo inconnu</td><td><code>plan</code></td><td>Aucune nécessaire</td></tr>
+      <tr><td>Travailler sans les mains sur une tâche longue</td><td><code>auto</code></td><td>Bac à sable en défense en profondeur</td></tr>
+      <tr><td>Tourner en CI avec une allowlist exacte</td><td><code>dontAsk</code> + <code>--allowedTools</code></td><td>Ce que ton runner fournit</td></tr>
+      <tr><td>Tourner totalement sans surveillance</td><td><code>bypassPermissions</code></td><td><strong>Obligatoire</strong> : conteneur ou VM, non-root</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Ce que ça change pour le setup de ce livre</h2>
+
+  <p>Rien de ce que tu as construit aux Chapitres 02 et 03 ne devient obsolète. Les poids se déplacent :</p>
+
+  <ol>
+    <li><strong>Le hook de garde compte plus, pas moins.</strong> Un hook <code>PreToolUse</code>, c'est de l'<em>application</em> : il tourne comme du code, quoi que décide n'importe quel modèle. Le classificateur, c'est du jugement. Quand tu tiens à un résultat précis, écris le hook.</li>
+    <li><strong>Les règles deny sont ton plancher dur.</strong> Elles bloquent dans tous les modes, bypass compris. Tout ce que tu ne voudrais vraiment jamais, mets-le dans <code>permissions.deny</code>, pas dans une phrase de CLAUDE.md.</li>
+    <li><strong>CLAUDE.md est du contexte, pas de la configuration.</strong> « Ne jamais pusher sur main » en prose est une suggestion. Dans <code>permissions.deny</code>, c'est un mur. La doc officielle est explicite sur cette séparation ; ton setup devrait l'être aussi.</li>
+    <li><strong>Relis tes permissions après une mise à jour.</strong> <code>/permissions</code> montre ce qui est accordé. Un défaut qui a changé sous toi, c'est exactement le genre de dérive que la boucle d'audit (Chapitre 08) existe pour attraper.</li>
+  </ol>
+
+  <aside class="callout callout-tip">
+    <div class="callout-title">Un défaut raisonnable pour le lecteur de ce livre</div>
+    <p>Si tu veux une seule recommandation : <strong>mode auto activé, bac à sable activé, règles deny écrites, hook de garde installé.</strong> Cette combinaison te donne une session sans interruption, un second relecteur, une frontière d'isolation, et un plancher dur qu'aucun modèle ne peut contourner par la parole. Si tu préfères qu'aucun classificateur n'approuve à ta place, prends plutôt Manual + bac à sable en auto-allow : tu échanges quelques popups contre le contrôle total.</p>
+  </aside>
+</article>
+
+<!-- =================================================================
+     CHAPITRE 16, MCP tiers & prompt injection  (ex-15 en V3)
+     ================================================================= -->
+<article class="chapter">
+  <h1 class="chapter-title"><span class="chapter-number">Chapitre 16 <span class="badge badge-advanced">AVANCÉ</span></span>MCP tiers &amp; prompt injection</h1>
 
   <p>Le chapitre 12 a connecté Claude au monde extérieur et fermé la porte évidente, les scopes MCP en lecture seule. Ce chapitre parle des portes que tu ne savais pas ouvertes. Chaque serveur MCP que tu ajoutes, et chaque fichier, ticket ou page web que Claude lit, est un endroit où le texte de quelqu'un d'autre rencontre tes privilèges.</p>
 
@@ -1900,10 +2132,10 @@ graph TB
 </section>
 
 <!-- =================================================================
-     CHAPITRE 16, Plugins & marketplaces  ⭐ NOUVEAU en V3.1
+     CHAPITRE 17, Plugins & marketplaces  (ex-16 en V3.1)
      ================================================================= -->
 <article class="chapter">
-  <h1 class="chapter-title"><span class="chapter-number">Chapitre 16 <span class="badge badge-advanced">AVANCÉ</span></span>Plugins &amp; marketplaces</h1>
+  <h1 class="chapter-title"><span class="chapter-number">Chapitre 17 <span class="badge badge-advanced">AVANCÉ</span></span>Plugins &amp; marketplaces</h1>
 
   <p>Tu as construit des hooks (chap. 03), des sub-agents (chap. 05), des skills (chap. 06) et des slash commands (chap. 04). Jusqu'ici, tout vit dans le <code>.claude/</code> d'un seul repo, recopié à la main dans le projet suivant. Un <strong>plugin</strong> empaquette tout le setup en une unité installable et versionnée que tu poses dans n'importe quel projet et partages avec une équipe, fini la dérive du copier-coller.</p>
 
@@ -1979,7 +2211,7 @@ graph TB
 
   <aside class="callout callout-danger">
     <div class="callout-title">Un agent sans surveillance propose, ne merge pas</div>
-    <p>Une routine cloud tourne sans personne au clavier, donc la règle du chapitre 15 durcit : donne-lui le moindre privilège, et fais-lui <em>ouvrir une issue ou un brouillon</em> avec ses trouvailles plutôt que committer ou pusher. La sûreté n'est pas le prompt, ce sont les permissions sous lesquelles le planning tourne.</p>
+    <p>Une routine cloud tourne sans personne au clavier, donc la règle du chapitre 16 durcit : donne-lui le moindre privilège, et fais-lui <em>ouvrir une issue ou un brouillon</em> avec ses trouvailles plutôt que committer ou pusher. La sûreté n'est pas le prompt, ce sont les permissions sous lesquelles le planning tourne.</p>
   </aside>
 
   <aside class="callout callout-info">
