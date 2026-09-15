@@ -2220,6 +2220,502 @@ paths:
   </aside>
 </article>
 
+<!-- =================================================================
+     PARTIE VIII, couverture  ⭐ NOUVEAU en V4
+     ================================================================= -->
+<section class="part-cover">
+  <div class="part-number">Partie VIII</div>
+  <h1 class="part-title">Orchestration &amp; passage à l'échelle.</h1>
+  <p class="part-desc">Une session, une fenêtre de contexte, un agent à la fois : c'était tout le modèle jusqu'en 2026. Cette partie traite de ce qui arrive quand le travail déborde : comment lancer plusieurs agents, quand c'est un script qui doit tenir le plan plutôt que Claude, et comment garder la fenêtre de contexte honnête.</p>
+</section>
+
+<!-- =================================================================
+     CHAPITRE 18, Travailler en parallèle  ⭐ NOUVEAU en V4
+     ================================================================= -->
+<article class="chapter">
+  <h1 class="chapter-title"><span class="chapter-number">Chapitre 18 <span class="badge badge-advanced">AVANCÉ</span></span>Travailler en parallèle</h1>
+
+  <aside class="callout callout-info">
+    <div class="callout-title">TL;DR</div>
+    <ul>
+      <li>Il y a maintenant <strong>quatre</strong> façons de paralléliser, plus deux mécanismes de support. Elles ne sont pas interchangeables.</li>
+      <li>La question qui tranche : <em>qui tient le plan ?</em> Claude tour par tour, toi, un agent lead, ou un script.</li>
+      <li>Les worktrees (Chapitre 10) ne sont pas une cinquième option. C'est la <em>couche d'isolation</em> que les autres utilisent pour que les agents ne s'écrasent pas.</li>
+      <li>Toutes multiplient la consommation de tokens. La parallélisation achète du temps de mur, jamais des tokens.</li>
+    </ul>
+  </aside>
+
+  <p>Le Chapitre 05 t'a donné les sub-agents et le Chapitre 10 les worktrees. À eux deux, c'était toute l'histoire de la parallélisation en V3. Ce n'est plus le cas, et les nouvelles options se confondent facilement parce qu'elles ressemblent toutes à « lancer plus d'agents ». Elles diffèrent sur un point précis : <strong>qui décide de ce qui tourne ensuite.</strong></p>
+
+  <h2>Les quatre approches</h2>
+
+  <table>
+    <thead><tr><th>Approche</th><th>Qui tient le plan</th><th>Où vivent les résultats</th><th>Échelle</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Sub-agents</strong></td><td>Claude, tour par tour</td><td>La fenêtre de contexte de Claude</td><td>Quelques-uns par tour</td></tr>
+      <tr><td><strong>Agent view</strong> (<code>claude agents</code>)</td><td><strong>Toi</strong>, en dispatchant</td><td>Chaque session, rapporté à toi</td><td>Plusieurs tâches indépendantes</td></tr>
+      <tr><td><strong>Agent teams</strong></td><td>Un agent lead qui supervise des pairs</td><td>Une todo partagée</td><td>Une poignée de pairs longue durée</td></tr>
+      <tr><td><strong>Workflows dynamiques</strong></td><td><strong>Un script</strong></td><td>Des variables de script</td><td>Des dizaines à des centaines par run</td></tr>
+    </tbody>
+  </table>
+
+  <p>Deux mécanismes supplémentaires les épaulent tous sans être eux-mêmes une façon de lancer des agents. Les <strong>worktrees</strong> donnent à chaque session son propre checkout git pour que le travail parallèle n'entre jamais en collision : c'est le Chapitre 10, et c'est un prérequis des autres, pas un concurrent. La <strong>messagerie inter-sessions</strong> permet à tes sessions de se parler : tape <code>@</code> pour mentionner une autre session par son nom, et Claude fait passer une trouvaille au lieu que tu la ré-expliques.</p>
+
+  <h2>Trois questions qui tranchent</h2>
+
+  <ol>
+    <li><strong>Qui coordonne ?</strong> Si Claude doit déléguer et collecter dans une seule conversation → sub-agents. Si <em>toi</em> tu veux confier des tâches indépendantes et repasser plus tard → agent view. Si Claude doit découper, assigner et superviser → agent teams. Si tu veux que l'orchestration elle-même soit rejouable → un workflow.</li>
+    <li><strong>Les workers ont-ils besoin de se parler ?</strong> Les sub-agents ne rapportent qu'à leur appelant. Les sessions d'agent view ne rapportent qu'à toi. Les coéquipiers se messagent entre eux et partagent une todo. Les sessions que tu lances toi-même peuvent se passer des trouvailles via la messagerie inter-sessions.</li>
+    <li><strong>Les tâches touchent-elles les mêmes fichiers ?</strong> Si oui, isole-les dans des worktrees. Les agent teams n'isolent <em>pas</em> les coéquipiers : c'est à toi de partitionner le travail par propriété de fichiers.</li>
+  </ol>
+
+  <aside class="callout callout-warning">
+    <div class="callout-title">Les agent teams sont expérimentales et désactivées par défaut</div>
+    <p>Des quatre, c'est la moins stabilisée : désactivée tant que tu ne l'actives pas, les coéquipiers ne sont pas isolés en worktrees, et deux coéquipiers qui éditent le même fichier vont joyeusement s'écraser. Garde-la pour la fin, et seulement après avoir partitionné le travail pour que chacun possède un ensemble de fichiers disjoint.</p>
+  </aside>
+
+  <h2>Où regarder quand quelque chose tourne</h2>
+
+  <table>
+    <thead><tr><th>Tu as lancé…</th><th>Vérifie avec</th></tr></thead>
+    <tbody>
+      <tr><td>Des sessions en arrière-plan</td><td><code>claude agents</code>, un écran par session avec son état</td></tr>
+      <tr><td>N'importe quoi dans la session courante</td><td><code>/tasks</code> : rattacher, vérifier ou stopper chaque élément</td></tr>
+      <tr><td>Un workflow dynamique</td><td><code>/workflows</code> : phases, nombre d'agents, totaux de tokens</td></tr>
+      <tr><td>Des sub-agents dans cette session</td><td>La complétion <code>@</code> liste les sub-agents nommés avec leur statut</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Deux raccourcis à connaître</h2>
+
+  <ul>
+    <li><strong><code>/subtask</code> (un sub-agent forké)</strong> lance un worker qui <em>hérite de toute ta conversation</em> au lieu de partir à froid. Utilise-le quand la tâche annexe a besoin de tout ce que tu as déjà établi et que tu ne veux pas le ré-expliquer. <code>/fork</code> copie la session entière dans une nouvelle session d'arrière-plan qui tourne à côté.</li>
+    <li><strong><code>/batch</code></strong> est une skill intégrée qui découpe un gros changement en 5 à 30 sub-agents isolés en worktrees, chacun ouvrant sa propre pull request. C'est un usage packagé des sub-agents plus des worktrees, pas une nouvelle primitive, mais c'est le chemin le plus court entre « ce renommage touche 200 fichiers » et des PR relisables.</li>
+  </ul>
+
+  <aside class="callout callout-danger">
+    <div class="callout-title">La parallélisation optimise le temps de mur, pas le coût</div>
+    <p>Dix agents sur un job, c'est à peu près dix agents de tokens, plus le surcoût d'orchestration. Ça finit plus tôt ; ça ne finit pas moins cher. Avant de fanner sur tout un repo, lance la même chose sur un seul dossier et lis le compteur de tokens. La commande <code>/usage</code> détaille ce qui pousse réellement tes limites, par skill, sub-agent, plugin et serveur MCP.</p>
+  </aside>
+</article>
+
+<!-- =================================================================
+     CHAPITRE 19, Les workflows dynamiques  ⭐ NOUVEAU en V4
+     ================================================================= -->
+<article class="chapter">
+  <h1 class="chapter-title"><span class="chapter-number">Chapitre 19 <span class="badge badge-advanced">AVANCÉ</span></span>Les workflows dynamiques</h1>
+
+  <aside class="callout callout-info">
+    <div class="callout-title">TL;DR</div>
+    <ul>
+      <li>Un workflow est un <strong>script JavaScript que Claude écrit</strong> et qui orchestre de nombreux sub-agents. Un runtime l'exécute en arrière-plan ; ta session reste réactive.</li>
+      <li>L'intérêt n'est pas « plus d'agents ». C'est que le plan passe <em>dans du code</em> : lisible, rejouable, et les résultats intermédiaires ne touchent jamais ta fenêtre de contexte.</li>
+      <li>Déclenche-en un avec « utilise un workflow », ou le mot-clé <code>ultracode</code>. Surveille avec <code>/workflows</code>. Sauve un bon run en commande avec <code>s</code>.</li>
+      <li>Ça coûte de l'argent réel. Calibre sur un dossier avant de le pointer sur le repo.</li>
+    </ul>
+  </aside>
+
+  <p>Tous les autres patterns de ce livre gardent Claude comme orchestrateur : il décide, tour par tour, quoi faire ensuite, et chaque résultat intermédiaire atterrit dans sa fenêtre de contexte. Ça marche jusqu'à quelques tâches déléguées. Au-delà, ça casse de façon prévisible : le contexte se remplit de résultats de recherche et de logs que tu ne reliras jamais, et le plan dérive parce qu'il n'a jamais existé ailleurs que dans une conversation.</p>
+
+  <p>Un <strong>workflow dynamique</strong> déplace le plan dans un script. Claude écrit le JavaScript, un runtime séparé l'exécute, et seule la réponse finale te revient.</p>
+
+  <h2>Commence par celui qui est fourni</h2>
+
+  <p>Le plus rapide pour saisir la forme, c'est <code>/deep-research</code>, livré avec Claude Code :</p>
+
+  <pre data-lang="text">/deep-research Qu'est-ce qui a changé dans le modèle de permissions Node.js entre v20 et v22 ?</pre>
+
+  <p>Il éclate les recherches sur plusieurs angles, récupère et recoupe les sources, vote sur chaque affirmation, et rend un rapport sourcé dont les affirmations qui n'ont pas survécu au recoupement ont déjà été retirées. Cette dernière partie est la vraie fonctionnalité, et c'est celle qu'un agent seul ne peut pas faire pour lui-même.</p>
+
+  <h2>En demander un à soi</h2>
+
+  <p>Trois routes, par engagement croissant :</p>
+
+  <ul>
+    <li><strong>Demande avec des mots.</strong> « utilise un workflow pour… » est un opt-in direct. Le mot-clé <code>ultracode</code> dans ton prompt aussi.</li>
+    <li><strong><code>/effort ultracode</code></strong> active le raisonnement <code>xhigh</code> <em>plus</em> l'orchestration automatique de workflows : Claude planifie alors un workflow pour chaque tâche substantielle de la session. Cher par conception ; redescends avec <code>/effort high</code>.</li>
+    <li><strong>Un workflow sauvegardé</strong>, qui tourne en <code>/&lt;nom&gt;</code> comme n'importe quelle commande.</li>
+  </ul>
+
+  <aside class="callout callout-tip">
+    <div class="callout-title">Le mot-clé ne marche que si <em>toi</em> le tapes</div>
+    <p><code>ultracode</code> est un opt-in depuis un clavier humain : le prompt interactif, un panneau d'IDE, un client Remote Control. Il ne se déclenche délibérément <strong>pas</strong> depuis un prompt <code>-p</code>, une tâche planifiée, une charge utile de webhook ou un commentaire de pull request relayé dans la session. C'est une propriété de sûreté, pas un oubli : ça veut dire qu'un texte non fiable ne peut pas convaincre ta session de lancer cent agents.</p>
+  </aside>
+
+  <h2>À quoi ressemble le script</h2>
+
+  <p>Tu en écriras rarement un à la main, mais tu devrais savoir lire ce que Claude a généré avant de l'approuver :</p>
+
+  <pre data-lang="javascript">export const meta = {
+  name: 'audit-routes',
+  description: 'Auditer chaque route handler pour les contrôles auth manquants',
+}
+
+const found = await agent('Liste chaque fichier .ts sous src/routes/.', {
+  schema: { type: 'object', required: ['files'],
+            properties: { files: { type: 'array', items: { type: 'string' } } } },
+})
+
+const audits = await pipeline(found.files, file =&gt;
+  agent(`Audite ${file} pour les contrôles d'authentification manquants.`, { label: file }),
+)
+
+return audits.filter(Boolean)</pre>
+
+  <p>Quatre appels forment tout le vocabulaire : <code>agent()</code> lance un sub-agent, <code>pipeline()</code> en lance un par élément d'une liste, <code>parallel()</code> en lance un ensemble d'un coup et attend, et <code>phase()</code> les regroupe sous un titre dans la vue de progression. Un <code>schema</code> fait renvoyer à un agent du JSON validé plutôt que de la prose. Un appel <code>agent()</code> résout à <code>null</code> si tu l'arrêtes ou si le classificateur le bloque, d'où le <code>.filter(Boolean)</code>.</p>
+
+  <h2>Le pattern qui justifie vraiment le coût</h2>
+
+  <aside class="callout callout-tip">
+    <div class="callout-title">La vérification adversariale</div>
+    <p>Lancer cinquante agents en parallèle te donne cinquante opinions, ce qui n'est pas évidemment mieux qu'une. Ce qui rend un workflow plus digne de confiance qu'une passe unique, c'est que <strong>des agents indépendants peuvent contrôler les trouvailles des autres avant que quoi que ce soit ne soit rapporté</strong>. Demande-le explicitement : <em>« …et vérifie chaque trouvaille de façon adversariale avant de la rapporter »</em>. L'étape de vérification, c'est là que meurent les faux positifs, et c'est la raison pour laquelle <code>/deep-research</code> rend un rapport plus court et meilleur qu'un fan-out naïf.</p>
+  </aside>
+
+  <h2>Surveiller, sauvegarder, partager</h2>
+
+  <p>Lance <code>/workflows</code> pour lister les runs et ouvrir une vue de progression : chaque phase avec son nombre d'agents, son total de tokens et son temps écoulé. Dans cette vue, <code>p</code> met en pause ou reprend, <code>x</code> arrête un agent ou tout le run, <code>r</code> relance un agent en cours, et <code>s</code> <strong>sauve le script du run en commande</strong>, soit dans <code>.claude/workflows/</code> (partagé avec le repo), soit dans <code>~/.claude/workflows/</code> (toi seul). Un workflow sauvegardé accepte une entrée via un global <code>args</code>, et voyage dans un plugin depuis un dossier <code>workflows/</code>, namespacé en <code>/my-kit:release-audit</code>.</p>
+
+  <p>C'est la suite naturelle des pipelines du Chapitre 07. Un <code>/new-feature</code> qui enchaîne aujourd'hui plan → revue → code → verify comme une suite de tours peut devenir un script où le fan-out de chaque étape est explicite et rejouable.</p>
+
+  <h2>Les limites à connaître avant d'être surpris</h2>
+
+  <table>
+    <thead><tr><th>Contrainte</th><th>Valeur</th></tr></thead>
+    <tbody>
+      <tr><td>Agents concurrents</td><td>Jusqu'à 16, moins sur une machine limitée en CPU</td></tr>
+      <tr><td>Agents au total par run</td><td>1 000</td></tr>
+      <tr><td>Éléments dans un <code>parallel()</code> / <code>pipeline()</code></td><td>4 096</td></tr>
+      <tr><td>Chargement de modules</td><td>Aucun. Un script contenant <code>import()</code> échoue avant de démarrer</td></tr>
+      <tr><td>Filesystem et shell</td><td>Pas depuis le script. Ce sont les agents qui font ça ; le script coordonne</td></tr>
+      <tr><td>Saisie en cours de run</td><td>Aucune. Pour une validation entre étapes, fais de chaque étape son propre workflow</td></tr>
+    </tbody>
+  </table>
+
+  <p><code>Date.now()</code>, <code>Math.random()</code> et un <code>new Date()</code> nu lèvent tous une exception dans un script, délibérément, pour qu'un run relancé refasse les mêmes appels et puisse réutiliser ses résultats en cache. Passe un timestamp via <code>args</code> si tu en as besoin.</p>
+
+  <h2>Maîtriser le coût</h2>
+
+  <p>Un run qui programme plus de 25 agents, ou dont la projection dépasse 1,5M tokens, affiche un avertissement <strong>Large workflow</strong> dans le panneau de tâches. L'avertissement est indicatif, il n'arrête rien. Trois habitudes gardent ça raisonnable :</p>
+
+  <ol>
+    <li><strong>Calibre sur une tranche d'abord.</strong> Un dossier, pas le repo. Une question étroite, pas une large.</li>
+    <li><strong>Fixe un gabarit de taille.</strong> <code>/config workflowSizeGuideline=small</code> dit à Claude de viser moins de 5 agents. Le défaut est <code>medium</code> (moins de 10).</li>
+    <li><strong>Vérifie <code>/model</code> avant un gros run.</strong> Les agents de workflow héritent du modèle de ta session si le script n'en nomme pas.</li>
+  </ol>
+
+  <aside class="callout callout-warning">
+    <div class="callout-title">Quand ne pas utiliser un workflow</div>
+    <p>Un workflow est le mauvais outil pour tout ce qui demande ton jugement en cours de route, tout ce qui tient confortablement dans une conversation, et tout ce que tu devrais surveiller de toute façon. C'est le bon outil quand la même étape se répète sur beaucoup d'éléments, quand le job est trop gros pour une fenêtre de contexte, ou quand tu veux des trouvailles recoupées. Si tu ne sais pas dire lequel des trois s'applique, tu veux probablement un sub-agent.</p>
+  </aside>
+</article>
+
+<!-- =================================================================
+     CHAPITRE 20, La fenêtre de contexte  ⭐ NOUVEAU en V4
+     ================================================================= -->
+<article class="chapter">
+  <h1 class="chapter-title"><span class="chapter-number">Chapitre 20 <span class="badge badge-intermediate">INTERMÉDIAIRE</span></span>La fenêtre de contexte</h1>
+
+  <aside class="callout callout-info">
+    <div class="callout-title">TL;DR</div>
+    <ul>
+      <li><code>/context</code> montre ce qui est réellement chargé. Lance-le une fois aujourd'hui ; la plupart des gens sont surpris.</li>
+      <li>Une fenêtre de 1M tokens n'a pas rendu ce chapitre obsolète. Une fenêtre pleine est plus lente, plus chère et moins précise qu'une fenêtre ciblée.</li>
+      <li><code>/compact</code> résume et continue. <code>/clear</code> repart de zéro. Savoir ce qui survit à chacun fait la différence entre une passation propre et une instruction perdue.</li>
+      <li>Tout ce que ce livre t'a dit d'ajouter, CLAUDE.md, skills, agents, serveurs MCP, coûte du contexte. <code>/skill-doctor</code> et <code>/doctor</code> te disent combien.</li>
+    </ul>
+  </aside>
+
+  <p>Ce livre a passé dix-sept chapitres à te dire d'ajouter du contexte : un CLAUDE.md, des règles, des skills, des prompts de sub-agents, des serveurs MCP. Ce conseil est solide et il a une facture attachée. Ce chapitre, c'est la facture.</p>
+
+  <h2>Voir ce qui est chargé</h2>
+
+  <p>Lance <code>/context</code>. Il liste ce qui est dans la fenêtre à l'instant : le system prompt, les définitions d'outils, tes fichiers mémoire, les skills chargées, les schémas d'outils MCP, et la conversation elle-même. C'est aussi la seule façon fiable de répondre à « est-ce que mon CLAUDE.md s'est vraiment chargé ? » : s'il n'est pas sous <strong>Memory files</strong>, Claude ne le voit pas, et aucune reformulation n'y changera quoi que ce soit.</p>
+
+  <aside class="callout callout-warning">
+    <div class="callout-title">1M tokens est un plafond, pas une cible</div>
+    <p>Opus 5, Sonnet 5 et Fable 5.1 embarquent tous une fenêtre de 1M tokens, et Claude Code auto-compacte avant de la toucher. Ça supprime l'échec dur, pas l'échec mou : la précision se dégrade bien avant la limite, et chaque token de la fenêtre est payé à chaque tour. Une session qui a dérivé vers 400K tokens de vieux résultats de recherche est chère et moins bonne à son boulot qu'une fraîche. Traite la fenêtre comme l'espace disque d'un laptop, pas comme le cloud.</p>
+  </aside>
+
+  <h2>/compact, /clear, /rewind</h2>
+
+  <table>
+    <thead><tr><th>Commande</th><th>Ce qu'elle fait</th><th>Quand y aller</th></tr></thead>
+    <tbody>
+      <tr><td><code>/compact</code></td><td>Résume la conversation jusqu'ici et continue avec le résumé</td><td>La tâche continue mais l'historique est surtout du bruit</td></tr>
+      <tr><td><code>/clear</code></td><td>Démarre une conversation neuve dans le même dossier</td><td>Tu passes à une tâche sans rapport. Moins cher et plus net que compacter</td></tr>
+      <tr><td><code>/rewind</code></td><td>Remet le code et/ou la conversation à un point antérieur</td><td>Quelque chose a mal tourné. Cf. Annexe J</td></tr>
+    </tbody>
+  </table>
+
+  <p>Ce qui survit à un <code>/compact</code> compte plus qu'on ne le croit. Ton <strong>CLAUDE.md à la racine du projet est relu depuis le disque et ré-injecté</strong> : il survit. Les CLAUDE.md imbriqués et les règles à portée de chemin ne se rechargent que quand Claude lit ensuite un fichier auquel elles s'appliquent. Tout ce que tu as dit <em>uniquement en conversation</em> n'est plus qu'un résumé de lui-même, et peut avoir disparu.</p>
+
+  <aside class="callout callout-tip">
+    <div class="callout-title">Si ça a disparu après /compact, ça n'avait jamais été écrit</div>
+    <p>C'est l'argument le plus net en faveur de la discipline des Chapitres 02 et 08. Une instruction tapée dans le chat est une instruction à une session. La même instruction dans <code>CLAUDE.md</code> survit à la compaction, aux reclones et aux collègues. Quand tu te surprends à ré-expliquer quelque chose après un compact, c'est le signal de l'écrire, pas de le répéter.</p>
+  </aside>
+
+  <h2>Le cache de prompt, et pourquoi une session ralentit</h2>
+
+  <p>Claude Code met en cache le préfixe stable de ta conversation, le system prompt, les définitions d'outils, les fichiers mémoire, pour qu'il ne soit pas retraité à chaque tour. Quand ce préfixe change, le cache rate et le tour coûte plein pot. <code>/cost</code> et le champ <code>prompt_cache</code> de la status line rapportent maintenant la <em>cause probable</em> d'un raté : définitions d'outils changées, session inactive au-delà du TTL, etc.</p>
+
+  <p>Conséquences pratiques :</p>
+
+  <ul>
+    <li><strong>Ajouter ou retirer un serveur MCP en cours de session invalide le cache.</strong> Fais-le au début, pas au milieu d'une longue tâche.</li>
+    <li><strong>Une longue pause te coûte le cache.</strong> Revenir sur une session après le déjeuner n'est pas gratuit.</li>
+    <li><strong>Les sub-agents d'un fan-out partagent un préfixe de cache</strong> quand ils coïncident sur le modèle, l'effort, les outils et le répertoire de travail : c'est pourquoi un fan-out homogène est moins cher qu'un hétérogène.</li>
+  </ul>
+
+  <h2>Auditer ce que coûte ton setup</h2>
+
+  <p>Trois commandes transforment ça d'une impression en chiffres :</p>
+
+  <table>
+    <thead><tr><th>Commande</th><th>Te dit</th></tr></thead>
+    <tbody>
+      <tr><td><code>/context</code></td><td>Ce qui est dans la fenêtre maintenant, et de quoi c'est fait</td></tr>
+      <tr><td><code>/skill-doctor</code></td><td>Quelles skills chargent, ce que chacune coûte en contexte, et lesquelles ne servent jamais</td></tr>
+      <tr><td><code>/usage</code></td><td>Ce qui pousse tes limites de plan, détaillé par skill, sub-agent, plugin, serveur MCP</td></tr>
+    </tbody>
+  </table>
+
+  <p><code>/doctor</code> va un cran plus loin et propose des coupes dans un <code>CLAUDE.md</code> versionné : il retire ce que Claude peut de toute façon déduire du codebase, arborescences, listes de dépendances, vues d'architecture, et garde les pièges, le pourquoi, et les conventions qui diffèrent des défauts des outils. C'est une règle d'édition utile même si tu ne lances jamais la commande.</p>
+
+  <h2>Les sub-agents sont une stratégie de contexte</h2>
+
+  <p>Le Chapitre 05 présentait les sub-agents comme de la spécialisation. Il y a une seconde raison, plus importante à l'échelle : <strong>le contexte d'un sub-agent n'est pas ton contexte.</strong> Quand un agent grep quarante fichiers et en lit six, tout ça vit et meurt dans sa propre fenêtre ; toi tu reçois le résumé. Déléguer une exploration ne sert pas seulement à obtenir une meilleure réponse, ça sert à ne pas payer les résultats de recherche à chaque tour suivant. La même logique, un cran au-dessus, c'est tout l'argument du Chapitre 19.</p>
+
+  <h2>Règles de travail</h2>
+
+  <ol>
+    <li><strong>Une tâche, une session.</strong> <code>/clear</code> entre deux chantiers sans rapport est l'optimisation la moins chère qui existe.</li>
+    <li><strong>Garde <code>CLAUDE.md</code> sous 200 lignes.</strong> Au-delà, l'adhérence chute mesurablement. Déplace le contenu spécifique à un chemin dans <code>.claude/rules/</code> (Chapitre 11), pas dans un <code>@import</code> : les imports se chargent quand même au lancement.</li>
+    <li><strong>Configure les serveurs MCP au démarrage de session.</strong> Leurs schémas d'outils sont des résidents permanents de la fenêtre.</li>
+    <li><strong>Délègue l'exploration.</strong> Tout ce qui produit une sortie que tu liras une fois appartient à un sub-agent.</li>
+    <li><strong>Lance <code>/skill-doctor</code> tous les mois.</strong> Les skills ajoutées puis oubliées sont du surcoût pur. C'est la boucle d'audit (Chapitre 08) appliquée au contexte.</li>
+  </ol>
+</article>
+
+<!-- =================================================================
+     PARTIE IX, couverture  ⭐ NOUVEAU en V4
+     ================================================================= -->
+<section class="part-cover">
+  <div class="part-number">Partie IX</div>
+  <h1 class="part-title">Automatisation &amp; contrôle qualité.</h1>
+  <p class="part-desc">Faire tourner Claude sans humain au clavier, puis vérifier que le setup que tu as construit vaut encore son poids. La dernière partie, c'est le livre qui retourne sa propre boucle d'audit contre lui-même.</p>
+</section>
+
+<!-- =================================================================
+     CHAPITRE 21, Headless & CI  ⭐ NOUVEAU en V4
+     ================================================================= -->
+<article class="chapter">
+  <h1 class="chapter-title"><span class="chapter-number">Chapitre 21 <span class="badge badge-advanced">AVANCÉ</span></span>Headless &amp; CI</h1>
+
+  <aside class="callout callout-info">
+    <div class="callout-title">TL;DR</div>
+    <ul>
+      <li><code>claude -p "…"</code>, c'est Claude Code en outil Unix : il lit stdin, écrit stdout, et se compose avec tout le reste.</li>
+      <li>Les runs headless démarrent en <strong>Manual</strong>, pas en auto. Rien ne demande, donc rien n'est approuvé : ton run cale ou échoue si tu ne dis pas ce qui est autorisé.</li>
+      <li><code>--permission-mode dontAsk</code> plus un <code>--allowedTools</code> explicite, c'est la bonne posture CI. Pas <code>--dangerously-skip-permissions</code>.</li>
+      <li>Un agent sans surveillance doit <em>proposer</em> : ouvrir une issue, une PR brouillon, un commentaire. Jamais merger.</li>
+    </ul>
+  </aside>
+
+  <p>Tout ce qui précède supposait une session avec toi dedans. Le mode headless, c'est le même moteur avec la conversation retirée, et c'est ce qui transforme ton setup d'outil personnel en infrastructure.</p>
+
+  <h2>La forme « outil Unix »</h2>
+
+  <pre data-lang="bash"># Analyser une sortie de logs
+tail -200 app.log | claude -p "résume les anomalies"
+
+# Ne relire que ce qui a changé
+git diff main --name-only | claude -p "relis ces fichiers pour des problèmes de sécurité"
+
+# Travail de masse en CI
+claude -p "traduis les nouvelles chaînes en français et ouvre une PR pour relecture"</pre>
+
+  <p>Ton <code>CLAUDE.md</code>, tes hooks, tes sub-agents et tes skills se chargent exactement comme en interactif. C'est tout le bénéfice des chapitres précédents : le même setup relu et versionné tourne en CI sans seconde configuration.</p>
+
+  <h2>Les permissions, c'est la partie qui mord</h2>
+
+  <p>Un run headless n'hérite <strong>pas</strong> du mode auto. Il démarre en Manual, où la plupart des actions veulent une validation, et il n'y a personne pour répondre. Sois explicite :</p>
+
+  <pre data-lang="bash">claude -p "lance la suite de tests et résume les échecs" \
+  --permission-mode dontAsk \
+  --allowedTools "Bash(npm test)" "Read" "Grep"</pre>
+
+  <p><code>dontAsk</code> veut dire : lance les outils pré-approuvés, et <em>refuse</em> tout ce qui aurait demandé. Ça échoue bruyamment et proprement, ce qui est exactement ce qu'on veut dans un pipeline. Pour un hôte sans surveillance où tu veux le même comportement sans lister d'outils, <code>--permission-prompts none</code> refuse tout ce qui demanderait.</p>
+
+  <aside class="callout callout-danger">
+    <div class="callout-title">--dangerously-skip-permissions n'est pas la réponse CI</div>
+    <p>C'est tentant parce que ça rend le pipeline vert. Ça retire aussi tous les contrôles dans un contexte où de l'entrée non fiable, un titre de PR, un corps d'issue, le README d'une dépendance, atteint un modèle avec tes credentials de CI. Si tu en as vraiment besoin, sa place est dans un conteneur jetable tournant en non-root, avec des tokens restreints, jamais sur un runner qui peut pusher sur <code>main</code>. Le Chapitre 15 a le tableau des modes ; le Chapitre 16 a le risque d'injection.</p>
+  </aside>
+
+  <h2>Trois façons de mettre Claude dans ton pipeline</h2>
+
+  <table>
+    <thead><tr><th>Mécanisme</th><th>Tourne sur</th><th>Bon pour</th></tr></thead>
+    <tbody>
+      <tr><td><strong>GitHub Actions</strong> / <strong>GitLab CI</strong></td><td>Ton runner</td><td>Revue de PR, triage d'issues, tout ce qui a besoin des secrets du repo et de ton contexte CI</td></tr>
+      <tr><td><strong>Routines</strong> (<code>/schedule</code>)</td><td>Le cloud d'Anthropic</td><td>Travail récurrent machine éteinte : audit hebdo des dépendances, digest nocturne des échecs CI. Peut aussi se déclencher sur un événement GitHub ou un appel API</td></tr>
+      <tr><td><strong>Tâches planifiées Desktop</strong></td><td>Ta machine</td><td>Tout ce qui a besoin des fichiers ou de l'outillage local</td></tr>
+    </tbody>
+  </table>
+
+  <p>Pour la revue de code en particulier, tu n'as pas à la construire : <strong>GitHub Code Review</strong> donne une revue automatique sur chaque PR, <code>/code-review</code> relit le diff courant depuis une session, et <code>claude ultrareview</code> met une flotte d'agents chasseurs de bugs cloud dans ta CI ou un script. Le plugin <strong>security-guidance</strong> relit les changements de Claude à la recherche de vulnérabilités pendant qu'il écrit.</p>
+
+  <h2>Une porte de qualité travaillée</h2>
+
+  <p>Le job headless le plus utile est en général le moins glamour : faire respecter la porte <code>verify</code> du Chapitre 02 sur chaque pull request, et faire expliquer l'échec par Claude plutôt que de juste rapporter une croix rouge.</p>
+
+  <pre data-lang="yaml">- name: Verify
+  run: pnpm verify
+- name: Expliquer les échecs
+  if: failure()
+  run: |
+    pnpm verify 2>&1 | claude -p "Explique ces échecs et nomme le fichier probable." \
+      --permission-mode dontAsk --allowedTools "Read" "Grep"</pre>
+
+  <p>Outils en lecture seule, aucun chemin d'écriture, aucun credential à portée. Ça transforme un build raté d'un mur de sortie en une phrase, et il n'y a rien que ça puisse casser.</p>
+
+  <aside class="callout callout-warning">
+    <div class="callout-title">Les workflows en headless ont besoin d'une autorisation explicite</div>
+    <p>En <code>claude -p</code> et dans l'Agent SDK, il n'y a pas de validation pour un workflow dynamique (Chapitre 19) : le lancement passe par l'évaluation de permissions normale et est refusé par défaut. Ajoute <code>Workflow</code> à tes règles allow, ou <code>Workflow(&lt;nom&gt;)</code> pour un workflow sauvegardé. Note aussi que le mot-clé <code>ultracode</code> ne fait délibérément rien en <code>-p</code> : une charge utile de webhook ne peut pas convaincre ton pipeline de lancer cent agents.</p>
+  </aside>
+
+  <aside class="callout callout-danger">
+    <div class="callout-title">Proposer, pas merger</div>
+    <p>La règle du Chapitre 17 est celle à emporter de ce chapitre. Un agent sans humain au clavier reçoit le moindre privilège et un canal de sortie qu'un humain lit : une issue, une PR brouillon, un commentaire de revue. Le droit d'écriture sur <code>main</code> n'est pas une commodité qu'on échange contre un pipeline vert. La sûreté n'est pas le prompt que tu as écrit, c'est le token sous lequel le job tourne.</p>
+  </aside>
+</article>
+
+<!-- =================================================================
+     CHAPITRE 22, Auditer son propre setup  ⭐ NOUVEAU en V4
+     ================================================================= -->
+<article class="chapter">
+  <h1 class="chapter-title"><span class="chapter-number">Chapitre 22 <span class="badge badge-intermediate">INTERMÉDIAIRE</span></span>Auditer son propre setup</h1>
+
+  <aside class="callout callout-info">
+    <div class="callout-title">TL;DR</div>
+    <ul>
+      <li>Ce livre t'a dit d'ajouter un CLAUDE.md, des hooks, des agents, des skills, des commandes, des serveurs MCP et un plugin. Rien de tout ça n'est gratuit, et une partie cesse de gagner sa place.</li>
+      <li><code>/doctor</code> vérifie la configuration. <code>/skill-doctor</code> vérifie ce que tes skills coûtent et si elles servent. <code>claude plugin eval</code> vérifie si ton plugin rend vraiment Claude meilleur.</li>
+      <li>Un setup que personne n'élague devient un setup que personne ne fait confiance. Mets ça à cadence mensuelle.</li>
+    </ul>
+  </aside>
+
+  <p>Le Chapitre 08 a construit une boucle pour attraper la dérive dans ton <em>code</em>. Ce chapitre pointe le même instrument sur ta <em>configuration</em>, parce qu'elle dérive aussi : des skills écrites pour une bibliothèque que tu n'utilises plus, un agent dont la description ne se déclenche jamais, un hook qui échoue en silence depuis trois semaines, une permission accordée une fois puis oubliée.</p>
+
+  <h2>/doctor, le bilan de santé du setup</h2>
+
+  <p><code>/doctor</code> (alias <code>/checkup</code>) diagnostique ton installation et ta configuration, et peut réparer une bonne part de ce qu'il trouve. Deux choses le rendent utile même sur un setup que tu crois propre :</p>
+
+  <ul>
+    <li>Il vérifie que ce que tu <em>crois</em> chargé l'est réellement : la cause la plus fréquente de « Claude ignore mes instructions ».</li>
+    <li>Il propose des <strong>coupes dans un <code>CLAUDE.md</code> versionné</strong> : retirer ce que Claude peut déduire du codebase (arborescences, listes de dépendances, vues d'architecture) et garder les pièges, le pourquoi, et les conventions qui diffèrent des défauts des outils. C'est la règle d'édition du Chapitre 20, appliquée pour toi.</li>
+  </ul>
+
+  <p>Quand quelque chose est chargé mais ne se comporte pas bien, <code>--safe-mode</code> démarre Claude Code avec toutes les personnalisations désactivées, ce qui répond à « c'est ma config ou c'est Claude ? » en un run. Le hook <code>InstructionsLoaded</code> logue exactement quels fichiers d'instructions se sont chargés et quand, utile quand les règles à portée de chemin ne se déclenchent pas.</p>
+
+  <h2>/skill-doctor, ce que tes skills coûtent vraiment</h2>
+
+  <p>Les skills sont la chose la plus facile à surproduire dans ce livre : elles sont peu coûteuses à écrire et donnent l'impression d'être productif. <code>/skill-doctor</code> rapporte, par skill, combien de contexte elle consomme et à quelle fréquence elle sert réellement. La sortie est en général inconfortable, et c'est le but.</p>
+
+  <aside class="callout callout-tip">
+    <div class="callout-title">Une skill inutilisée est pire que pas de skill</div>
+    <p>Elle coûte du contexte à chaque session, elle dilue les descriptions entre lesquelles Claude choisit, et c'est un fichier de plus qui peut se périmer et se mettre à donner de mauvais conseils. Si <code>/skill-doctor</code> montre une skill qui ne se déclenche jamais, tu as deux options honnêtes : corriger la description (le Chapitre 06 couvre le calibrage) ou la supprimer. La garder « au cas où » est l'option qui te coûte tous les jours.</p>
+  </aside>
+
+  <h2>claude plugin eval, est-ce que le plugin aide vraiment ?</h2>
+
+  <p>Si tu as suivi le Chapitre 17 et empaqueté ton setup, tu livres maintenant de la configuration à d'autres gens. <code>claude plugin eval</code> fait tourner ton plugin contre une suite de cas de test, note les résultats, et surtout <strong>les compare à une baseline sans plugin</strong>. Cette dernière comparaison est toute la valeur : elle répond à « est-ce que ce plugin rend Claude meilleur, ou juste différent ? »</p>
+
+  <pre data-lang="bash">claude plugin eval init   # rédige les cas et les correcteurs pour toi
+claude plugin eval        # résultats notés et reproductibles, rapport JSON + HTML</pre>
+
+  <p>Comme les résultats sont reproductibles et lisibles par machine, ça a sa place en CI (Chapitre 21) : un plugin dont le score d'eval baisse sur une pull request est une régression comme une autre. C'est ce que l'écosystème a de plus proche d'une suite de tests pour des prompts.</p>
+
+  <h2>La passe mensuelle</h2>
+
+  <table>
+    <thead><tr><th>Contrôle</th><th>Commande</th><th>On cherche</th></tr></thead>
+    <tbody>
+      <tr><td>Santé de la configuration</td><td><code>/doctor</code></td><td>Fichiers qui ne chargent pas, contenu de CLAUDE.md périmé</td></tr>
+      <tr><td>Budget de contexte</td><td><code>/context</code></td><td>Ce qui est réellement résident, et pourquoi</td></tr>
+      <tr><td>Hygiène des skills</td><td><code>/skill-doctor</code></td><td>Skills inutilisées, skills coûteuses</td></tr>
+      <tr><td>Ce qui consomme</td><td><code>/usage</code></td><td>Quel agent ou serveur MCP mange tes limites</td></tr>
+      <tr><td>Permissions</td><td><code>/permissions</code></td><td>Des accès oubliés, des serveurs oubliés</td></tr>
+      <tr><td>Qualité du plugin</td><td><code>claude plugin eval</code></td><td>Régressions de score contre la baseline</td></tr>
+      <tr><td>Orphelins et refs mortes</td><td><code>/audit-claude-setup</code></td><td>Agents pointant des skills supprimées, chemins de hooks cassés</td></tr>
+    </tbody>
+  </table>
+
+  <aside class="callout callout-info">
+    <div class="callout-title">Pourquoi c'est le dernier chapitre</div>
+    <p>Le mode d'échec de tout ce que ce livre enseigne, ce n'est pas que le setup ne marche pas. C'est qu'il marche, s'accumule, et devient doucement quelque chose que personne ne comprend assez pour le changer, moment où les gens commencent à le contourner. Un setup que tu élagues est un setup auquel tu continues de faire confiance. Trente minutes par mois, c'est tout le prix.</p>
+  </aside>
+</article>
+
+<!-- =================================================================
+     CHAPITRE 23, Les artifacts  ⭐ NOUVEAU en V4
+     ================================================================= -->
+<article class="chapter">
+  <h1 class="chapter-title"><span class="chapter-number">Chapitre 23 <span class="badge badge-beginner">DÉBUTANT</span></span>Les artifacts</h1>
+
+  <aside class="callout callout-info">
+    <div class="callout-title">TL;DR</div>
+    <ul>
+      <li>Un <strong>artifact</strong> transforme la sortie d'une session en page vivante sur claude.ai, <strong>privée par défaut</strong>, qui se met à jour sur place pendant que la session continue de travailler.</li>
+      <li>C'est la réponse à « le résultat est fini mais il n'existe que dans le scrollback de mon terminal ».</li>
+      <li>Les gens peuvent commenter, et un commentaire envoyé à Claude revient dans ta session comme du travail.</li>
+      <li>Utilise-le pour une sortie destinée à <em>d'autres humains</em>. Un fichier dans le repo reste juste pour une sortie destinée au code.</li>
+    </ul>
+  </aside>
+
+  <p>Tout le reste de ce livre produit des changements dans un dépôt. Une partie du travail n'a pas cette forme : un rapport d'audit, un plan de migration, un tableau de bord de ce que la suite de tests a fait de la semaine, une note d'une page sur laquelle ton équipe doit trancher. Historiquement cette sortie mourait dans le terminal ou devenait un fichier markdown que personne n'ouvrait.</p>
+
+  <p>Un artifact est une page publiée sur claude.ai depuis ta session. Elle est privée tant que tu ne la partages pas, elle a une URL, et quand la session republie, tous ceux qui ont la page ouverte voient la nouvelle version.</p>
+
+  <h2>Quand c'est le bon outil</h2>
+
+  <table>
+    <thead><tr><th>Sortie</th><th>Sa place</th></tr></thead>
+    <tbody>
+      <tr><td>Un changement de code</td><td>Le repo. Évidemment</td></tr>
+      <tr><td>Une convention que Claude doit suivre</td><td><code>CLAUDE.md</code> ou une règle (Chapitre 11)</td></tr>
+      <tr><td>Un rapport que ton équipe lit une fois</td><td><strong>Un artifact</strong></td></tr>
+      <tr><td>Un doc de décision que les gens commentent</td><td><strong>Un artifact</strong></td></tr>
+      <tr><td>Un petit outil ou dashboard pour l'équipe</td><td><strong>Un artifact</strong> : il peut tenir un état et lire des données vivantes</td></tr>
+      <tr><td>De la documentation d'architecture</td><td>Le repo, pour qu'elle se versionne avec le code qu'elle décrit</td></tr>
+    </tbody>
+  </table>
+
+  <p>Le test, c'est pour <em>qui</em> est la sortie. Si le prochain lecteur est Claude ou le compilateur, ça va dans le repo. Si le prochain lecteur est un collègue, une page bat un fichier qu'il doit cloner pour voir.</p>
+
+  <h2>La boucle qui rend ça intéressant</h2>
+
+  <p>Les artifacts ne sont pas un export à sens unique. Un lecteur peut laisser un fil de commentaires sur la page, et envoyer ce fil à Claude : il arrive alors dans ta session comme une demande sur laquelle tu peux agir, répondre, et que tu peux résoudre. Pour les rapports d'audit du Chapitre 08, ou les revues de plan du Chapitre 07, ça referme une boucle qui passait auparavant par un outil séparé.</p>
+
+  <aside class="callout callout-tip">
+    <div class="callout-title">Un bon terrain pour le lecteur knowledge worker</div>
+    <p>Si tu utilises Claude Code pour chercher, analyser ou écrire plutôt que pour livrer du code (Annexe H, cas 2), les artifacts sont probablement la fonctionnalité la plus utile ajoutée depuis la V3. Ton livrable cesse d'être « un fichier markdown dans un dossier » et devient une page avec un lien, ce que la personne qui t'attend voulait réellement.</p>
+  </aside>
+
+  <h2>Deux précautions</h2>
+
+  <aside class="callout callout-warning">
+    <div class="callout-title">Publier est un partage, même quand la page est privée</div>
+    <p>Un artifact quitte ta machine. Traite la publication comme un push vers un remote : très bien pour un rapport, pas pour une page contenant des credentials, des données clients ou le contenu d'un <code>.env</code>. « Privé par défaut » contrôle qui peut ouvrir le lien, pas si le contenu a quitté ton laptop. Si la sortie est sensible, garde un fichier local.</p>
+  </aside>
+
+  <aside class="callout callout-danger">
+    <div class="callout-title">Ne publie pas des choses qui se font passer pour vraies</div>
+    <p>Une page qui imite une vraie entreprise, une vraie personne ou un vrai document est hors limites, et Claude refusera, quelle que soit la raison invoquée. Ça inclut les fausses factures, les avis fabriqués, et tout ce qui collecte des credentials. La règle ne concerne pas la fonctionnalité artifact ; c'est la même règle que pour tout ce que tu mettrais sur le web ouvert sous le nom de quelqu'un d'autre.</p>
+  </aside>
+
+  <p class="muted small">Connexe : <code>/design</code> est une preview de recherche bâtie sur la même mécanique : elle esquisse des artboards éditables pour une UI puis implémente celui que tu choisis. À regarder si ton travail touche au design d'interface plutôt qu'aux rapports.</p>
+</article>
+
 <!-- ===== ANNEXES ===== -->
 <section class="part-cover">
   <div class="part-number">Annexes</div>
